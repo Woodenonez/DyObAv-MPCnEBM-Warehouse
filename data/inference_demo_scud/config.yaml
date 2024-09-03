@@ -1,0 +1,8 @@
+dataset_name: single_crossing_uniform
+pred_range: [1, 10]
+pred_len: 10
+obsv_len: 5
+random_track: [right]
+distribution: [uniform]
+parameter: [[3.0, 7.0]]
+

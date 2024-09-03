@@ -1,0 +1,9 @@
+ts: 0.2
+N_hor: 20
+
+lt: 1.5
+Tk: 1
+r_min: 2
+d_prox: 1.5
+alpha: 1
+vt: 1
