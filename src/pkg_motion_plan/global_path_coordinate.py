@@ -86,8 +86,8 @@ class GlobalPathCoordinator:
         total_schedule = pd.DataFrame(schedule_dict)
         return cls(total_schedule)
 
-
-    def inflate_map(self, original_map: GeometricMap, inflation_margin: float):
+    @staticmethod
+    def inflate_map(original_map: GeometricMap, inflation_margin: float):
         boundary_coords, obstacle_coords_list = original_map()
         for i, obs in enumerate(obstacle_coords_list):
             inflated_obs = PlainPolygon.from_list_of_tuples(obs).inflate(inflation_margin)

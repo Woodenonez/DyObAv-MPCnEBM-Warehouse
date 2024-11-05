@@ -54,10 +54,10 @@ def scenario(index):
     Notes:
         *Scenario 1 (1 robot): Abrupt appearance (of 1 pedestrian).
         *Scenario 2 (1 robot): Overtaken (by 1 pedestrian).
-        Scenario 3 (2 robot): Dynamic narrow corridor (with 3 pedestrians).
-        Scenario 4 (1 robot): Group avoidance (with 2 pedestrians).
+        Scenario 3 (2 robot): Dynamic narrow corridor (with 4 pedestrians).
+        Scenario 4 (1 robot): Group avoidance (with 3 pedestrians).
         Scenario 10 (1 robot): L-shaped corridor encounter (between the robot and a pedestrian).
-        Scenario 11 (1 robot): Face-to-face (with a pedestrian).
+        Scenario 11 (1 robot): Pesdestrian turning (with a pedestrian).
     """
     if index == 1:
         human_starts = [np.array([110, 20, 0.0])]  

@@ -156,8 +156,8 @@ class TrajectoryGeneration:
             sampled_points: List of reference states (x, y, yaw).
             remainder: The remainder of the current sampling.
         """
-        x1, y1 = p1
-        x2, y2 = p2
+        x1, y1 = p1[:2]
+        x2, y2 = p2[:2]
         distance = math.hypot(x2-x1, y2-y1) + 1e-6
         unit_vector = ((x2-x1)/distance, (y2-y1)/distance)
         heading = math.atan2(unit_vector[1], unit_vector[0])

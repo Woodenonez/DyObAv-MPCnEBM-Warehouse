@@ -111,7 +111,7 @@ class MpcPlotInLoop:
     def close(self):
         plt.close(self.fig)
 
-    def plot_in_loop_pre(self, original_map: Union[GeometricMap, OccupancyMap], 
+    def plot_in_loop_pre(self, original_map: Optional[Union[GeometricMap, OccupancyMap]], 
                          inflated_map:Optional[GeometricMap]=None, 
                          graph_manager:Optional[NetGraph]=None,
                          map_extend:Optional[list]=None,
@@ -124,6 +124,9 @@ class MpcPlotInLoop:
             graph_manager: A graph-related object storing graph info.
             map_extend: Used for rescale the occupancy map if exists.
             cmap: Used to define the color mode of the occupancy map if exists.
+
+        Note:
+            If original_map is None, an external map should be provided.
         """
         [ax.grid(visible=True) for ax in [self.vel_ax, self.omega_ax, self.cost_ax]] # type: ignore
         [ax.set_xlabel('Time [s]') for ax in [self.vel_ax, self.omega_ax, self.cost_ax]]
@@ -140,7 +143,7 @@ class MpcPlotInLoop:
                 original_map.plot(self.map_ax)
             else:
                 original_map.plot(self.map_ax, cmap=cmap, extent=map_extend)
-        else:
+        elif original_map is not None:
             raise ValueError('Map type unrecognized.')
         self.map_ax.set_xlabel('X [m]', fontsize=15)
         self.map_ax.set_ylabel('Y [m]', fontsize=15)
