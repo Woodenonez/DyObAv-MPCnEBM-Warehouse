@@ -22,17 +22,20 @@ ndynobs: 6   # Number of variables per dynamic obstacle
 lin_vel_penalty: 0      # Cost for linear velocity control action (should be 0)
 lin_acc_penalty: 1.0   # Cost for linear acceleration 
 ang_vel_penalty: 0      # Cost angular velocity control action
-ang_acc_penalty: 2.0   # Cost angular acceleration
-qrpd: 10.0             # Cost for reference path deviation
+ang_acc_penalty: 0.5   # Cost angular acceleration
+qrpd: 2.0             # Cost for reference path deviation
 qpos: 0.0               # Cost for position deviation each time step to the reference
-qvel: 5.0              # Cost for speed    deviation each time step to the reference
+qvel: 0.5              # Cost for speed    deviation each time step to the reference
 qtheta: 0.0             # Cost for heading  deviation each time step to the reference
 # Obstacle avoidance weights
 qstcobs: 100.0 # Cost for static obstacle avoidance (soft constraint)
-qdynobs: 100.0 # Cost for dynamic obstacle avoidance (soft constraint)
+qdynobs: [100.0, 100.0, 100.0, 100.0, 80.0, 
+          80.0, 80.0, 50.0, 50.0, 50.0, 
+          20.0, 20.0, 10.0, 10.0, 5.0, 
+          5.0, 2.0, 2.0, 1.0, 1.0] # Cost for dynamic obstacle avoidance (soft constraint)
   
 # Terminal weights
-qpN: 0.0                # Terminal cost; error relative to final reference position         
+qpN: 0.01                # Terminal cost; error relative to final reference position         
 qthetaN: 0.0            # Terminal cost; error relative to final reference heading
 
 ### Building options in the optimizer

@@ -93,7 +93,7 @@ class MpcPlotInLoop:
         self.ts    = config.ts
         self.width = config.vehicle_width
 
-        self.fig, self.gs, axis_format = figure_formatter('PlotInLoop', [3,1])
+        self.fig, self.gs, axis_format = figure_formatter('PlotInLoop', [3,1], figure_size=(16, 8))
 
         self.vel_ax  :Axes = axis_format[0][0]
         self.omega_ax:Axes = axis_format[0][1]
@@ -110,6 +110,9 @@ class MpcPlotInLoop:
 
     def close(self):
         plt.close(self.fig)
+
+    def save(self, path):
+        self.fig.savefig(path)
 
     def plot_in_loop_pre(self, original_map: Optional[Union[GeometricMap, OccupancyMap]], 
                          inflated_map:Optional[GeometricMap]=None, 
@@ -215,7 +218,7 @@ class MpcPlotInLoop:
         # self.map_ax.add_patch(veh)
         # self.remove_later.append(veh)
 
-    def plot_in_loop(self, dyn_obstacle_list=None, time=None, autorun=False, zoom_in=None):
+    def plot_in_loop(self, dyn_obstacle_list=None, time=None, autorun=False, zoom_in=None, save_path=None, temp_objects=None, temp_plots=None):
         '''
         Arguments:
             dyn_obstacle_list: list of obstacle_list, where each one has N_hor predictions
@@ -229,6 +232,15 @@ class MpcPlotInLoop:
         if zoom_in is not None:
             self.map_ax.set_xlim(zoom_in[0:2])
             self.map_ax.set_ylim(zoom_in[2:4])
+
+        if temp_objects is not None:
+            for obj in temp_objects:
+                obj: list[tuple]
+                this_poly = patches.Polygon(obj, closed=True, fill=False, color='m', alpha=0.2, label='Temp Obstacle')
+                self.map_ax.add_patch(this_poly)
+                self.remove_later.append(this_poly)
+        if temp_plots is not None:
+            self.remove_later.extend(temp_plots)
 
         if dyn_obstacle_list is not None:
             for obstacle_list in dyn_obstacle_list: # each "obstacle_list" has N_hor predictions
@@ -264,11 +276,14 @@ class MpcPlotInLoop:
             ax.set_xlim([x_min, x_max+1e-3])
             ax.set_ylim([y_min, y_max+1e-3])
 
-        plt.draw()
-        plt.pause(0.01)
-        if not autorun:
-            while not plt.waitforbuttonpress():
-                pass
+        if save_path is None:
+            plt.draw()
+            plt.pause(0.01)
+            if not autorun:
+                while not plt.waitforbuttonpress():
+                    pass
+        else:
+            self.save(save_path)
 
         for j in range(len(self.remove_later)): # robot and dynamic obstacles (predictions)
             self.remove_later[j].remove()

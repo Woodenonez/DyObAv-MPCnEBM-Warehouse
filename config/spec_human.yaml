@@ -7,3 +7,7 @@ human_width:  0.2  # Human width [m]
 ### Agent Specification (kinematic parameters)
 human_vel_max: 1.5     # Human contraint on the maximal velocity possible
 human_stagger: 0.5     # Human maximal stagger [m] (action = desired_action + stagger)
+
+### Agent Specification for long-term test (kinematic parameters)
+# human_vel_max: 0.5     # Human contraint on the maximal velocity possible
+# human_stagger: 0.05     # Human maximal stagger [m] (action = desired_action + stagger)

@@ -148,6 +148,7 @@ class MovingObject():
             #     attenuation_factor = attenuation_factor_new
 
         if rep_forces:
+            desired_heading = math.atan2(self.coming_path[0][1] - self.state[1], self.coming_path[0][0] - self.state[0])
             social_repulsion = np.sum(rep_forces, axis=0)
             if social_repulsion[0] == 0 and social_repulsion[1] == 0: # balanced forces
                 return social_repulsion, [], 1.0
@@ -155,21 +156,22 @@ class MovingObject():
             if total_rep_magnitude > self.social_rep_max_force: # cap the force
                 social_repulsion = social_repulsion / total_rep_magnitude * self.social_rep_max_force
             total_rep_angle = math.atan2(social_repulsion[1], social_repulsion[0])
-            if self.heading - total_rep_angle > self.social_rep_max_angle:
-                if self.heading - total_rep_angle > math.pi:
-                    total_rep_direction = np.array([math.cos(self.heading+self.social_rep_max_angle), 
-                                                    math.sin(self.heading+self.social_rep_max_angle)])
+            check_heading = (self.heading + desired_heading*4) / 5
+            if check_heading - total_rep_angle > self.social_rep_max_angle:
+                if check_heading - total_rep_angle > math.pi:
+                    total_rep_direction = np.array([math.cos(check_heading+self.social_rep_max_angle), 
+                                                    math.sin(check_heading+self.social_rep_max_angle)])
                 else:
-                    total_rep_direction = np.array([math.cos(self.heading-self.social_rep_max_angle), 
-                                                    math.sin(self.heading-self.social_rep_max_angle)])
+                    total_rep_direction = np.array([math.cos(check_heading-self.social_rep_max_angle), 
+                                                    math.sin(check_heading-self.social_rep_max_angle)])
                 social_repulsion = total_rep_direction * np.linalg.norm(social_repulsion)
-            elif self.heading - total_rep_angle < -self.social_rep_max_angle:
-                if self.heading - total_rep_angle < -math.pi:
-                    total_rep_direction = np.array([math.cos(self.heading-self.social_rep_max_angle), 
-                                                    math.sin(self.heading-self.social_rep_max_angle)])
+            elif check_heading - total_rep_angle < -self.social_rep_max_angle:
+                if check_heading - total_rep_angle < -math.pi:
+                    total_rep_direction = np.array([math.cos(check_heading-self.social_rep_max_angle), 
+                                                    math.sin(check_heading-self.social_rep_max_angle)])
                 else:
-                    total_rep_direction = np.array([math.cos(self.heading+self.social_rep_max_angle), 
-                                                math.sin(self.heading+self.social_rep_max_angle)])
+                    total_rep_direction = np.array([math.cos(check_heading+self.social_rep_max_angle), 
+                                                    math.sin(check_heading+self.social_rep_max_angle)])
                 social_repulsion = total_rep_direction * np.linalg.norm(social_repulsion)
 
         self.social_repulsion = social_repulsion

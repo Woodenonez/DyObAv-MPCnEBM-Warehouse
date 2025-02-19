@@ -97,8 +97,11 @@ class NetworkManager:
     def inference(self, data: torch.Tensor, device='cpu') -> torch.Tensor:
         if self.device in ['multi', 'cuda']:
             device = torch.device("cuda:0")
-        with torch.no_grad():
+        # with torch.no_grad():
+        start_time = timer()
+        with torch.inference_mode():
             output = self.model(data.float().to(device))
+        print(f'Inference time: {timer()-start_time}')
         return output
 
     def validate(self, data, labels, loss_function=None) -> torch.Tensor:

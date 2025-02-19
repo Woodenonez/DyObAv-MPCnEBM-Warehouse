@@ -36,6 +36,7 @@ class NetworkLoader:
         self.config_dir = config_dir
         self.vb = verbose
         self.ready = False
+        self._canvas = None
 
         self.dataset_name_abbr = dataset_name_abbr.lower()
         self.pred_range = pred_range
@@ -49,6 +50,10 @@ class NetworkLoader:
         self.config_fname = f'{self.dataset_name_abbr}_{pred_range[0]}t{pred_range[1]}_{self.out_layer}_{self.loss_type}_{self.mode}.yaml'
 
         print(f'[{self.__class__.__name__}] Initialized. Use "quick_setup" to load all parts.')
+
+    @property
+    def model(self):
+        return self.net_manager.model
 
     @classmethod
     def from_config(cls, config_file_path: str, project_dir: str, verbose=False):
@@ -105,6 +110,9 @@ class NetworkLoader:
         self.load_param()
         self.load_path(model_suffix=model_suffix)
         self.load_manager(loss=None)
+        assert self.save_path is not None
+        self.model.load_state_dict(torch.load(self.save_path, weights_only=True))
+        self.model.eval()
 
 
     def load_param(self, param_in_list=True) -> dict:
@@ -179,6 +187,10 @@ class NetworkLoader:
         with open(os.path.join(save_path, dt+'.pickle'), 'wb') as pf:
             pickle.dump(loss_dict, pf)
 
+    def create_ref_canvas(self, ref_image: torch.Tensor):
+        center = (ref_image.shape[1], ref_image.shape[0])
+        self._canvas = self.ts_dist_map(center, torch.zeros([x*2 for x in ref_image.shape]), normalize=False)
+
 
     def train(self, batch_size:Optional[int]=None, epoch:Optional[int]=None, runon:str='LOCAL', save_profile_path:Optional[str]=None):
         """Train the network.
@@ -204,8 +216,8 @@ class NetworkLoader:
         total_time = round((time.time()-start_time)/3600, 4)
         if (self.save_path is not None) & self.net_manager.complete:
             assert self.save_path is not None
-            torch.save(self.net_manager.model.state_dict(), self.save_path)
-        nparams = sum(p.numel() for p in self.net_manager.model.parameters() if p.requires_grad)
+            torch.save(self.model.state_dict(), self.save_path)
+        nparams = sum(p.numel() for p in self.model.parameters() if p.requires_grad)
         print(f'\n[{self.__class__.__name__}] Training done: {nparams} parameters. Cost time: {total_time}h.')
 
         if save_profile_path is not None:
@@ -214,10 +226,6 @@ class NetworkLoader:
     def test(self, idx:int):
         if not self.ready:
             raise ValueError('Please run "quick_setup" to load all parts first.')
-        
-        assert self.save_path is not None
-        self.net_manager.model.load_state_dict(torch.load(self.save_path, weights_only=True))
-        self.net_manager.model.eval()
         
         img:torch.Tensor   = self.dataset[idx]['input']  # originally np.ndarray
         label:torch.Tensor = self.dataset[idx]['target'] # originally np.ndarray
@@ -248,12 +256,8 @@ class NetworkLoader:
             print(f'[{self.__class__.__name__}] CUDA not working. Switch to CPU.')
         input_traj_rescale = [(x[0]*rescale, x[1]*rescale) for x in input_traj] # from the world coordinate to the image coordinate
         input_img = self.traj_to_input(input_traj_rescale, ref_image) # C*H*W
-
-        assert self.save_path is not None
-        self.net_manager.model.load_state_dict(torch.load(self.save_path))
-        self.net_manager.model.eval()
         output = self.net_manager.inference(input_img.unsqueeze(0).to(device), device=device)
-        return output.cpu().detach()[0]
+        return output[0].cpu()
     
     def clustering_and_fitting_from_samples(self, traj_samples: np.ndarray, eps=10, min_sample=5, enlarge=1.0, extra_margin=0.0):
         """Inference the network and then do clustering.
@@ -322,6 +326,7 @@ class NetworkLoader:
 
     def traj_to_input(self, input_traj: List[Tuple[float, float]], ref_image: torch.Tensor, normalize=True):
         """From the trajectory to the network input image."""
+        assert self._canvas is not None
         if normalize:
             ref_image = ref_image/255.0
 
@@ -330,23 +335,30 @@ class NetworkLoader:
             input_traj = input_traj + [input_traj[-1]]*(obsv_len-len(input_traj))
         input_traj = input_traj[-obsv_len:]
 
-        input_img = torch.empty(size=[ref_image.shape[0],ref_image.shape[1],0])
-        for position in input_traj:
+        input_img = self.get_patches(self._canvas, input_traj, ref_image.shape)
+        input_img = torch.concat((input_img, ref_image.unsqueeze(0)), dim=0)
+        # input_img = torch.empty(size=[ref_image.shape[0],ref_image.shape[1],0])
+        # for position in input_traj:
             # obj_map = self.ts_gaudist_map(position[:2], torch.zeros_like(ref_image), sigmas=(10, 10))
-            obj_map = self.ts_dist_map(position[:2], torch.zeros_like(ref_image))
-            input_img = torch.concat((input_img, obj_map.unsqueeze(2)), dim=2)
-        input_img = torch.concat((input_img, ref_image.unsqueeze(2)), dim=2)
-        return input_img.permute(2,0,1) # H*W*C -> C*H*W
+            # obj_map = self.ts_dist_map((int(position[0]), int(position[1])), torch.zeros_like(ref_image))
+            # obj_map = self.crop_canvas(self._canvas, (int(position[0]), int(position[1])), ref_image.shape)
+            # obj_map = obj_map / obj_map.max()
+        #     input_img = torch.concat((input_img, obj_map.unsqueeze(2)), dim=2)
+        # input_img = torch.concat((input_img, ref_image.unsqueeze(2)), dim=2)
+        # input_img = input_img.permute(2,0,1) # H*W*C -> C*H*W
+        return input_img
     
     @staticmethod
-    def ts_dist_map(centre, base_matrix: torch.Tensor):
+    def ts_dist_map(centre, base_matrix: torch.Tensor, normalize=True):
         '''Create a normalized Euclidean distance map given the centre and map size.'''
         base_matrix = torch.zeros(base_matrix.shape)
         x = torch.arange(0, base_matrix.shape[1])
         y = torch.arange(0, base_matrix.shape[0])
         x, y = torch.meshgrid(x, y, indexing='xy')
         base_matrix = torch.norm(torch.stack((x-centre[0], y-centre[1])).float(), dim=0)
-        return base_matrix/base_matrix.max()
+        if normalize:
+            return base_matrix/base_matrix.max()
+        return base_matrix
 
     @staticmethod
     def ts_gaudist_map(centre, base_matrix: torch.Tensor, sigmas=(100.0, 100.0), rho=0.0, flip=False):
@@ -363,3 +375,29 @@ class NetworkLoader:
             return 1 - z/z.max()
         else:
             return z/z.max()
+        
+    @staticmethod
+    def crop_canvas(canvas: torch.Tensor, center: Tuple[int, int], size: Tuple):
+        '''Crop the canvas given the center and size.'''
+        x, y = center
+        h, w = size
+        start_y = h - y
+        start_x = w - x
+        end_y = start_y + h
+        end_x = start_x + w
+        return canvas[start_y:end_y, start_x:end_x]
+    
+    @staticmethod
+    def get_patches(canvas: torch.Tensor, traj, size: Tuple):
+        x = np.array(traj)[:,0].astype('int')
+        y = np.array(traj)[:,1].astype('int')
+        h, w = size
+
+        start_y = h - y
+        start_x = w - x
+        end_y = start_y + h
+        end_x = start_x + w
+
+        patches = [canvas[s_y:e_y, s_x:e_x] for s_y, e_y, s_x, e_x in zip(start_y, end_y, start_x, end_x)]
+        patches = [patch/patch.max() for patch in patches]
+        return torch.stack(patches)

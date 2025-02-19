@@ -123,9 +123,12 @@ class GlobalPathCoordinator:
         Args:
             ct: The coordinate conversion function.
         """
-        self.current_map.map_coords_cvt(ct)
-        self.inflated_map.map_coords_cvt(ct)
-        self.current_graph.graph_coords_cvt(ct)
+        if self.current_map is not None:
+            self.current_map.map_coords_cvt(ct)
+        if self.inflated_map is not None:
+            self.inflated_map.map_coords_cvt(ct)
+        if self.current_graph is not None:
+            self.current_graph.graph_coords_cvt(ct)
 
 
     def get_schedule_with_node_index(self, robot_id: int) -> tuple[list, Optional[list[float]], bool]:

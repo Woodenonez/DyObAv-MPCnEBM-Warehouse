@@ -29,6 +29,7 @@ class MotionPredictor:
         self.network_loader.quick_setup_inference(model_suffix=model_suffix)
         if ref_image_path is not None:
             self.load_ref_image(ref_img_path=ref_image_path)
+            self.network_loader.create_ref_canvas(self.ref_image)
 
     def _inference(self, input_traj: list[PathNode], rescale:Optional[float]=1.0):
         if rescale is not None:

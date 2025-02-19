@@ -58,6 +58,8 @@ def scenario(index):
         Scenario 4 (1 robot): Group avoidance (with 3 pedestrians).
         Scenario 10 (1 robot): L-shaped corridor encounter (between the robot and a pedestrian).
         Scenario 11 (1 robot): Pesdestrian turning (with a pedestrian).
+        Scenario 12 (1 robot): Face-to-face encounter (with a pedestrian).
+        Scenario 20 (5 robot): Long term.
     """
     if index == 1:
         human_starts = [np.array([110, 20, 0.0])]  
@@ -75,7 +77,7 @@ def scenario(index):
                         np.array([300, 115, 0.0]),
                         np.array([300, 115, 0.0]),] 
         human_paths = [[32, 16, 27],
-                       [32, 16, 22],
+                       [32, 16, 22, 23],
                        [27, 16, 32],
                        [27, 16, 15, 20]]
         robot_start_points = [np.array([235, 195, math.pi/2]),
@@ -101,6 +103,38 @@ def scenario(index):
         human_paths = [[9, 32, 16]]
         robot_start_points = [np.array([160, 160, math.pi/2])] # [1.0, -1.7, 1.571]
         robot_path = [[12, 11, 10, 9, 8]]
+    elif index == 12:
+        human_starts = [np.array([160, 75, 0.0])]  
+        human_paths = [[9, 12]]
+        robot_start_points = [np.array([160, 165, math.pi/2])] # [1.0, -1.7, 1.571]
+        robot_path = [[12, 9]]
+    elif index == 13: # Face-to-face encounter for 2 robots
+        human_starts = [np.array([110, 20, 0.0])]  
+        human_paths = [[1, 2]]
+        robot_start_points = [np.array([160, 165, math.pi/2]), np.array([160, 75, -math.pi/2])]
+        robot_path = [[12, 9], [9, 12]]
+    elif index == 20:
+        human_starts = [
+            np.array([110, 20, 0.0]),
+            np.array([160, 20, 0.0]),
+            np.array([235, 20, 0.0])
+        ]
+        human_paths = [
+            [1, 4, 11, 32, 16, 15, 1, 4, 11, 32, 16, 15, 1, 4, 11, 32, 16, 15, 1],
+            [8, 1, 2, 9, 10, 3, 4, 11, 10, 3, 2, 9, 8, 1, 2, 9, 10, 3, 4, 11, 10, 3, 2, 9, 8, 1],
+            [15, 8, 32, 16, 15, 8, 32, 16, 15, 8, 32, 16, 15, 8, 32, 16, 15, 8, 1]
+        ]
+        robot_start_points = [
+            np.array([235, 120, math.pi]),
+            np.array([110, 80, math.pi/2]),
+            np.array([110, 90, math.pi/2]),
+        ]
+        robot_path = [
+            [16, 32, 8, 15, 16, 32, 8, 15, 16],
+            [2, 1, 8, 11, 4, 1, 8, 11, 4, 2],
+            [3, 2, 1, 8, 11, 4, 1, 8, 11, 4, 3],
+        ]
+                      
     else:
         raise ValueError('Invalid scenario index: %d' % index)
     return human_starts, human_paths, robot_start_points, robot_path
@@ -166,13 +200,14 @@ class MainBase:
                          'ETA': ['none'] * len(node_id_column)}
         
         inflation_margin     = (self.config_robot.vehicle_width/2) / self.config_tf.scale2real
-        inflation_margin_mpc = (self.config_robot.vehicle_width/2+self.config_robot.vehicle_margin) / self.config_tf.scale2real
+        inflation_margin_mpc = (self.config_robot.vehicle_width/2+self.config_robot.vehicle_margin+0.1) / self.config_tf.scale2real
         self.gpc = GlobalPathCoordinator.from_dict(schedule_dict)
         self.gpc_mpc = GlobalPathCoordinator.from_dict(schedule_dict)
         self.gpc.load_graph_from_json(graph_fpath)
         self.gpc.load_map_from_json(map_fpath, inflation_margin=inflation_margin)
         self.gpc_mpc.load_map_from_json(map_fpath, inflation_margin=inflation_margin_mpc)
         self.gpc.coordinate_convert(self.tf_img2real)
+        self.gpc_mpc.coordinate_convert(self.tf_img2real)
 
         self.static_obstacles = self.gpc.inflated_map.obstacle_coords_list
         self.static_obstacles_mpc = self.gpc_mpc.inflated_map.obstacle_coords_list
@@ -190,7 +225,7 @@ class MainBase:
             if self.tracker_type == 'mpc':
                 controller = TrajectoryTrackerMPC(self.config_tracker, self.config_robot, robot_id=rid, verbose=False)
                 controller.load_motion_model(robot.motion_model)
-                controller.set_monitor(monitor_on=False)
+                # controller.set_monitor(monitor_on=False)
             elif self.tracker_type == 'rpp':
                 controller = TrajectoryTrackerRPP(self.config_tracker, self.config_robot, robot_id=rid, verbose=False)
             visualizer = CircularObjectVisualizer(self.config_robot.vehicle_width/2, indicate_angle=True)
@@ -230,6 +265,8 @@ class MainBase:
             human.set_path(human_paths_coords[i])
             if pedestrian_model == 'sf':
                 human.set_social_repulsion(max_distance=5.0, max_angle=math.pi/4, max_force=1.0, opponent_type=RobotObject)
+            elif pedestrian_model == 'minisf':
+                human.set_social_repulsion(max_distance=3.0, max_angle=math.pi/4, max_force=0.5, opponent_type=RobotObject)
         self.human_visualizers = [CircularObjectVisualizer(self.config_human.human_width, indicate_angle=False) for _ in self.humans]
 
     @property
@@ -587,6 +624,7 @@ class MainBase:
                     dyn_obs_list[Nn][Tt] = [mu[0], mu[1], std[0], std[1], 0, conf] # for each obstacle
 
         ### Human step
+        sf_viz_list = [] # type: ignore
         for i, human in enumerate(self.humans):
             agents = [self.robot_manager.get_robot(rid).robot_object for rid in self.robot_ids]
             social_force, _, attenuation_factor = human.get_social_repulsion(agents) # will work only if the human is set to social force model
@@ -594,9 +632,11 @@ class MainBase:
 
             # aaxx = self.main_plotter.map_ax # XXX
             # if action is not None:
-            #     aaxx.quiver(human.state[0], human.state[1], action[0]-social_force[0], action[1]-social_force[1], angles='xy', scale_units='xy', scale=1, color='gray')
-            #     aaxx.quiver(human.state[0], human.state[1], action[0], action[1], angles='xy', scale_units='xy', scale=1, color='k')
-            #     human.plot_social_force(aaxx, color='b', plot_all=True, length_inverse_scale=1)
+            #     # print(f'Human {i} attenuation_factor: {attenuation_factor}')
+            #     sf_viz1 = aaxx.quiver(human.state[0], human.state[1], action[0]-social_force[0], action[1]-social_force[1], angles='xy', scale_units='xy', scale=0.5, color='gray')
+            #     sf_viz2 = aaxx.quiver(human.state[0], human.state[1], action[0], action[1], angles='xy', scale_units='xy', scale=0.5, color='k')
+            #     sf_viz_list.extend([sf_viz1, sf_viz2])
+            #     human.plot_social_force(aaxx, color='b', plot_all=True, length_inverse_scale=0.5)
 
             if self.viz:
                 self.human_visualizers[i].update(*human.state)
@@ -635,13 +675,13 @@ class MainBase:
                                                               obstacle_radius=self.config_human.human_width*1.5)
             
             ### Optimize the trajectory
-            if self.tracker_type in ['mpc']:
-                if self.robot_manager.get_pred_states(rid) is not None:
-                    last_pred_states = self.robot_manager.get_pred_states(rid)
-                    if np.dot(ref_states[-1, :2]-ref_states[0, :2], last_pred_states[-1, :2]-last_pred_states[0, :2]) < 0:
-                        ref_states = ref_states
-                    else:
-                        ref_states = ref_states*0.9 + last_pred_states*0.1
+            # if self.tracker_type in ['mpc']:
+            #     if self.robot_manager.get_pred_states(rid) is not None:
+            #         last_pred_states = self.robot_manager.get_pred_states(rid)
+            #         if np.dot(ref_states[-1, :2]-ref_states[0, :2], last_pred_states[-1, :2]-last_pred_states[0, :2]) < 0:
+            #             ref_states = ref_states
+            #         else:
+            #             ref_states = ref_states*0.9 + last_pred_states*0.1
             ###
 
             controller.set_ref_states(ref_states, ref_speed=ref_speed)
@@ -657,7 +697,7 @@ class MainBase:
                 actions, pred_states, current_refs, debug_info = controller.run_step(static_obstacles=self.static_obstacles_mpc,
                                                                                      full_dyn_obstacle_list=dyn_obs_list,
                                                                                      other_robot_states=other_robot_states,
-                                                                                     map_updated=False)
+                                                                                     map_updated=True)
                 action = actions[-1]
             elif self.tracker_type == 'rpp':
                 assert isinstance(controller, TrajectoryTrackerRPP)
@@ -669,14 +709,20 @@ class MainBase:
 
             self.robot_manager.set_pred_states(rid, np.asarray(pred_states))
 
+            assert isinstance(action, np.ndarray)
+
             ### Regulate the action
-            # regulated_v = action[0] * max(0.5, (self.config_robot.ang_vel_max-abs(action[1])) / self.config_robot.ang_vel_max) # type: ignore
+            # regulated_v = action[0] * max(0.8, (self.config_robot.ang_vel_max-abs(action[1])) / self.config_robot.ang_vel_max) # type: ignore
+            # action[0] = regulated_v
 
             ### Robot step
-            assert isinstance(action, np.ndarray)
-            if (action[0]<0 or action[0]==1.5) and self.tracker_type == 'mpc':
-                controller.restart_solver()
-                action[0] = -0.1
+            if self.tracker_type == 'mpc':
+                if (action[0]<self.config_robot.lin_vel_min*0.9 or action[0]==1.5 or debug_info['cost']>1e3):
+                    controller.restart_solver()
+                    # action[0] = -0.2
+                # elif (debug_info['cost'] < 20 and action[0] < 0.1):
+                #     controller.restart_solver()
+                #     action[0] = 0.2
             robot.step(action)
 
             if controller.check_termination_condition(external_check=planner.idle):
@@ -705,7 +751,16 @@ class MainBase:
                 print(f"[{self.__class__.__name__}] Time:{current_time:.2f}", end='\r')
 
         if self.viz:
-            self.main_plotter.plot_in_loop(dyn_obstacle_list=dyn_obs_list, time=current_time, autorun=auto_run, zoom_in=None)
+            zoom_in = [-6, 10, -1, 14] # for long-term
+            self.main_plotter.plot_in_loop(
+                dyn_obstacle_list=dyn_obs_list, 
+                time=current_time, 
+                autorun=auto_run, 
+                # zoom_in=zoom_in, 
+                # save_path=f'Demo/{int(current_time/self.config_tracker.ts)}.png',
+                temp_plots=sf_viz_list,
+                # temp_objects=debug_info['closest_obstacle_list']
+            )
             for i, human in enumerate(self.humans):
                 self.human_visualizers[i].update(*human.state)
 
@@ -747,7 +802,10 @@ class MainBase:
                 if (time_step_out is not None) and (current_time+1e-6 >= time_step_out):
                     break
                 current_time += self.config_tracker.ts
-                time.sleep(0.5)
+                if self.viz:
+                    time.sleep(0.5)
+                else:
+                    time.sleep(0.01)
 
             if total_complete and self.eval:
                 for rid in self.robot_ids:
@@ -763,7 +821,7 @@ class MainBase:
             if self.viz:
                 if any_collision:
                     input(f"[{self.__class__.__name__}] Collision detected. Press Enter to continue...")
-                self.main_plotter.show()
+                # self.main_plotter.show()
 
             if i < repeat-1:
 
@@ -787,14 +845,15 @@ class MainBase:
 if __name__ == '__main__':
     import os
 
-    predictor_type = 'enll' # None, 'nll/enll/kld/bce', 'cvm', or 'sgan'
+    predictor_type = 'kld' # None, 'nll/enll/kld/bce', 'cvm', or 'sgan'
     tracker_type = 'mpc' # 'mpc', 'rpp'
     planner_type = None # None, 'teb'
-    scenario_index = 1 # 1-4
-    pedestrian_model = None # None, 'sf'
+    scenario_index = 1 # 1-4, 20
+    pedestrian_model = 'None' # None, 'sf', 'minisf'
     auto_run = True 
     evaluation = False
     repeat = 1
+    time_step = 30.0 # seconds. 200 for long-term, 30 for short-term
 
     project_dir = pathlib.Path(__file__).resolve().parents[1]
 
@@ -844,7 +903,7 @@ if __name__ == '__main__':
 
     # fig_debug, axes_debug = plt.subplots(1, 2) 
 
-    mb.run_once(repeat=repeat, time_step_out=40.0, extra_debug_panel=None, auto_run=auto_run)
+    mb.run_once(repeat=repeat, time_step_out=time_step, extra_debug_panel=None, auto_run=auto_run)
     if evaluation:
         mb.report(save_dir='./')
 

@@ -22,21 +22,6 @@ class PenaltyTerms(TypedDict):
     acc_penalty: Union[float, ca.SX]
     w_acc_penalty: Union[float, ca.SX]
 
-def w_dyn_diff(k, m, thre=5, min_w=0.2):
-    """Return a weight value depending on the difference between the current and prediction time steps.
-
-    Args:
-        k: Current state time step.
-        m: Current prediction time step.
-        thre: The threshold to have a non-zero weight. Defaults to 5.
-        min_w: The lower bound of the non-zero weight. Defaults to 0.2.
-    """
-    diff = abs(k-m)
-    if diff <= thre:
-        return max(1-(diff/thre), min_w)
-    else:
-        return 0.0
-
 
 class PanocBuilder:
     """Build the MPC module via OPEN. Define states, inputs, cost, and constraints.
@@ -45,7 +30,7 @@ class PanocBuilder:
         load_motion_model: Load the motion model for the MPC problem.
         build: Build the MPC problem and solver.
     """
-    _large_weight = 100
+    _large_weight = 1000
     _small_weight = 10
 
     def __init__(self, mpc_config: MpcConfiguration, robot_config: CircularRobotSpecification):
@@ -160,14 +145,13 @@ class PanocBuilder:
         ### Reference deviation costs
         cts.cost_rpd += mc.cost_refpath_deviation(state, ref_states[:2, :], weight=pts['rpd'])
         cts.cost_rvd += pts['vel'] * (action[0]-ref_speed)**2
-        cts.cost_rvd += pts['vel'] * 10 * ca.fmin(0, action[0])**2 * ca.exp(step_in_horizon)
         # cts.cost_rvd += pts['vel'] * 10 * (ca.fmax(0, action[0]-ref_speed))**2 # speeding penalty
         cts.cost_rtd += 0.0
         cts.cost_input += ca.sum1(ca.vertcat(pts['v'], pts['w']) * action**2) 
 
         ### Fleet collision avoidance
-        safe_distance = self._spec.vehicle_width+self._spec.vehicle_margin*2
-        critical_distance = self._spec.vehicle_width+self._spec.vehicle_margin
+        safe_distance = 2*self._spec.vehicle_width+self._spec.vehicle_margin
+        critical_distance = 2*self._spec.vehicle_width
         if kt < critical_step:
             cts.cost_fleet += mc.cost_fleet_collision(state[:2], other_robot_positions, 
                                                       safe_distance=critical_distance, weight=self._large_weight)
@@ -184,11 +168,9 @@ class PanocBuilder:
             n_edges = int(self._cfg.nstcobs / 3) # 3 means b, a0, a1
             b, a0, a1 = eq_param[:n_edges], eq_param[n_edges:2*n_edges], eq_param[2*n_edges:]
             # cts.cost_stcobs += mc.cost_inside_cvx_polygon(state, b.T, a0.T, a1.T, weight=q_stcobs)
+        
             inside_stc_obstacle = mh.inside_cvx_polygon(state, b.T, a0.T, a1.T)
-            ### Hard cost
             penalty_constraints_stcobs += ca.fmax(0, ca.vertcat(inside_stc_obstacle))
-            ### Soft cost
-            # penalty_constraints_stcobs += (1/1.0) * ca.log(1 + ca.exp(10 * inside_stc_obstacle))
 
         ### Dynamic obstacles
         penalty_constraints_dynobs = 0.0
@@ -200,23 +182,19 @@ class PanocBuilder:
             As        = dynamic_obstacles[4::self._cfg.ndynobs*(self.N_hor+1)]
             alpha_dyn = dynamic_obstacles[5::self._cfg.ndynobs*(self.N_hor+1)]
             ellipse_param = [x_dyn, y_dyn, 
-                             rx_dyn+self._spec.vehicle_width/2+self._spec.vehicle_margin+self._spec.social_margin, 
-                             ry_dyn+self._spec.vehicle_width/2+self._spec.vehicle_margin+self._spec.social_margin, 
+                             rx_dyn+self._spec.vehicle_width+self._spec.vehicle_margin, 
+                             ry_dyn+self._spec.vehicle_width+self._spec.vehicle_margin, 
                              As, alpha_dyn]
             cts.cost_dynobs += mc.cost_inside_ellipses(state.T, ellipse_param, weight=self._large_weight)
 
             inside_dyn_obstacle = mh.inside_ellipses(state, [x_dyn, y_dyn, 
-                                                             rx_dyn+self._spec.vehicle_width/2, 
-                                                             ry_dyn+self._spec.vehicle_width/2, As])
-            ### Hard cost
+                                                             rx_dyn+self._spec.vehicle_width, 
+                                                             ry_dyn+self._spec.vehicle_width, As])
             penalty_constraints_dynobs += ca.fmax(0, inside_dyn_obstacle)
-            ### Soft cost
-            # penalty_constraints_dynobs += (1/1.0) * ca.log(1 + ca.exp(10 * inside_dyn_obstacle))
         else:
             cts.cost_dynobs += 0.0
         ### Dynamic obstacles [Predictive]
         ### (x, y, rx, ry, angle, alpha) for obstacle 0 for N steps, then similar for obstalce 1 for N steps...
-
         x_dyn     = dynamic_obstacles[(kt+1)*self._cfg.ndynobs  ::self._cfg.ndynobs*(self.N_hor+1)]
         y_dyn     = dynamic_obstacles[(kt+1)*self._cfg.ndynobs+1::self._cfg.ndynobs*(self.N_hor+1)]
         rx_dyn    = dynamic_obstacles[(kt+1)*self._cfg.ndynobs+2::self._cfg.ndynobs*(self.N_hor+1)]
@@ -224,23 +202,10 @@ class PanocBuilder:
         As        = dynamic_obstacles[(kt+1)*self._cfg.ndynobs+4::self._cfg.ndynobs*(self.N_hor+1)]
         alpha_dyn = dynamic_obstacles[(kt+1)*self._cfg.ndynobs+5::self._cfg.ndynobs*(self.N_hor+1)]
         ellipse_param = [x_dyn, y_dyn, 
-                         rx_dyn+self._spec.vehicle_width/2+self._spec.vehicle_margin+self._spec.social_margin, 
-                         ry_dyn+self._spec.vehicle_width/2+self._spec.vehicle_margin+self._spec.social_margin,
+                         rx_dyn+self._spec.vehicle_width+self._spec.vehicle_margin, 
+                         ry_dyn+self._spec.vehicle_width+self._spec.vehicle_margin,
                          As, alpha_dyn]
         cts.cost_dynobs_pred += mc.cost_inside_ellipses(state.T, ellipse_param, weight=q_dynobs)
-
-        # for m in range(self.N_hor):
-        #     x_dyn     = dynamic_obstacles[(m+1)*self._cfg.ndynobs  ::self._cfg.ndynobs*(self.N_hor+1)]
-        #     y_dyn     = dynamic_obstacles[(m+1)*self._cfg.ndynobs+1::self._cfg.ndynobs*(self.N_hor+1)]
-        #     rx_dyn    = dynamic_obstacles[(m+1)*self._cfg.ndynobs+2::self._cfg.ndynobs*(self.N_hor+1)]
-        #     ry_dyn    = dynamic_obstacles[(m+1)*self._cfg.ndynobs+3::self._cfg.ndynobs*(self.N_hor+1)]
-        #     As        = dynamic_obstacles[(m+1)*self._cfg.ndynobs+4::self._cfg.ndynobs*(self.N_hor+1)]
-        #     alpha_dyn = dynamic_obstacles[(m+1)*self._cfg.ndynobs+5::self._cfg.ndynobs*(self.N_hor+1)]
-        #     ellipse_param = [x_dyn, y_dyn, 
-        #                     rx_dyn+self._spec.vehicle_width+self._spec.vehicle_margin, 
-        #                     ry_dyn+self._spec.vehicle_width+self._spec.vehicle_margin,
-        #                     As, alpha_dyn]
-        #     cts.cost_dynobs_pred += mc.cost_inside_ellipses(state.T, ellipse_param, weight=q_dynobs) * w_dyn_diff(kt, m)
 
         # inside_dyn_obstacle = mh.inside_ellipses(state.T, [x_dyn, y_dyn, rx_dyn, ry_dyn, As])
         # penalty_constraints_dynobs_pred = ca.fmax(0, inside_dyn_obstacle)

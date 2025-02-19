@@ -101,7 +101,7 @@ class LocalTrajPlanner:
             The new speed should be smaller than the original speed. Otherwise, the will be few states in the new reference.
         """
         n_states = original_states.shape[0]
-        distances = np.cumsum(np.sqrt(np.sum(np.diff(original_states, axis=0)**2, axis=1))) # distance traveled along the path at each point
+        distances = np.cumsum(np.sqrt(np.sum(np.diff(original_states[:, :2], axis=0)**2, axis=1))) # distance traveled along the path at each point
         distances = np.insert(distances, 0, 0)/distances[-1] # normalize distances to [0, 1]
         fx = interpolate.interp1d(distances, original_states[:, 0], kind='linear')
         fy = interpolate.interp1d(distances, original_states[:, 1], kind='linear')

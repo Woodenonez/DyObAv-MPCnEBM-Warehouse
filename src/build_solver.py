@@ -20,13 +20,8 @@ def load_robot_spec(fname: str) -> CircularRobotSpecification:
     return CircularRobotSpecification.from_yaml(return_cfg_path(fname))
 
 if __name__ == "__main__":
-    # cfg_fname = "fpmpc_fast.yaml"
-    # cfg_fname = "fpmpc_default.yaml"
     cfg_fname = "mpc_fast.yaml"
     # cfg_fname = "mpc_default.yaml"
-
-    # cfg_fname = "fpmpc_fast_softonly.yaml"
-    # cfg_fname = "fpmpc_fast_noenlarge.yaml"
 
     robot_spec = "spec_robot.yaml"
     config_mpc = load_mpc_config(cfg_fname)

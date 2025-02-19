@@ -1,3 +1,5 @@
+from typing import Optional
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -210,7 +212,7 @@ class YNetEncoder(nn.Module):
 		return features
 
 class YNetDecoder(nn.Module):
-	def __init__(self, encoder_channels, decoder_channels, output_len, extra_channels:int=None):
+	def __init__(self, encoder_channels, decoder_channels, output_len, extra_channels:Optional[int]=None):
 		"""
 		Decoder models
 		:param encoder_channels: list, encoder channels, used for skip connections
@@ -239,23 +241,23 @@ class YNetDecoder(nn.Module):
 		upsample_channels_out = [num_channel // 2 for num_channel in upsample_channels_in]
 
 		# Upsampling consists of bilinear upsampling + 3x3 Conv, here the 3x3 Conv is defined
-		self.upsample_conv = [
+		_upsample_conv = [
 			nn.Conv2d(in_channels_, out_channels_, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
 			for in_channels_, out_channels_ in zip(upsample_channels_in, upsample_channels_out)]
-		self.upsample_conv = nn.ModuleList(self.upsample_conv)
+		self.upsample_conv = nn.ModuleList(_upsample_conv)
 
 		# Determine the input and output channel dimensions of each layer in the decoder
 		# As we concat the encoded feature and decoded features we have to sum both dims
 		in_channels = [enc + dec for enc, dec in zip(encoder_channels, upsample_channels_out)]
 		out_channels = decoder_channels
 
-		self.decoder = [nn.Sequential(
+		_decoder = [nn.Sequential(
 			nn.Conv2d(in_channels_, out_channels_, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
 			nn.ReLU(inplace=True),
 			nn.Conv2d(out_channels_, out_channels_, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1)),
 			nn.ReLU(inplace=True))
 			for in_channels_, out_channels_ in zip(in_channels, out_channels)]
-		self.decoder = nn.ModuleList(self.decoder)
+		self.decoder = nn.ModuleList(_decoder)
 
 		# Final 1x1 Conv prediction to get our heatmap logits (before softmax)
 		self.predictor = nn.Conv2d(in_channels=decoder_channels[-1], out_channels=output_len, kernel_size=1, stride=1, padding=0)

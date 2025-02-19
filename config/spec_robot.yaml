@@ -13,3 +13,11 @@ lin_acc_min: -1      # Vehicle contraint on the maximal linear retardation
 lin_acc_max: 1       # Vehicle contraint on the maximal linear acceleration
 ang_vel_max: 0.5     # Vehicle contraint on the maximal angular velocity
 ang_acc_max: 3       # Vehicle contraint on the maximal angular acceleration (considered to be symmetric)
+
+### Robot Specification for long term-test (kinematic parameters)
+# lin_vel_min: -0.5    # Vehicle contraint on the minimal velocity possible
+# lin_vel_max: 1.0     # Vehicle contraint on the maximal velocity possible
+# lin_acc_min: -1      # Vehicle contraint on the maximal linear retardation
+# lin_acc_max: 1       # Vehicle contraint on the maximal linear acceleration
+# ang_vel_max: 0.5     # Vehicle contraint on the maximal angular velocity
+# ang_acc_max: 3       # Vehicle contraint on the maximal angular acceleration (considered to be symmetric)
