@@ -30,7 +30,7 @@ class PanocBuilder:
         load_motion_model: Load the motion model for the MPC problem.
         build: Build the MPC problem and solver.
     """
-    _large_weight = 1000
+    _large_weight = 100
     _small_weight = 10
 
     def __init__(self, mpc_config: MpcConfiguration, robot_config: CircularRobotSpecification):
@@ -146,7 +146,8 @@ class PanocBuilder:
         cts.cost_rpd += mc.cost_refpath_deviation(state, ref_states[:2, :], weight=pts['rpd'])
         cts.cost_rvd += pts['vel'] * (action[0]-ref_speed)**2
         # cts.cost_rvd += pts['vel'] * 10 * (ca.fmax(0, action[0]-ref_speed))**2 # speeding penalty
-        cts.cost_rtd += 0.0
+        # cts.cost_rtd += 0.0
+        cts.cost_rtd += pts['theta'] * (state[2]-ref_states[2, 0])**2
         cts.cost_input += ca.sum1(ca.vertcat(pts['v'], pts['w']) * action**2) 
 
         ### Fleet collision avoidance
@@ -167,7 +168,7 @@ class PanocBuilder:
             eq_param = static_obstacles[i*self._cfg.nstcobs : (i+1)*self._cfg.nstcobs]
             n_edges = int(self._cfg.nstcobs / 3) # 3 means b, a0, a1
             b, a0, a1 = eq_param[:n_edges], eq_param[n_edges:2*n_edges], eq_param[2*n_edges:]
-            # cts.cost_stcobs += mc.cost_inside_cvx_polygon(state, b.T, a0.T, a1.T, weight=q_stcobs)
+            cts.cost_stcobs += mc.cost_inside_cvx_polygon(state, b.T, a0.T, a1.T, weight=q_stcobs)
         
             inside_stc_obstacle = mh.inside_cvx_polygon(state, b.T, a0.T, a1.T)
             penalty_constraints_stcobs += ca.fmax(0, ca.vertcat(inside_stc_obstacle))

@@ -1,4 +1,10 @@
+## ROS2
+ros2 run gazebo_map_creator request_map.py -c '(-14.0,-36.0,0.03)(14.0,23.0,0.5)' -r 0.1 -f $PWD/map --skip-vertical-scan
 
+T1: gazebo -s libgazebo_map_creator.so ../DyObAv-MPCnEBM-Warehouse-ROS2/src/gazebo_worlds/worlds/aws/arena_hospital_small.world
+T2: ros2 run gazebo_map_creator request_map.py -c '(-18.0,-2.0,0.03)(18.0,8.0,0.5)' -r 0.1 -f $PWD/map --skip-vertical-scan
+
+## ROS1
 
 >> sudo apt-get install libgazebo11-dev
 

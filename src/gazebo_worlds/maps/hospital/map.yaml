@@ -1,0 +1,7 @@
+free_thresh: 0.90
+negate: 0
+origin: [-14.000000, -36.000000, 0.0]
+resolution: 0.100000
+mode: trinary
+occupied_thresh: 0.95
+image: /home/ze/Documents/Code_ros/getmap_ws/map.pgm

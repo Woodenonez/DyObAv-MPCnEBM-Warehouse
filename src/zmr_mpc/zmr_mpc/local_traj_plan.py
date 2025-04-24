@@ -97,7 +97,7 @@ class LocalTrajPlanner:
             The new speed should be smaller than the original speed. Otherwise, the will be few states in the new reference.
         """
         n_states = original_states.shape[0]
-        distances = np.cumsum(np.sqrt(np.sum(np.diff(original_states, axis=0)**2, axis=1))) # distance traveled along the path at each point
+        distances = np.cumsum(np.sqrt(np.sum(np.diff(original_states[:, :2], axis=0)**2, axis=1))) # distance traveled along the path at each point
         distances = np.insert(distances, 0, 0)/distances[-1] # normalize distances to [0, 1]
         fx = interpolate.interp1d(distances, original_states[:, 0], kind='linear')
         fy = interpolate.interp1d(distances, original_states[:, 1], kind='linear')
@@ -197,12 +197,13 @@ class LocalTrajPlanner:
         else:
             ref_speed = None
 
-        if (self._base_traj_docking_idx+self.N_hor >= len(self._base_traj)): # if horizon exceeds the base trajectory
-            ref_states = np.array(self._base_traj[self._base_traj_docking_idx:] + [self._base_traj[-1]]*(self.N_hor-(len(self._base_traj)-self._base_traj_docking_idx)))
+        offset_idx:int = self._base_traj_docking_idx + 2
+        if (offset_idx+self.N_hor >= len(self._base_traj)): # if horizon exceeds the base trajectory
+            ref_states = np.array(self._base_traj[offset_idx:] + [self._base_traj[-1]]*(self.N_hor-(len(self._base_traj)-offset_idx)))
         else:
-            ref_states = np.array(self._base_traj[self._base_traj_docking_idx:self._base_traj_docking_idx+self.N_hor])
+            ref_states = np.array(self._base_traj[offset_idx:offset_idx+self.N_hor])
 
-        self._current_target_node_idx = self._ref_path.index(self._base_traj_target_node[self._base_traj_docking_idx])
+        self._current_target_node_idx = self._ref_path.index(self._base_traj_target_node[offset_idx])
         self._current_target_node = self._ref_path[self._current_target_node_idx]
         if self._current_target_node_idx == len(self._ref_path)-1:
             done = True

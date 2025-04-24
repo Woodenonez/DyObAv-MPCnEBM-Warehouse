@@ -1,0 +1,765 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.82.7</authoring_tool>
+    </contributor>
+    <created>2023-11-04T13:12:30</created>
+    <modified>2023-11-04T13:12:30</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_effects>
+    <effect id="Door_material-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <color sid="diffuse">0.8 0.8 0.8 1</color>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.45</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_images/>
+  <library_materials>
+    <material id="Door_material-material" name="Door_material">
+      <instance_effect url="#Door_material-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="DoorFrane_018-mesh" name="DoorFrane.018">
+      <mesh>
+        <source id="DoorFrane_018-mesh-positions">
+          <float_array id="DoorFrane_018-mesh-positions-array" count="96">-0.5749998 -0.08666664 0 -0.5749998 0.1733333 0 -0.4949998 0.1733333 0 -0.5749998 -0.08666664 2.669999 -0.5749998 0.1733333 2.669999 0.5749998 0.1733333 2.669999 0.5749998 -0.08666664 2.669999 0.4949998 -0.08666664 2.589999 -0.4949998 0.1733333 2.589999 0.4949998 -0.08666664 0 0.5749998 -0.08666664 0 0.5749998 0.1733333 0 0.4949998 0.04333329 2.589999 -0.4949998 0.04333329 2.589999 -0.4949998 0.04333329 0 -0.4749997 0.04333329 2.589999 -0.4749997 0.04333329 0 -0.4749997 0.1733333 2.589999 -0.4749997 0.1733333 0 0.4949998 0.04333329 0 -0.4949998 -0.08666664 2.589999 -0.4949998 -0.08666664 0 0.4949998 0.1733333 2.589999 0.4949998 0.1733333 0 0.4749997 0.1733333 0 0.4749997 0.04333329 0 0.4749997 0.1733333 2.589999 0.4749997 0.04333329 2.569999 0.4749997 0.04333329 2.589999 -0.4749997 0.1733333 2.569999 -0.4749997 0.04333329 2.569999 0.4749997 0.1733333 2.569999</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_018-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_018-mesh-normals">
+          <float_array id="DoorFrane_018-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 1.88146e-7 0 1 3.76292e-7 0 -1 0 0 1 0</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_018-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_018-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_018-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_018-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_018-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 1 22 1 26 1 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_017-mesh" name="DoorFrane.017">
+      <mesh>
+        <source id="DoorFrane_017-mesh-positions">
+          <float_array id="DoorFrane_017-mesh-positions-array" count="96">-0.5749998 -0.08666664 0 -0.5749998 0.1733333 0 -0.4949998 0.1733333 0 -0.5749998 -0.08666664 2.669999 -0.5749998 0.1733333 2.669999 0.5749998 0.1733333 2.669999 0.5749998 -0.08666664 2.669999 0.4949998 -0.08666664 2.589999 -0.4949998 0.1733333 2.589999 0.4949998 -0.08666664 0 0.5749998 -0.08666664 0 0.5749998 0.1733333 0 0.4949998 0.04333329 2.589999 -0.4949998 0.04333329 2.589999 -0.4949998 0.04333329 0 -0.4749997 0.04333329 2.589999 -0.4749997 0.04333329 0 -0.4749997 0.1733333 2.589999 -0.4749997 0.1733333 0 0.4949998 0.04333329 0 -0.4949998 -0.08666664 2.589999 -0.4949998 -0.08666664 0 0.4949998 0.1733333 2.589999 0.4949998 0.1733333 0 0.4749997 0.1733333 0 0.4749997 0.04333329 0 0.4749997 0.1733333 2.589999 0.4749997 0.04333329 2.569999 0.4749997 0.04333329 2.589999 -0.4749997 0.1733333 2.569999 -0.4749997 0.04333329 2.569999 0.4749997 0.1733333 2.569999</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_017-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_017-mesh-normals">
+          <float_array id="DoorFrane_017-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 1.88146e-7 0 1 3.76292e-7 0 -1 0 0 1 0</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_017-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_017-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_017-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_017-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_017-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 1 22 1 26 1 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_016-mesh" name="DoorFrane.016">
+      <mesh>
+        <source id="DoorFrane_016-mesh-positions">
+          <float_array id="DoorFrane_016-mesh-positions-array" count="96">-0.5749998 -0.08666664 0 -0.5749998 0.1733333 0 -0.4949998 0.1733333 0 -0.5749998 -0.08666664 2.669999 -0.5749998 0.1733333 2.669999 0.5749998 0.1733333 2.669999 0.5749998 -0.08666664 2.669999 0.4949998 -0.08666664 2.589999 -0.4949998 0.1733333 2.589999 0.4949998 -0.08666664 0 0.5749998 -0.08666664 0 0.5749998 0.1733333 0 0.4949998 0.04333329 2.589999 -0.4949998 0.04333329 2.589999 -0.4949998 0.04333329 0 -0.4749997 0.04333329 2.589999 -0.4749997 0.04333329 0 -0.4749997 0.1733333 2.589999 -0.4749997 0.1733333 0 0.4949998 0.04333329 0 -0.4949998 -0.08666664 2.589999 -0.4949998 -0.08666664 0 0.4949998 0.1733333 2.589999 0.4949998 0.1733333 0 0.4749997 0.1733333 0 0.4749997 0.04333329 0 0.4749997 0.1733333 2.589999 0.4749997 0.04333329 2.569999 0.4749997 0.04333329 2.589999 -0.4749997 0.1733333 2.569999 -0.4749997 0.04333329 2.569999 0.4749997 0.1733333 2.569999</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_016-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_016-mesh-normals">
+          <float_array id="DoorFrane_016-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 1.88146e-7 0 1 3.76292e-7 0 -1 0 0 1 0</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_016-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_016-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_016-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_016-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_016-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 1 22 1 26 1 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_015-mesh" name="DoorFrane.015">
+      <mesh>
+        <source id="DoorFrane_015-mesh-positions">
+          <float_array id="DoorFrane_015-mesh-positions-array" count="96">-0.5749998 -0.08666664 0 -0.5749998 0.1733333 0 -0.4949998 0.1733333 0 -0.5749998 -0.08666664 2.669999 -0.5749998 0.1733333 2.669999 0.5749998 0.1733333 2.669999 0.5749998 -0.08666664 2.669999 0.4949998 -0.08666664 2.589999 -0.4949998 0.1733333 2.589999 0.4949998 -0.08666664 0 0.5749998 -0.08666664 0 0.5749998 0.1733333 0 0.4949998 0.04333329 2.589999 -0.4949998 0.04333329 2.589999 -0.4949998 0.04333329 0 -0.4749997 0.04333329 2.589999 -0.4749997 0.04333329 0 -0.4749997 0.1733333 2.589999 -0.4749997 0.1733333 0 0.4949998 0.04333329 0 -0.4949998 -0.08666664 2.589999 -0.4949998 -0.08666664 0 0.4949998 0.1733333 2.589999 0.4949998 0.1733333 0 0.4749997 0.1733333 0 0.4749997 0.04333329 0 0.4749997 0.1733333 2.589999 0.4749997 0.04333329 2.569999 0.4749997 0.04333329 2.589999 -0.4749997 0.1733333 2.569999 -0.4749997 0.04333329 2.569999 0.4749997 0.1733333 2.569999</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_015-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_015-mesh-normals">
+          <float_array id="DoorFrane_015-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 1.88146e-7 0 1 3.76292e-7 0 -1 0 0 1 0</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_015-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_015-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_015-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_015-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_015-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 1 22 1 26 1 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_014-mesh" name="DoorFrane.014">
+      <mesh>
+        <source id="DoorFrane_014-mesh-positions">
+          <float_array id="DoorFrane_014-mesh-positions-array" count="96">-0.5749998 -0.08666664 0 -0.5749998 0.1733333 0 -0.4949998 0.1733333 0 -0.5749998 -0.08666664 2.669999 -0.5749998 0.1733333 2.669999 0.5749998 0.1733333 2.669999 0.5749998 -0.08666664 2.669999 0.4949998 -0.08666664 2.589999 -0.4949998 0.1733333 2.589999 0.4949998 -0.08666664 0 0.5749998 -0.08666664 0 0.5749998 0.1733333 0 0.4949998 0.04333329 2.589999 -0.4949998 0.04333329 2.589999 -0.4949998 0.04333329 0 -0.4749997 0.04333329 2.589999 -0.4749997 0.04333329 0 -0.4749997 0.1733333 2.589999 -0.4749997 0.1733333 0 0.4949998 0.04333329 0 -0.4949998 -0.08666664 2.589999 -0.4949998 -0.08666664 0 0.4949998 0.1733333 2.589999 0.4949998 0.1733333 0 0.4749997 0.1733333 0 0.4749997 0.04333329 0 0.4749997 0.1733333 2.589999 0.4749997 0.04333329 2.569999 0.4749997 0.04333329 2.589999 -0.4749997 0.1733333 2.569999 -0.4749997 0.04333329 2.569999 0.4749997 0.1733333 2.569999</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_014-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_014-mesh-normals">
+          <float_array id="DoorFrane_014-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 1.88146e-7 0 1 3.76292e-7 0 -1 0 0 1 0</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_014-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_014-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_014-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_014-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_014-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 1 22 1 26 1 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_013-mesh" name="DoorFrane.013">
+      <mesh>
+        <source id="DoorFrane_013-mesh-positions">
+          <float_array id="DoorFrane_013-mesh-positions-array" count="96">-0.7699998 -0.08666664 0 -0.7699998 0.1733333 0 -0.6899998 0.1733333 0 -0.7699998 -0.08666664 2.669999 -0.7699998 0.1733333 2.669999 0.7699998 0.1733333 2.669999 0.7699998 -0.08666664 2.669999 0.6899998 -0.08666664 2.589999 -0.6899998 0.1733333 2.589999 0.6899998 -0.08666664 0 0.7699998 -0.08666664 0 0.7699998 0.1733333 0 0.6899998 0.04333329 2.589999 -0.6899998 0.04333329 2.589999 -0.6899998 0.04333329 0 -0.6699997 0.04333329 2.589999 -0.6699997 0.04333329 0 -0.6699997 0.1733333 2.589999 -0.6699997 0.1733333 0 0.6899998 0.04333329 0 -0.6899998 -0.08666664 2.589999 -0.6899998 -0.08666664 0 0.6899998 0.1733333 2.589999 0.6899998 0.1733333 0 0.6699997 0.1733333 0 0.6699997 0.04333329 0 0.6699997 0.1733333 2.589999 0.6699997 0.04333329 2.569999 0.6699997 0.04333329 2.589999 -0.6699997 0.1733333 2.569999 -0.6699997 0.04333329 2.569999 0.6699997 0.1733333 2.569999</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_013-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_013-mesh-normals">
+          <float_array id="DoorFrane_013-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 -1.34974e-7 0 1 -2.69949e-7 0 -1 2.49462e-7 0 1 4.98923e-7</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_013-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_013-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_013-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_013-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_013-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 4 22 4 26 4 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_012-mesh" name="DoorFrane.012">
+      <mesh>
+        <source id="DoorFrane_012-mesh-positions">
+          <float_array id="DoorFrane_012-mesh-positions-array" count="96">-1.009999 -0.08666664 0 -1.009999 0.1733333 0 -0.9299995 0.1733333 0 -1.009999 -0.08666664 2.579999 -1.009999 0.1733333 2.579999 1.009999 0.1733333 2.579999 1.009999 -0.08666664 2.579999 0.9299995 -0.08666664 2.5 -0.9299995 0.1733333 2.5 0.9299995 -0.08666664 0 1.009999 -0.08666664 0 1.009999 0.1733333 0 0.9299995 0.04333329 2.5 -0.9299995 0.04333329 2.5 -0.9299995 0.04333329 0 -0.9099995 0.04333329 2.5 -0.9099995 0.04333329 0 -0.9099995 0.1733333 2.5 -0.9099995 0.1733333 0 0.9299995 0.04333329 0 -0.9299995 -0.08666664 2.5 -0.9299995 -0.08666664 0 0.9299995 0.1733333 2.5 0.9299995 0.1733333 0 0.9099995 0.1733333 0 0.9099995 0.04333329 0 0.9099995 0.1733333 2.5 0.9099995 0.04333329 2.48 0.9099995 0.04333329 2.5 -0.9099995 0.1733333 2.48 -0.9099995 0.04333329 2.48 0.9099995 0.1733333 2.48</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_012-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_012-mesh-normals">
+          <float_array id="DoorFrane_012-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 -2.00285e-7 0 1 -4.00569e-7 0 -1 1.90184e-7 0 1 3.80367e-7</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_012-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_012-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_012-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_012-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_012-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 1 22 1 26 1 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_011-mesh" name="DoorFrane.011">
+      <mesh>
+        <source id="DoorFrane_011-mesh-positions">
+          <float_array id="DoorFrane_011-mesh-positions-array" count="96">-1.009999 -0.08666664 0 -1.009999 0.1733333 0 -0.9299995 0.1733333 0 -1.009999 -0.08666664 2.579999 -1.009999 0.1733333 2.579999 1.009999 0.1733333 2.579999 1.009999 -0.08666664 2.579999 0.9299995 -0.08666664 2.5 -0.9299995 0.1733333 2.5 0.9299995 -0.08666664 0 1.009999 -0.08666664 0 1.009999 0.1733333 0 0.9299995 0.04333329 2.5 -0.9299995 0.04333329 2.5 -0.9299995 0.04333329 0 -0.9099995 0.04333329 2.5 -0.9099995 0.04333329 0 -0.9099995 0.1733333 2.5 -0.9099995 0.1733333 0 0.9299995 0.04333329 0 -0.9299995 -0.08666664 2.5 -0.9299995 -0.08666664 0 0.9299995 0.1733333 2.5 0.9299995 0.1733333 0 0.9099995 0.1733333 0 0.9099995 0.04333329 0 0.9099995 0.1733333 2.5 0.9099995 0.04333329 2.48 0.9099995 0.04333329 2.5 -0.9099995 0.1733333 2.48 -0.9099995 0.04333329 2.48 0.9099995 0.1733333 2.48</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_011-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_011-mesh-normals">
+          <float_array id="DoorFrane_011-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 -2.00285e-7 0 1 -4.00569e-7 0 -1 1.90184e-7 0 1 3.80367e-7</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_011-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_011-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_011-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_011-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_011-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 1 22 1 26 1 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_010-mesh" name="DoorFrane.010">
+      <mesh>
+        <source id="DoorFrane_010-mesh-positions">
+          <float_array id="DoorFrane_010-mesh-positions-array" count="96">-1.009999 -0.08666664 0 -1.009999 0.1733333 0 -0.9299995 0.1733333 0 -1.009999 -0.08666664 2.579999 -1.009999 0.1733333 2.579999 1.009999 0.1733333 2.579999 1.009999 -0.08666664 2.579999 0.9299995 -0.08666664 2.5 -0.9299995 0.1733333 2.5 0.9299995 -0.08666664 0 1.009999 -0.08666664 0 1.009999 0.1733333 0 0.9299995 0.04333329 2.5 -0.9299995 0.04333329 2.5 -0.9299995 0.04333329 0 -0.9099995 0.04333329 2.5 -0.9099995 0.04333329 0 -0.9099995 0.1733333 2.5 -0.9099995 0.1733333 0 0.9299995 0.04333329 0 -0.9299995 -0.08666664 2.5 -0.9299995 -0.08666664 0 0.9299995 0.1733333 2.5 0.9299995 0.1733333 0 0.9099995 0.1733333 0 0.9099995 0.04333329 0 0.9099995 0.1733333 2.5 0.9099995 0.04333329 2.48 0.9099995 0.04333329 2.5 -0.9099995 0.1733333 2.48 -0.9099995 0.04333329 2.48 0.9099995 0.1733333 2.48</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_010-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_010-mesh-normals">
+          <float_array id="DoorFrane_010-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 -2.00285e-7 0 1 -4.00569e-7 0 -1 1.90184e-7 0 1 3.80367e-7</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_010-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_010-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_010-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_010-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_010-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 1 22 1 26 1 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_009-mesh" name="DoorFrane.009">
+      <mesh>
+        <source id="DoorFrane_009-mesh-positions">
+          <float_array id="DoorFrane_009-mesh-positions-array" count="96">-1.009999 -0.08666664 0 -1.009999 0.1733333 0 -0.9299995 0.1733333 0 -1.009999 -0.08666664 2.579999 -1.009999 0.1733333 2.579999 1.009999 0.1733333 2.579999 1.009999 -0.08666664 2.579999 0.9299995 -0.08666664 2.5 -0.9299995 0.1733333 2.5 0.9299995 -0.08666664 0 1.009999 -0.08666664 0 1.009999 0.1733333 0 0.9299995 0.04333329 2.5 -0.9299995 0.04333329 2.5 -0.9299995 0.04333329 0 -0.9099995 0.04333329 2.5 -0.9099995 0.04333329 0 -0.9099995 0.1733333 2.5 -0.9099995 0.1733333 0 0.9299995 0.04333329 0 -0.9299995 -0.08666664 2.5 -0.9299995 -0.08666664 0 0.9299995 0.1733333 2.5 0.9299995 0.1733333 0 0.9099995 0.1733333 0 0.9099995 0.04333329 0 0.9099995 0.1733333 2.5 0.9099995 0.04333329 2.48 0.9099995 0.04333329 2.5 -0.9099995 0.1733333 2.48 -0.9099995 0.04333329 2.48 0.9099995 0.1733333 2.48</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_009-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_009-mesh-normals">
+          <float_array id="DoorFrane_009-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 -2.00285e-7 0 1 -4.00569e-7 0 -1 1.90184e-7 0 1 3.80367e-7</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_009-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_009-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_009-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_009-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_009-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 1 22 1 26 1 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_008-mesh" name="DoorFrane.008">
+      <mesh>
+        <source id="DoorFrane_008-mesh-positions">
+          <float_array id="DoorFrane_008-mesh-positions-array" count="96">-1.009999 -0.08666664 0 -1.009999 0.1733333 0 -0.9299995 0.1733333 0 -1.009999 -0.08666664 2.579999 -1.009999 0.1733333 2.579999 1.009999 0.1733333 2.579999 1.009999 -0.08666664 2.579999 0.9299995 -0.08666664 2.5 -0.9299995 0.1733333 2.5 0.9299995 -0.08666664 0 1.009999 -0.08666664 0 1.009999 0.1733333 0 0.9299995 0.04333329 2.5 -0.9299995 0.04333329 2.5 -0.9299995 0.04333329 0 -0.9099995 0.04333329 2.5 -0.9099995 0.04333329 0 -0.9099995 0.1733333 2.5 -0.9099995 0.1733333 0 0.9299995 0.04333329 0 -0.9299995 -0.08666664 2.5 -0.9299995 -0.08666664 0 0.9299995 0.1733333 2.5 0.9299995 0.1733333 0 0.9099995 0.1733333 0 0.9099995 0.04333329 0 0.9099995 0.1733333 2.5 0.9099995 0.04333329 2.48 0.9099995 0.04333329 2.5 -0.9099995 0.1733333 2.48 -0.9099995 0.04333329 2.48 0.9099995 0.1733333 2.48</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_008-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_008-mesh-normals">
+          <float_array id="DoorFrane_008-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 -2.00285e-7 0 1 -4.00569e-7 0 -1 1.90184e-7 0 1 3.80367e-7</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_008-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_008-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_008-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_008-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_008-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 1 22 1 26 1 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_007-mesh" name="DoorFrane.007">
+      <mesh>
+        <source id="DoorFrane_007-mesh-positions">
+          <float_array id="DoorFrane_007-mesh-positions-array" count="96">-1.009999 -0.08666664 0 -1.009999 0.1733333 0 -0.9299995 0.1733333 0 -1.009999 -0.08666664 2.579999 -1.009999 0.1733333 2.579999 1.009999 0.1733333 2.579999 1.009999 -0.08666664 2.579999 0.9299995 -0.08666664 2.5 -0.9299995 0.1733333 2.5 0.9299995 -0.08666664 0 1.009999 -0.08666664 0 1.009999 0.1733333 0 0.9299995 0.04333329 2.5 -0.9299995 0.04333329 2.5 -0.9299995 0.04333329 0 -0.9099995 0.04333329 2.5 -0.9099995 0.04333329 0 -0.9099995 0.1733333 2.5 -0.9099995 0.1733333 0 0.9299995 0.04333329 0 -0.9299995 -0.08666664 2.5 -0.9299995 -0.08666664 0 0.9299995 0.1733333 2.5 0.9299995 0.1733333 0 0.9099995 0.1733333 0 0.9099995 0.04333329 0 0.9099995 0.1733333 2.5 0.9099995 0.04333329 2.48 0.9099995 0.04333329 2.5 -0.9099995 0.1733333 2.48 -0.9099995 0.04333329 2.48 0.9099995 0.1733333 2.48</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_007-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_007-mesh-normals">
+          <float_array id="DoorFrane_007-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 -2.00285e-7 0 1 -4.00569e-7 0 -1 1.90184e-7 0 1 3.80367e-7</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_007-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_007-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_007-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_007-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_007-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 1 22 1 26 1 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_004-mesh" name="DoorFrane.004">
+      <mesh>
+        <source id="DoorFrane_004-mesh-positions">
+          <float_array id="DoorFrane_004-mesh-positions-array" count="96">-1.009999 -0.08666664 0 -1.009999 0.1733333 0 -0.9299995 0.1733333 0 -1.009999 -0.08666664 2.579999 -1.009999 0.1733333 2.579999 1.009999 0.1733333 2.579999 1.009999 -0.08666664 2.579999 0.9299995 -0.08666664 2.5 -0.9299995 0.1733333 2.5 0.9299995 -0.08666664 0 1.009999 -0.08666664 0 1.009999 0.1733333 0 0.9299995 0.04333329 2.5 -0.9299995 0.04333329 2.5 -0.9299995 0.04333329 0 -0.9099995 0.04333329 2.5 -0.9099995 0.04333329 0 -0.9099995 0.1733333 2.5 -0.9099995 0.1733333 0 0.9299995 0.04333329 0 -0.9299995 -0.08666664 2.5 -0.9299995 -0.08666664 0 0.9299995 0.1733333 2.5 0.9299995 0.1733333 0 0.9099995 0.1733333 0 0.9099995 0.04333329 0 0.9099995 0.1733333 2.5 0.9099995 0.04333329 2.48 0.9099995 0.04333329 2.5 -0.9099995 0.1733333 2.48 -0.9099995 0.04333329 2.48 0.9099995 0.1733333 2.48</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_004-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_004-mesh-normals">
+          <float_array id="DoorFrane_004-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 -2.00285e-7 0 1 -4.00569e-7 0 -1 1.90184e-7 0 1 3.80367e-7</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_004-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_004-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_004-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_004-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_004-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 1 22 1 26 1 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_006-mesh" name="DoorFrane.006">
+      <mesh>
+        <source id="DoorFrane_006-mesh-positions">
+          <float_array id="DoorFrane_006-mesh-positions-array" count="96">-1.009999 -0.08666664 0 -1.009999 0.1733333 0 -0.9299995 0.1733333 0 -1.009999 -0.08666664 2.579999 -1.009999 0.1733333 2.579999 1.009999 0.1733333 2.579999 1.009999 -0.08666664 2.579999 0.9299995 -0.08666664 2.5 -0.9299995 0.1733333 2.5 0.9299995 -0.08666664 0 1.009999 -0.08666664 0 1.009999 0.1733333 0 0.9299995 0.04333329 2.5 -0.9299995 0.04333329 2.5 -0.9299995 0.04333329 0 -0.9099995 0.04333329 2.5 -0.9099995 0.04333329 0 -0.9099995 0.1733333 2.5 -0.9099995 0.1733333 0 0.9299995 0.04333329 0 -0.9299995 -0.08666664 2.5 -0.9299995 -0.08666664 0 0.9299995 0.1733333 2.5 0.9299995 0.1733333 0 0.9099995 0.1733333 0 0.9099995 0.04333329 0 0.9099995 0.1733333 2.5 0.9099995 0.04333329 2.48 0.9099995 0.04333329 2.5 -0.9099995 0.1733333 2.48 -0.9099995 0.04333329 2.48 0.9099995 0.1733333 2.48</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_006-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_006-mesh-normals">
+          <float_array id="DoorFrane_006-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 -2.00285e-7 0 1 -4.00569e-7 0 -1 1.90184e-7 0 1 3.80367e-7</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_006-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_006-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_006-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_006-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_006-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 1 22 1 26 1 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="DoorFrane_003-mesh" name="DoorFrane.003">
+      <mesh>
+        <source id="DoorFrane_003-mesh-positions">
+          <float_array id="DoorFrane_003-mesh-positions-array" count="96">-0.7699998 -0.08666664 0 -0.7699998 0.1733333 0 -0.6899998 0.1733333 0 -0.7699998 -0.08666664 2.669999 -0.7699998 0.1733333 2.669999 0.7699998 0.1733333 2.669999 0.7699998 -0.08666664 2.669999 0.6899998 -0.08666664 2.589999 -0.6899998 0.1733333 2.589999 0.6899998 -0.08666664 0 0.7699998 -0.08666664 0 0.7699998 0.1733333 0 0.6899998 0.04333329 2.589999 -0.6899998 0.04333329 2.589999 -0.6899998 0.04333329 0 -0.6699997 0.04333329 2.589999 -0.6699997 0.04333329 0 -0.6699997 0.1733333 2.589999 -0.6699997 0.1733333 0 0.6899998 0.04333329 0 -0.6899998 -0.08666664 2.589999 -0.6899998 -0.08666664 0 0.6899998 0.1733333 2.589999 0.6899998 0.1733333 0 0.6699997 0.1733333 0 0.6699997 0.04333329 0 0.6699997 0.1733333 2.589999 0.6699997 0.04333329 2.569999 0.6699997 0.04333329 2.589999 -0.6699997 0.1733333 2.569999 -0.6699997 0.04333329 2.569999 0.6699997 0.1733333 2.569999</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_003-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="DoorFrane_003-mesh-normals">
+          <float_array id="DoorFrane_003-mesh-normals-array" count="30">-1 0 0 0 0 1 1 0 0 0 1 0 0 0 -1 0 -1 0 0 -1 -1.34974e-7 0 1 -2.69949e-7 0 -1 2.49462e-7 0 1 4.98923e-7</float_array>
+          <technique_common>
+            <accessor source="#DoorFrane_003-mesh-normals-array" count="10" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="DoorFrane_003-mesh-vertices">
+          <input semantic="POSITION" source="#DoorFrane_003-mesh-positions"/>
+        </vertices>
+        <triangles material="Door_material-material" count="47">
+          <input semantic="VERTEX" source="#DoorFrane_003-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#DoorFrane_003-mesh-normals" offset="1"/>
+          <p>4 0 0 0 3 0 12 0 9 0 7 0 3 1 5 1 4 1 11 2 6 2 10 2 20 2 14 2 13 2 15 2 18 2 17 2 11 3 22 3 5 3 13 4 7 4 20 4 20 5 0 5 21 5 10 5 7 5 9 5 14 5 15 5 13 5 8 3 1 3 4 3 31 4 30 4 29 4 6 6 20 6 7 6 4 7 22 7 8 7 2 4 16 4 14 4 18 3 8 3 17 3 25 5 12 5 28 5 26 0 25 0 28 0 24 4 19 4 25 4 23 3 26 3 22 3 17 3 31 3 29 3 30 5 28 5 15 5 8 4 22 4 26 4 4 0 1 0 0 0 12 0 19 0 9 0 3 1 6 1 5 1 11 2 5 2 6 2 20 2 21 2 14 2 15 2 16 2 18 2 11 3 23 3 22 3 13 4 12 4 7 4 20 5 3 5 0 5 10 5 6 5 7 5 14 5 16 5 15 5 8 3 2 3 1 3 31 4 27 4 30 4 6 8 3 8 20 8 4 9 5 9 22 9 2 4 18 4 16 4 18 3 2 3 8 3 25 5 19 5 12 5 26 0 24 0 25 0 24 4 23 4 19 4 23 3 24 3 26 3 17 3 26 3 31 3 30 5 27 5 28 5</p>
+        </triangles>
+      </mesh>
+    </geometry>
+    <geometry id="Plane_001-mesh" name="Plane.001">
+      <mesh>
+        <source id="Plane_001-mesh-positions">
+          <float_array id="Plane_001-mesh-positions-array" count="2136">1.106335 -1 0 48.95986 -1 0 1.106335 1 0 48.95986 1 0 51.02497 -1 0 51.02497 1 0 48.95986 59.15313 0 51.02497 59.15313 0 48.95986 61.15493 0 51.02497 61.15493 0 24.0947 59.15313 0 24.0947 61.15493 0 -0.9909355 -1 0 -0.9909355 1 0 1.106335 59.14581 0 -0.9909355 59.14581 0 1.106335 61.15355 0 -0.9909355 61.15355 0 9.143201 59.14581 0 9.143201 61.15355 0 101.1301 -1 0 101.1301 1 0 103.1726 -1 0 103.1726 1 0 101.1301 59.13825 0 103.1726 59.13825 0 64.04995 59.15313 0 64.04995 61.15493 0 101.1301 61.15725 0 103.1726 61.15725 0 84.05532 59.13825 0 84.05532 61.15725 0 143.219 -1 0 143.219 1 0 185.4035 -1 0 185.4035 1 0 187.4127 -1 0 187.4127 1 0 227.5984 -1 0 227.5984 1 0 229.6118 -1 0 229.6118 1 0 309.7405 -1 0 309.7405 1 0 311.7569 -1 0 311.7569 1 0 309.7405 23.97921 0 311.7569 23.97921 0 227.5984 59.13723 0 229.6118 59.13723 0 185.4035 59.1381 0 187.4127 59.1381 0 133.986 59.13825 0 133.986 61.15725 0 309.7405 33.98424 0 227.5984 61.15877 0 229.6118 61.15877 0 185.4035 61.15823 0 187.4127 61.15823 0 154.0118 59.1381 0 154.0118 61.15823 0 199.8118 59.1381 0 199.8118 61.15823 0 214.0439 59.13723 0 214.0439 61.15877 0 243.9882 59.13723 0 243.9882 61.15877 0 309.7214 59.12534 0 309.7214 61.15298 0 1.106335 188.6924 0 -0.9909355 188.6924 0 1.106335 188.6924 0 -0.9909355 188.6924 0 1.106335 190.7018 0 -0.9909355 190.7018 0 13.99193 188.6924 0 13.99193 190.7018 0 1.106335 246.9846 0 -0.9909355 246.9846 0 1.106335 248.9877 0 -0.9909355 248.9877 0 141.096 246.9846 0 141.096 248.9877 0 143.1025 246.9846 0 143.1025 248.9877 0 141.096 190.7096 0 143.1025 190.7096 0 220.2848 246.9846 0 220.2848 248.9877 0 222.3368 246.9846 0 222.3368 248.9877 0 220.2848 190.7068 0 222.3368 190.7068 0 309.7382 246.9846 0 309.7382 248.9877 0 311.7551 248.9877 0 311.7551 246.9846 0 311.7513 188.6865 0 311.7513 190.7068 0 220.2848 188.6865 0 222.3368 188.6865 0 141.096 188.6947 0 143.1025 188.6947 0 124.0098 190.7096 0 124.0098 188.6947 0 184.0058 190.7068 0 184.0058 188.6865 0 163.9676 190.7096 0 163.9676 188.6947 0 53.98452 188.6924 0 53.98452 190.7018 0 83.969 188.6924 0 83.969 190.7018 0 309.7144 190.7068 0 309.7144 188.6865 0 309.7382 233.9945 0 311.7551 233.9945 0 311.7513 213.9847 0 309.7144 213.9847 0 220.2848 184.0143 0 222.3368 184.0143 0 220.2848 174.0256 0 222.3368 174.0256 0 220.2848 77.86808 0 222.3368 77.86808 0 220.2848 75.81809 0 222.3368 75.81809 0 309.7246 77.86808 0 309.7246 75.81809 0 311.7525 77.86808 0 311.7525 75.81809 0 309.7246 103.9672 0 311.7525 103.9672 0 311.7513 173.9965 0 309.7144 173.9965 0 194.3674 77.86808 0 194.3674 75.81809 0 192.3376 75.81809 0 192.3376 77.86808 0 192.3376 93.9676 0 194.3674 93.9676 0 194.3674 103.9779 0 192.3376 103.9779 0 192.3376 121.922 0 194.3674 121.922 0 192.3376 123.9692 0 194.3674 123.9692 0 192.3376 143.9675 0 194.3674 143.9675 0 192.3376 153.961 0 194.3674 153.961 0 192.3376 171.6222 0 194.3674 171.6222 0 192.3376 173.6466 0 194.3674 173.6466 0 166.886 75.81809 0 166.886 77.86808 0 164.8487 75.81809 0 164.8487 77.86808 0 166.886 121.9007 0 164.8487 121.9007 0 166.901 121.922 0 166.901 123.9692 0 164.8507 121.922 0 164.8507 123.9692 0 166.901 171.6105 0 164.8507 171.6105 0 166.9013 171.6222 0 166.9013 173.6466 0 164.8411 171.6222 0 164.8411 173.6466 0 136.2506 171.6222 0 136.2506 173.6466 0 134.2498 171.6222 0 134.2498 173.6466 0 136.2506 164.003 0 134.2498 164.003 0 136.2506 83.96956 0 134.2498 83.96956 0 136.2506 77.86893 0 134.2498 77.86893 0 136.2568 75.81809 0 136.2568 77.86808 0 136.2506 75.82043 0 134.2498 75.82043 0 136.2506 143.9976 0 134.2498 143.9976 0 136.2506 134.012 0 134.2498 134.012 0 136.2506 103.9809 0 134.2498 103.9809 0 136.2506 113.9773 0 134.2498 113.9773 0 136.2506 133.9949 0 134.2498 133.9949 0 9.150473 59.15313 0 9.150473 61.15493 0 84.05547 59.15313 0 84.05547 61.15493 0 133.9954 59.1381 0 133.9954 61.15823 0 199.807 59.13723 0 199.807 61.15877 0 274.0024 59.13723 0 274.0024 61.15877 0 253.9757 61.15877 0 253.9757 59.13723 0 293.9988 61.15877 0 293.9988 59.13723 0 34.00249 188.6924 0 34.00249 190.7018 0 14.00871 188.6924 0 14.00871 190.7018 0 103.9728 188.6924 0 103.9728 190.7018 0 124.0085 188.6924 0 124.0085 190.7018 0 183.9939 190.7096 0 183.9939 188.6947 0 220.2848 184.0024 0 222.3368 184.0024 0 192.3376 153.9595 0 194.3674 153.9595 0 192.3376 103.9617 0 194.3674 103.9617 0 311.7513 144.0106 0 309.7144 144.0106 0 311.7513 124.0083 0 309.7144 124.0083 0 311.7513 103.9755 0 309.7144 103.9755 0 309.7382 213.9935 0 311.7551 213.9935 0 346.9155 248.9877 0 346.9155 246.9846 0 348.9651 248.9877 0 348.9651 246.9846 0 346.9155 1.036087 0 348.9651 1.036087 0 346.9155 -0.9953244 0 348.9651 -0.9953244 0 312.001 1.036087 0 312.001 -0.9953244 0 311.7569 33.98424 0 309.7405 59.10989 0 311.7569 59.10989 0 311.7511 59.12534 0 311.7511 61.15298 0 309.718 61.15877 0 309.718 59.13723 0 274.0192 61.15877 0 274.0192 59.13723 0 1.106335 1 3.000427 1.106335 -1 3.000427 48.95986 -1 3.000427 48.95986 1 3.000427 51.02497 -1 3.000427 51.02497 1 3.000427 51.02497 59.15313 3.000427 48.95986 59.15313 3.000427 51.02497 61.15493 3.000427 48.95986 61.15493 3.000427 24.0947 61.15493 3.000427 24.0947 59.15313 3.000427 -0.9909355 1 3.000427 -0.9909355 -1 3.000427 1.106335 59.14581 3.000427 -0.9909355 59.14581 3.000427 1.106335 61.15355 3.000427 -0.9909355 61.15355 3.000427 9.143201 59.14581 3.000427 9.143201 61.15355 3.000427 101.1301 -1 3.000427 101.1301 1 3.000427 103.1726 -1 3.000427 103.1726 1 3.000427 103.1726 59.13825 3.000427 101.1301 59.13825 3.000427 64.04995 59.15313 3.000427 64.04995 61.15493 3.000427 103.1726 61.15725 3.000427 101.1301 61.15725 3.000427 84.05532 61.15725 3.000427 84.05532 59.13825 3.000427 143.219 -1 3.000427 143.219 1 3.000427 185.4035 -1 3.000427 185.4035 1 3.000427 187.4127 -1 3.000427 187.4127 1 3.000427 227.5984 -1 3.000427 227.5984 1 3.000427 229.6118 -1 3.000427 229.6118 1 3.000427 309.7405 -1 3.000427 309.7405 1 3.000427 311.7569 -1 3.000427 311.7569 1 3.000427 311.7569 23.97921 3.000427 309.7405 23.97921 3.000427 229.6118 59.13723 3.000427 227.5984 59.13723 3.000427 187.4127 59.1381 3.000427 185.4035 59.1381 3.000427 133.986 59.13825 3.000427 133.986 61.15725 3.000427 229.6118 61.15877 3.000427 227.5984 61.15877 3.000427 187.4127 61.15823 3.000427 185.4035 61.15823 3.000427 154.0118 61.15823 3.000427 154.0118 59.1381 3.000427 199.8118 59.1381 3.000427 199.8118 61.15823 3.000427 214.0439 61.15877 3.000427 214.0439 59.13723 3.000427 243.9882 59.13723 3.000427 243.9882 61.15877 3.000427 309.7214 61.15298 3.000427 309.7214 59.12534 3.000427 311.7569 33.98424 3.000427 309.7405 33.98424 3.000427 1.106335 188.6924 3.000427 -0.9909355 188.6924 3.000427 1.106335 188.6924 3.000427 -0.9909355 188.6924 3.000427 1.106335 190.7018 3.000427 -0.9909355 190.7018 3.000427 13.99193 188.6924 3.000427 13.99193 190.7018 3.000427 1.106335 246.9846 3.000427 -0.9909355 246.9846 3.000427 1.106335 248.9877 3.000427 -0.9909355 248.9877 3.000427 141.096 246.9846 3.000427 141.096 248.9877 3.000427 143.1025 246.9846 3.000427 143.1025 248.9877 3.000427 141.096 190.7096 3.000427 143.1025 190.7096 3.000427 220.2848 246.9846 3.000427 220.2848 248.9877 3.000427 222.3368 246.9846 3.000427 222.3368 248.9877 3.000427 220.2848 190.7068 3.000427 222.3368 190.7068 3.000427 309.7382 246.9846 3.000427 309.7382 248.9877 3.000427 311.7551 248.9877 3.000427 311.7551 246.9846 3.000427 311.7513 190.7068 3.000427 309.7144 190.7068 3.000427 309.7144 188.6865 3.000427 311.7513 188.6865 3.000427 220.2848 188.6865 3.000427 222.3368 188.6865 3.000427 141.096 188.6947 3.000427 143.1025 188.6947 3.000427 124.0098 190.7096 3.000427 124.0098 188.6947 3.000427 184.0058 190.7068 3.000427 184.0058 188.6865 3.000427 163.9676 188.6947 3.000427 163.9676 190.7096 3.000427 53.98452 188.6924 3.000427 53.98452 190.7018 3.000427 83.969 188.6924 3.000427 83.969 190.7018 3.000427 309.7382 233.9945 3.000427 311.7551 233.9945 3.000427 311.7513 213.9847 3.000427 309.7144 213.9847 3.000427 220.2848 184.0143 3.000427 222.3368 184.0143 3.000427 220.2848 174.0256 3.000427 222.3368 174.0256 3.000427 220.2848 77.86808 3.000427 222.3368 77.86808 3.000427 220.2848 75.81809 3.000427 222.3368 75.81809 3.000427 309.7246 75.81809 3.000427 309.7246 77.86808 3.000427 311.7525 75.81809 3.000427 311.7525 77.86808 3.000427 311.7525 103.9672 3.000427 309.7246 103.9672 3.000427 309.7144 173.9965 3.000427 311.7513 173.9965 3.000427 194.3674 77.86808 3.000427 194.3674 75.81809 3.000427 192.3376 75.81809 3.000427 192.3376 77.86808 3.000427 192.3376 93.9676 3.000427 194.3674 93.9676 3.000427 194.3674 153.961 3.000427 194.3674 171.6222 3.000427 192.3376 171.6222 3.000427 194.3674 103.9779 3.000427 192.3376 103.9779 3.000427 192.3376 121.922 3.000427 194.3674 121.922 3.000427 194.3674 123.9692 3.000427 192.3376 123.9692 3.000427 194.3674 143.9675 3.000427 192.3376 143.9675 3.000427 192.3376 153.961 3.000427 194.3674 173.6466 3.000427 192.3376 173.6466 3.000427 166.886 77.86808 3.000427 166.886 75.81809 3.000427 164.8487 77.86808 3.000427 164.8487 75.81809 3.000427 166.886 121.9007 3.000427 164.8487 121.9007 3.000427 166.901 123.9692 3.000427 166.901 121.922 3.000427 164.8507 123.9692 3.000427 164.8507 121.922 3.000427 166.901 171.6105 3.000427 164.8507 171.6105 3.000427 166.9013 173.6466 3.000427 166.9013 171.6222 3.000427 164.8411 173.6466 3.000427 164.8411 171.6222 3.000427 136.2506 173.6466 3.000427 136.2506 171.6222 3.000427 134.2498 173.6466 3.000427 134.2498 171.6222 3.000427 134.2498 164.003 3.000427 136.2506 164.003 3.000427 134.2498 83.96956 3.000427 136.2506 83.96956 3.000427 136.2568 77.86808 3.000427 136.2568 75.81809 3.000427 134.2498 77.86893 3.000427 136.2506 77.86893 3.000427 134.2498 75.82043 3.000427 136.2506 75.82043 3.000427 134.2498 143.9976 3.000427 136.2506 143.9976 3.000427 134.2498 134.012 3.000427 136.2506 134.012 3.000427 134.2498 103.9809 3.000427 136.2506 103.9809 3.000427 134.2498 113.9773 3.000427 136.2506 113.9773 3.000427 274.0024 61.15877 3.000427 253.9757 61.15877 3.000427 253.9757 59.13723 3.000427 274.0024 59.13723 3.000427 293.9988 59.13723 3.000427 293.9988 61.15877 3.000427 34.00249 188.6924 3.000427 34.00249 190.7018 3.000427 103.9728 188.6924 3.000427 103.9728 190.7018 3.000427 309.7144 144.0106 3.000427 311.7513 144.0106 3.000427 309.7144 124.0083 3.000427 311.7513 124.0083 3.000427 346.9155 246.9846 3.000427 346.9155 248.9877 3.000427 348.9651 246.9846 3.000427 348.9651 248.9877 3.000427 346.9155 1.036087 3.000427 348.9651 1.036087 3.000427 346.9155 -0.9953244 3.000427 348.9651 -0.9953244 3.000427 312.001 1.036087 3.000427 312.001 -0.9953244 3.000427 311.7569 59.10989 3.000427 309.7405 59.10989 3.000427 311.7511 61.15298 3.000427 311.7511 59.12534 3.000427 309.718 59.13723 3.000427 309.718 61.15877 3.000427 24.0947 61.15493 2.525018 24.0947 59.15313 2.524849 9.150473 61.15493 2.525018 9.150473 59.15313 2.524849 24.0947 61.15493 3.000427 24.0947 59.15313 3.000258 9.150473 61.15493 3.000427 9.150473 59.15313 3.000258 64.04995 59.15313 2.5 64.04995 61.15493 2.5 311.7569 23.97921 2.5 309.7405 23.97921 2.5 309.7405 33.98424 2.5 154.0118 61.15823 2.5 154.0118 59.1381 2.5 214.0439 61.15877 2.5 214.0439 59.13723 2.5 243.9882 59.13723 2.5 243.9882 61.15877 2.5 311.7569 33.98424 2.5 163.9676 188.6947 2.5 163.9676 190.7096 2.5 309.7382 233.9945 2.5 311.7551 233.9945 2.5 220.2848 174.0256 2.5 222.3368 174.0256 2.5 194.3674 93.9676 2.5 192.3376 93.9676 2.5 194.3674 143.9675 2.5 192.3376 143.9675 2.5 134.2498 113.9773 2.5 136.2506 113.9773 2.5 134.2498 133.9949 2.5 136.2506 133.9949 2.5 84.05547 59.15313 2.5 84.05547 61.15493 2.5 133.9954 61.15823 2.5 133.9954 59.1381 2.5 199.807 61.15877 2.5 199.807 59.13723 2.5 253.9757 61.15877 2.5 253.9757 59.13723 2.5 34.00249 188.6924 2.5 34.00249 190.7018 2.5 14.00871 188.6924 2.5 14.00871 190.7018 2.5 103.9728 188.6924 2.5 103.9728 190.7018 2.5 124.0085 188.6924 2.5 124.0085 190.7018 2.5 183.9939 188.6947 2.5 183.9939 190.7096 2.5 220.2848 184.0024 2.5 222.3368 184.0024 2.5 194.3674 153.9595 2.5 192.3376 153.9595 2.5 194.3674 103.9617 2.5 192.3376 103.9617 2.5 309.7144 124.0083 2.5 311.7513 124.0083 2.5 309.7144 103.9755 2.5 311.7513 103.9755 2.5 309.7382 213.9935 2.5 311.7551 213.9935 2.5 311.7569 23.97921 2.508105 309.7405 23.97921 2.508105 64.04995 59.15313 2.508105 64.04995 61.15493 2.508105 309.7405 33.98424 2.508105 154.0118 61.15823 2.508105 154.0118 59.1381 2.508105 214.0439 61.15877 2.508105 214.0439 59.13723 2.508105 243.9882 59.13723 2.508105 243.9882 61.15877 2.508105 311.7569 33.98424 2.508105 163.9676 188.6947 2.508105 163.9676 190.7096 2.508105 309.7382 233.9945 2.508105 311.7551 233.9945 2.508105 220.2848 174.0256 2.508105 222.3368 174.0256 2.508105 194.3674 93.9676 2.508105 192.3376 93.9676 2.508105 194.3674 143.9675 2.508105 192.3376 143.9675 2.508105 134.2498 113.9773 2.508105 136.2506 113.9773 2.508105 134.2498 133.9949 2.508105 136.2506 133.9949 2.508105 84.05547 59.15313 2.508105 84.05547 61.15493 2.508105 133.9954 61.15823 2.508105 133.9954 59.1381 2.508105 199.807 61.15877 2.508105 199.807 59.13723 2.508105 253.9757 61.15877 2.508105 253.9757 59.13723 2.508105 34.00249 188.6924 2.508105 34.00249 190.7018 2.508105 14.00871 188.6924 2.508105 14.00871 190.7018 2.508105 103.9728 188.6924 2.508105 103.9728 190.7018 2.508105 124.0085 188.6924 2.508105 124.0085 190.7018 2.508105 183.9939 188.6947 2.508105 183.9939 190.7096 2.508105 220.2848 184.0024 2.508105 222.3368 184.0024 2.508105 194.3674 153.9595 2.508105 192.3376 153.9595 2.508105 194.3674 103.9617 2.508105 192.3376 103.9617 2.508105 309.7144 124.0083 2.508105 311.7513 124.0083 2.508105 309.7144 103.9755 2.508105 311.7513 103.9755 2.508105 309.7382 213.9935 2.508105 311.7551 213.9935 2.508105 311.7569 23.97921 3.000427 309.7405 23.97921 3.000427 64.04995 59.15313 3.000427 64.04995 61.15493 3.000427 309.7405 33.98424 3.000427 154.0118 61.15823 3.000427 154.0118 59.1381 3.000427 214.0439 61.15877 3.000427 214.0439 59.13723 3.000427 243.9882 59.13723 3.000427 243.9882 61.15877 3.000427 311.7569 33.98424 3.000427 163.9676 188.6947 3.000427 163.9676 190.7096 3.000427 309.7382 233.9945 3.000427 311.7551 233.9945 3.000427 220.2848 174.0256 3.000427 222.3368 174.0256 3.000427 194.3674 93.9676 3.000427 192.3376 93.9676 3.000427 194.3674 143.9675 3.000427 192.3376 143.9675 3.000427 134.2498 113.9773 3.000427 136.2506 113.9773 3.000427 134.2498 133.9949 3.000427 136.2506 133.9949 3.000427 84.05547 59.15313 3.000427 84.05547 61.15493 3.000427 133.9954 61.15823 3.000427 133.9954 59.1381 3.000427 199.807 61.15877 3.000427 199.807 59.13723 3.000427 253.9757 61.15877 3.000427 253.9757 59.13723 3.000427 34.00249 188.6924 3.000427 34.00249 190.7018 3.000427 14.00871 188.6924 3.000427 14.00871 190.7018 3.000427 103.9728 188.6924 3.000427 103.9728 190.7018 3.000427 124.0085 188.6924 3.000427 124.0085 190.7018 3.000427 183.9939 188.6947 3.000427 183.9939 190.7096 3.000427 220.2848 184.0024 3.000427 222.3368 184.0024 3.000427 194.3674 153.9595 3.000427 192.3376 153.9595 3.000427 194.3674 103.9617 3.000427 192.3376 103.9617 3.000427 309.7144 124.0083 3.000427 311.7513 124.0083 3.000427 309.7144 103.9755 3.000427 311.7513 103.9755 3.000427 309.7382 213.9935 3.000427 311.7551 213.9935 3.000427 53.98452 188.6924 0.9999999 53.98452 190.7018 0.9999999 83.969 188.6924 0.9999999 83.969 190.7018 0.9999999 309.7144 173.9965 0.9999999 311.7513 173.9965 0.9999999 134.2498 164.003 0.9999999 136.2506 164.003 0.9999999 134.2498 83.96956 0.9999999 136.2506 83.96956 0.9999999 134.2498 143.9976 0.9999999 136.2506 143.9976 0.9999999 134.2498 103.9809 0.9999999 136.2506 103.9809 0.9999999 293.9988 61.15877 0.9999999 274.0192 61.15877 0.9999999 274.0192 59.13723 0.9999999 293.9988 59.13723 0.9999999 309.7144 144.0106 0.9999999 311.7513 144.0106 0.9999999 53.98452 188.6924 2 53.98452 190.7018 2 83.969 188.6924 2 83.969 190.7018 2 309.7144 173.9965 2 311.7513 173.9965 2 134.2498 164.003 2 136.2506 164.003 2 134.2498 83.96956 2 136.2506 83.96956 2 134.2498 143.9976 2 136.2506 143.9976 2 134.2498 103.9809 2 136.2506 103.9809 2 293.9988 61.15877 2 274.0192 61.15877 2 274.0192 59.13723 2 293.9988 59.13723 2 309.7144 144.0106 2 311.7513 144.0106 2 53.98452 188.6924 3.000427 53.98452 190.7018 3.000427 83.969 188.6924 3.000427 83.969 190.7018 3.000427 309.7144 173.9965 3.000427 311.7513 173.9965 3.000427 134.2498 164.003 3.000427 136.2506 164.003 3.000427 134.2498 83.96956 3.000427 136.2506 83.96956 3.000427 134.2498 143.9976 3.000427 136.2506 143.9976 3.000427 134.2498 103.9809 3.000427 136.2506 103.9809 3.000427 293.9988 61.15877 3.000427 274.0192 61.15877 3.000427 274.0192 59.13723 3.000427 293.9988 59.13723 3.000427 309.7144 144.0106 3.000427 311.7513 144.0106 3.000427</float_array>
+          <technique_common>
+            <accessor source="#Plane_001-mesh-positions-array" count="712" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane_001-mesh-normals">
+          <float_array id="Plane_001-mesh-normals-array" count="45">1 0 0 0 -1 0 -1 0 0 0 1 0 0 0 1 -1 0 0 0 -8.44432e-5 1 -1 1.57802e-7 0 0 0 -1 0 8.44432e-5 -1 1 -4.58606e-7 0 0 -8.44432e-5 1 1 -4.31569e-7 0 0 8.44432e-5 -1 -5.68836e-7 0 -1</float_array>
+          <technique_common>
+            <accessor source="#Plane_001-mesh-normals-array" count="15" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="Plane_001-mesh-map-0">
+          <float_array id="Plane_001-mesh-map-0-array" count="6768">0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1 0 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1 1 1 1 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 0 1 1 1 1 1 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 1 1 1 1 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 1 1 1 1 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1 1 1 1 1 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 1 0 1 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1 0 1 0 1 1 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 1 1 0 1 0 1 1 1 0 1 0 1 1 1 0 1 0 1 1 1 0 1 0 1 1 1 0 1 0 1 1 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1 1 1 1 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 0 1 1 1 1 1 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 1 1 1 1 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 1 1 1 1 1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 1 1 1 1 1 1 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 1 0 1 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</float_array>
+          <technique_common>
+            <accessor source="#Plane_001-mesh-map-0-array" count="3384" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="Plane_001-mesh-vertices">
+          <input semantic="POSITION" source="#Plane_001-mesh-positions"/>
+        </vertices>
+        <triangles count="1128">
+          <input semantic="VERTEX" source="#Plane_001-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#Plane_001-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#Plane_001-mesh-map-0" offset="2" set="0"/>
+          <p>214 0 0 454 0 1 213 0 2 65 1 3 300 1 4 49 1 5 138 2 6 392 2 7 139 2 8 66 0 9 316 0 10 65 0 11 48 1 12 315 1 13 63 1 14 64 3 15 307 3 16 55 3 17 136 1 18 390 1 19 137 1 20 109 1 21 452 1 22 209 1 23 63 2 24 314 2 25 64 2 26 135 0 27 389 0 28 136 0 29 210 3 30 365 3 31 110 3 32 58 3 33 313 3 34 62 3 35 97 0 36 387 0 37 133 0 38 209 2 39 453 2 40 210 2 41 61 1 42 302 1 43 51 1 44 134 2 45 352 2 46 114 2 47 208 2 48 451 2 49 207 2 50 62 0 51 312 0 52 61 0 53 133 1 54 386 1 55 134 1 56 206 2 57 447 2 58 205 2 59 50 1 60 311 1 61 59 1 62 127 2 63 385 2 64 131 2 65 60 3 66 309 3 67 57 3 68 132 0 69 383 0 70 129 0 71 204 0 72 449 0 73 203 0 74 59 2 75 310 2 76 60 2 77 131 3 78 384 3 79 132 3 80 203 1 81 448 1 82 206 1 83 130 1 84 380 1 85 128 1 86 57 3 87 308 3 88 58 3 89 129 0 90 382 0 91 130 0 92 124 3 93 381 3 94 127 3 95 108 2 96 497 2 97 107 2 98 205 3 99 446 3 100 204 3 101 69 4 102 72 4 103 70 4 104 128 1 105 379 1 106 126 1 107 55 3 108 306 3 109 56 3 110 29 3 111 305 3 112 53 3 113 125 2 114 376 2 115 123 2 116 52 1 117 276 1 118 25 1 119 126 1 120 378 1 121 125 1 122 53 0 123 304 0 124 52 0 125 122 0 126 377 0 127 124 0 128 35 2 129 303 2 130 50 2 131 123 2 132 374 2 133 121 2 134 51 0 135 289 0 136 37 0 137 121 3 138 375 3 139 122 3 140 39 2 141 301 2 142 48 2 143 100 0 144 373 0 145 120 0 146 49 0 147 293 0 148 41 0 149 119 2 150 354 2 151 99 2 152 120 1 153 372 1 154 119 1 155 43 2 156 299 2 157 46 2 158 113 2 159 371 2 160 118 2 161 208 1 162 668 1 163 251 1 164 47 0 165 297 0 166 45 0 167 117 0 168 350 0 169 98 0 170 46 3 171 298 3 172 47 3 173 118 3 174 370 3 175 117 3 176 96 0 177 369 0 178 116 0 179 190 2 180 444 2 181 192 2 182 44 1 183 294 1 184 42 1 185 115 2 186 346 2 187 93 2 188 191 0 189 443 0 190 189 0 191 45 0 192 296 0 193 44 0 194 116 1 195 368 1 196 115 1 197 192 3 198 445 3 199 191 3 200 41 3 201 295 3 202 43 3 203 92 3 204 351 3 205 113 3 206 42 1 207 292 1 208 40 1 209 189 1 210 442 1 211 190 1 212 111 2 213 367 2 214 112 2 215 185 0 216 441 0 217 187 0 218 40 1 219 290 1 220 38 1 221 188 2 222 438 2 223 186 2 224 114 1 225 355 1 226 100 1 227 187 1 228 440 1 229 188 1 230 37 3 231 291 3 232 39 3 233 110 0 234 364 0 235 109 0 236 38 1 237 288 1 238 36 1 239 86 3 240 363 3 241 107 3 242 108 1 243 357 1 244 102 1 245 186 3 246 439 3 247 185 3 248 107 0 249 362 0 250 108 0 251 179 0 252 437 0 253 183 0 254 133 0 255 671 0 256 225 0 257 36 1 258 286 1 259 34 1 260 207 0 261 669 0 262 208 0 263 99 1 264 361 1 265 106 1 266 510 1 267 542 1 268 484 1 269 219 3 270 529 3 271 220 3 272 175 0 273 663 0 274 185 0 275 184 2 276 434 2 277 180 2 278 201 2 279 514 2 280 202 2 281 105 3 282 344 3 283 91 3 284 183 1 285 436 1 286 184 1 287 217 0 288 526 0 289 218 0 290 199 2 291 512 2 292 200 2 293 226 2 294 656 2 295 134 2 296 33 3 297 287 3 298 35 3 299 54 3 300 495 3 301 243 3 302 106 2 303 360 2 304 105 2 305 157 1 306 433 1 307 181 1 308 34 1 309 284 1 310 32 1 311 101 1 312 359 1 313 104 1 314 177 0 315 435 0 316 179 0 317 103 3 318 338 3 319 85 3 320 180 2 321 430 2 322 178 2 323 23 3 324 285 3 325 33 3 326 254 4 327 252 4 328 253 4 329 254 4 330 257 4 331 255 4 332 257 4 333 259 4 334 255 4 335 258 4 336 261 4 337 259 4 338 261 4 339 263 4 340 259 4 341 252 4 342 265 4 343 253 4 344 252 4 345 267 4 346 264 4 347 266 4 348 269 4 349 267 4 350 266 4 351 271 4 352 268 4 353 256 4 354 273 4 355 257 4 356 272 4 357 275 4 358 273 4 359 275 4 360 277 4 361 273 4 362 258 4 363 279 4 364 260 4 365 276 4 366 281 4 367 277 4 368 281 4 369 283 4 370 277 4 371 274 4 372 285 4 373 275 4 374 284 4 375 287 4 376 285 4 377 286 4 378 289 4 379 287 4 380 288 4 381 291 4 382 289 4 383 290 4 384 293 4 385 291 4 386 292 4 387 295 4 388 293 4 389 294 4 390 297 4 391 295 4 392 297 4 393 299 4 394 295 4 395 293 4 396 301 4 397 291 4 398 289 4 399 303 4 400 287 4 401 276 4 402 305 4 403 280 4 404 300 4 405 307 4 406 301 4 407 302 4 408 309 4 409 303 4 410 309 4 411 311 4 412 303 4 413 302 4 414 313 4 415 308 4 416 307 4 417 315 4 418 301 4 419 300 4 420 317 4 421 306 4 422 268 4 423 323 4 424 269 4 425 324 4 426 327 4 427 325 4 428 324 4 429 329 4 430 326 4 431 326 4 432 331 4 433 327 4 434 330 4 435 333 4 436 331 4 437 330 4 438 335 4 439 332 4 440 334 4 441 337 4 442 335 4 443 334 4 444 339 4 445 336 4 446 336 4 447 341 4 448 337 4 449 340 4 450 343 4 451 341 4 452 340 4 453 345 4 454 342 4 455 342 4 456 347 4 457 343 4 458 346 4 459 348 4 460 347 4 461 352 4 462 350 4 463 351 4 464 344 4 465 355 4 466 345 4 467 338 4 468 357 4 469 339 4 470 338 4 471 359 4 472 356 4 473 344 4 474 361 4 475 354 4 476 357 4 477 363 4 478 339 4 479 355 4 480 351 4 481 345 4 482 346 4 483 369 4 484 349 4 485 350 4 486 371 4 487 351 4 488 354 4 489 373 4 490 355 4 491 374 4 492 377 4 493 375 4 494 376 4 495 379 4 496 377 4 497 379 4 498 381 4 499 377 4 500 380 4 501 383 4 502 381 4 503 383 4 504 385 4 505 381 4 506 352 4 507 387 4 508 353 4 509 388 4 510 390 4 511 389 4 512 388 4 513 392 4 514 391 4 515 394 4 516 396 4 517 405 4 518 397 4 519 399 4 520 398 4 521 400 4 522 402 4 523 399 4 524 401 4 525 404 4 526 402 4 527 395 4 528 407 4 529 396 4 530 391 4 531 409 4 532 390 4 533 408 4 534 411 4 535 409 4 536 408 4 537 413 4 538 410 4 539 402 4 540 415 4 541 399 4 542 414 4 543 417 4 544 415 4 545 414 4 546 419 4 547 416 4 548 407 4 549 421 4 550 396 4 551 420 4 552 423 4 553 421 4 554 422 4 555 425 4 556 423 4 557 424 4 558 427 4 559 425 4 560 427 4 561 429 4 562 425 4 563 410 4 564 433 4 565 411 4 566 430 4 567 435 4 568 431 4 569 434 4 570 437 4 571 435 4 572 438 4 573 441 4 574 439 4 575 443 4 576 444 4 577 442 4 578 448 4 579 446 4 580 447 4 581 365 4 582 452 4 583 364 4 584 366 4 585 455 4 586 367 4 587 456 4 588 459 4 589 457 4 590 349 4 591 461 4 592 348 4 593 460 4 594 463 4 595 461 4 596 460 4 597 465 4 598 462 4 599 464 4 600 467 4 601 465 4 602 464 4 603 469 4 604 466 4 605 320 4 606 471 4 607 321 4 608 319 4 609 472 4 610 318 4 611 450 4 612 475 4 613 451 4 614 140 0 615 388 0 616 135 0 617 56 3 618 317 3 619 66 3 620 213 1 621 366 1 622 111 1 623 139 3 624 393 3 625 140 3 626 67 2 627 318 2 628 68 2 629 112 3 630 455 3 631 214 3 632 152 0 633 394 0 634 150 0 635 243 1 636 321 1 637 54 1 638 141 1 639 398 1 640 142 1 641 70 3 642 322 3 643 69 3 644 142 2 645 399 2 646 143 2 647 69 0 648 268 0 649 16 0 650 144 0 651 397 0 652 141 0 653 17 2 654 323 2 655 70 2 656 71 1 657 325 1 658 72 1 659 1 1 660 253 1 661 0 1 662 146 0 663 400 0 664 144 0 665 2 3 666 255 3 667 3 3 668 147 3 669 403 3 670 148 3 671 148 0 672 401 0 673 146 0 674 72 2 675 327 2 676 74 2 677 4 1 678 254 1 679 1 1 680 145 2 681 404 2 682 147 2 683 76 0 684 328 0 685 75 0 686 150 1 687 405 1 688 149 1 689 75 1 690 324 1 691 71 1 692 154 0 693 395 0 694 152 0 695 73 3 696 329 3 697 76 3 698 7 0 699 257 0 700 5 0 701 153 3 702 406 3 703 154 3 704 3 2 705 259 2 706 6 2 707 149 2 708 396 2 709 151 2 710 77 0 711 326 0 712 73 0 713 8 3 714 260 3 715 9 3 716 226 3 717 457 3 718 225 3 719 74 2 720 331 2 721 78 2 722 80 3 723 332 3 724 79 3 725 156 3 726 391 3 727 138 3 728 10 2 729 262 2 730 11 2 731 227 1 732 458 1 733 228 1 734 137 1 735 409 1 736 155 1 737 78 2 738 333 2 739 80 2 740 11 3 741 261 3 742 8 3 743 228 2 744 456 2 745 226 2 746 6 1 747 263 1 748 10 1 749 225 0 750 459 0 751 227 0 752 81 1 753 330 1 754 77 1 755 12 2 756 264 2 757 13 2 758 155 1 759 411 1 760 157 1 761 79 3 762 335 3 763 82 3 764 160 3 765 412 3 766 159 3 767 0 1 768 265 1 769 12 1 770 159 0 771 408 0 772 156 0 773 158 2 774 413 2 775 160 2 776 82 3 777 337 3 778 84 3 779 14 0 780 252 0 781 2 0 782 13 2 783 267 2 784 15 2 785 162 3 786 402 3 787 145 3 788 85 2 789 334 2 790 81 2 791 143 1 792 415 1 793 161 1 794 83 0 795 339 0 796 86 0 797 234 1 798 349 1 799 96 1 800 163 2 801 416 2 802 164 2 803 15 2 804 269 2 805 17 2 806 95 3 807 461 3 808 233 3 809 87 1 810 336 1 811 83 1 812 19 0 813 270 0 814 18 0 815 235 0 816 462 0 817 236 0 818 161 1 819 417 1 820 163 1 821 84 3 822 341 3 823 88 3 824 18 1 825 266 1 826 14 1 827 166 3 828 418 3 829 165 3 830 16 3 831 271 3 832 19 3 833 233 3 834 463 3 835 235 3 836 165 0 837 414 0 838 162 0 839 164 2 840 419 2 841 166 2 842 88 3 843 343 3 844 90 3 845 20 1 846 256 1 847 4 1 848 237 2 849 460 2 850 234 2 851 5 3 852 273 3 853 21 3 854 236 0 855 465 0 856 238 0 857 168 3 858 407 3 859 153 3 860 91 2 861 340 2 862 87 2 863 240 1 864 466 1 865 239 1 866 151 1 867 421 1 868 167 1 869 89 0 870 345 0 871 92 0 872 22 1 873 272 1 874 20 1 875 238 0 876 467 0 877 240 0 878 170 3 879 420 3 880 168 3 881 93 1 882 342 1 883 89 1 884 242 2 885 468 2 886 241 2 887 167 1 888 423 1 889 169 1 890 90 3 891 347 3 892 94 3 893 25 0 894 275 0 895 23 0 896 241 3 897 464 3 898 237 3 899 94 3 900 348 3 901 95 3 902 21 2 903 277 2 904 24 2 905 239 1 906 469 1 907 242 1 908 172 3 909 422 3 910 170 3 911 27 0 912 278 0 913 26 0 914 244 3 915 470 3 916 245 3 917 169 1 918 425 1 919 171 1 920 26 1 921 258 1 922 7 1 923 245 0 924 320 0 925 243 0 926 173 2 927 426 2 928 174 2 929 9 3 930 279 3 931 27 3 932 54 2 933 471 2 934 244 2 935 174 3 936 424 3 937 172 3 938 28 3 939 280 3 940 29 3 941 247 0 942 473 0 943 246 0 944 98 0 945 353 0 946 97 0 947 246 1 948 319 1 949 67 1 950 175 1 951 428 1 952 176 1 953 68 3 954 472 3 955 247 3 956 176 2 957 427 2 958 173 2 959 30 2 960 282 2 961 31 2 962 248 0 963 474 0 964 249 0 965 171 0 966 429 0 967 175 0 968 31 3 969 281 3 970 28 3 971 249 1 972 450 1 973 208 1 974 178 3 975 431 3 976 177 3 977 102 1 978 356 1 979 101 1 980 24 1 981 283 1 982 30 1 983 207 3 984 475 3 985 248 3 986 182 3 987 410 3 988 158 3 989 181 2 990 432 2 991 182 2 992 32 1 993 274 1 994 22 1 995 104 2 996 358 2 997 103 2 998 477 1 999 483 1 1000 479 1 1001 11 0 1002 477 0 1003 10 0 1004 530 0 1005 560 0 1006 504 0 1007 196 5 1008 479 5 1009 478 5 1010 480 6 1011 483 6 1012 481 6 1013 478 7 1014 483 7 1015 482 7 1016 478 3 1017 480 3 1018 476 3 1019 476 0 1020 481 0 1021 477 0 1022 511 0 1023 566 0 1024 510 0 1025 531 3 1026 586 3 1027 530 3 1028 506 2 1029 564 2 1030 508 2 1031 500 2 1032 584 2 1033 528 2 1034 509 0 1035 563 0 1036 507 0 1037 529 0 1038 557 0 1039 501 0 1040 508 3 1041 565 3 1042 509 3 1043 528 3 1044 585 3 1045 529 3 1046 507 1 1047 562 1 1048 506 1 1049 497 3 1050 583 3 1051 527 3 1052 504 1 1053 561 1 1054 505 1 1055 526 1 1056 552 1 1057 496 1 1058 148 1 1059 505 1 1060 147 1 1061 221 3 1062 530 3 1063 222 3 1064 223 3 1065 532 3 1066 224 3 1067 60 0 1068 490 0 1069 59 0 1070 205 0 1071 517 0 1072 206 0 1073 191 1 1074 506 1 1075 192 1 1076 26 2 1077 485 2 1078 27 2 1079 115 3 1080 499 3 1081 116 3 1082 210 0 1083 518 0 1084 209 0 1085 228 3 1086 535 3 1087 227 3 1088 194 3 1089 509 3 1090 193 3 1091 64 0 1092 492 0 1093 63 0 1094 211 2 1095 521 2 1096 212 2 1097 47 1 1098 487 1 1099 46 1 1100 229 1 1101 536 1 1102 230 1 1103 65 2 1104 494 2 1105 66 2 1106 213 2 1107 523 2 1108 214 2 1109 232 1 1110 538 1 1111 231 1 1112 140 1 1113 503 1 1114 139 1 1115 198 0 1116 510 0 1117 197 0 1118 216 0 1119 524 0 1120 215 0 1121 122 1 1122 500 1 1123 121 1 1124 595 1 1125 650 1 1126 594 1 1127 540 1 1128 597 1 1129 541 1 1130 550 3 1131 628 3 1132 572 3 1133 591 0 1134 649 0 1135 593 0 1136 548 1 1137 627 1 1138 571 1 1139 592 2 1140 646 2 1141 590 2 1142 570 3 1143 603 3 1144 547 3 1145 593 1 1146 648 1 1147 592 1 1148 571 2 1149 626 2 1150 570 2 1151 590 3 1152 647 3 1153 591 3 1154 546 1 1155 625 1 1156 569 1 1157 559 2 1158 645 2 1159 589 2 1160 568 3 1161 601 3 1162 545 3 1163 588 0 1164 614 0 1165 558 0 1166 505 2 1167 587 2 1168 531 2 1169 485 3 1170 567 3 1171 511 3 1172 533 3 1173 588 3 1174 532 3 1175 513 2 1176 568 2 1177 512 2 1178 532 0 1179 558 0 1180 502 0 1181 512 3 1182 545 3 1183 489 3 1184 503 2 1185 589 2 1186 533 2 1187 490 1 1188 569 1 1189 513 1 1190 534 3 1191 591 3 1192 535 3 1193 515 2 1194 570 2 1195 514 2 1196 537 1 1197 592 1 1198 536 1 1199 514 3 1200 547 3 1201 491 3 1202 536 2 1203 590 2 1204 534 2 1205 492 1 1206 571 1 1207 515 1 1208 535 0 1209 593 0 1210 537 0 1211 494 3 1212 572 3 1213 516 3 1214 539 1 1215 594 1 1216 538 1 1217 517 1 1218 549 1 1219 493 1 1220 538 2 1221 554 2 1222 498 2 1223 516 0 1224 573 0 1225 517 0 1226 487 2 1227 544 2 1228 488 2 1229 499 0 1230 595 0 1231 539 0 1232 519 0 1233 574 0 1234 518 0 1235 489 0 1236 546 0 1237 490 0 1238 520 2 1239 577 2 1240 521 2 1241 491 0 1242 548 0 1243 492 0 1244 521 3 1245 575 3 1246 519 3 1247 493 2 1248 550 2 1249 494 2 1250 518 1 1251 576 1 1252 520 1 1253 495 0 1254 540 0 1255 486 0 1256 522 2 1257 579 2 1258 523 2 1259 488 3 1260 551 3 1261 495 3 1262 486 1 1263 541 1 1264 487 1 1265 525 0 1266 580 0 1267 524 0 1268 496 2 1269 553 2 1270 497 2 1271 484 2 1272 543 2 1273 485 2 1274 524 1 1275 578 1 1276 522 1 1277 498 3 1278 555 3 1279 499 3 1280 523 3 1281 581 3 1282 525 3 1283 501 1 1284 556 1 1285 500 1 1286 527 0 1287 582 0 1288 526 0 1289 502 1 1290 559 1 1291 503 1 1292 619 4 1293 620 4 1294 618 4 1295 596 4 1296 600 4 1297 597 4 1298 598 4 1299 623 4 1300 599 4 1301 601 4 1302 625 4 1303 602 4 1304 603 4 1305 627 4 1306 604 4 1307 605 4 1308 628 4 1309 606 4 1310 631 4 1311 632 4 1312 630 4 1313 634 4 1314 637 4 1315 635 4 1316 608 4 1317 639 4 1318 609 4 1319 613 4 1320 640 4 1321 612 4 1322 616 4 1323 643 4 1324 617 4 1325 614 4 1326 645 4 1327 615 4 1328 646 4 1329 649 4 1330 647 4 1331 610 4 1332 651 4 1333 611 4 1334 573 1 1335 605 1 1336 549 1 1337 542 2 1338 599 2 1339 543 2 1340 594 2 1341 610 2 1342 554 2 1343 572 0 1344 629 0 1345 573 0 1346 541 2 1347 600 2 1348 544 2 1349 555 0 1350 651 0 1351 595 0 1352 575 0 1353 630 0 1354 574 0 1355 545 0 1356 602 0 1357 546 0 1358 576 2 1359 633 2 1360 577 2 1361 547 0 1362 604 0 1363 548 0 1364 577 3 1365 631 3 1366 575 3 1367 549 2 1368 606 2 1369 550 2 1370 574 1 1371 632 1 1372 576 1 1373 551 0 1374 596 0 1375 540 0 1376 578 2 1377 635 2 1378 579 2 1379 544 3 1380 607 3 1381 551 3 1382 581 0 1383 636 0 1384 580 0 1385 552 2 1386 609 2 1387 553 2 1388 580 1 1389 634 1 1390 578 1 1391 554 3 1392 611 3 1393 555 3 1394 579 3 1395 637 3 1396 581 3 1397 557 1 1398 612 1 1399 556 1 1400 583 0 1401 638 0 1402 582 0 1403 558 1 1404 615 1 1405 559 1 1406 582 1 1407 608 1 1408 552 1 1409 560 1 1410 617 1 1411 561 1 1412 553 3 1413 639 3 1414 583 3 1415 563 1 1416 618 1 1417 562 1 1418 584 3 1419 641 3 1420 585 3 1421 564 3 1422 621 3 1423 565 3 1424 585 0 1425 613 0 1426 557 0 1427 565 0 1428 619 0 1429 563 0 1430 556 2 1431 640 2 1432 584 2 1433 562 2 1434 620 2 1435 564 2 1436 587 3 1437 642 3 1438 586 3 1439 567 0 1440 622 0 1441 566 0 1442 586 0 1443 616 0 1444 560 0 1445 566 1 1446 598 1 1447 542 1 1448 561 2 1449 643 2 1450 587 2 1451 543 3 1452 623 3 1453 567 3 1454 589 3 1455 644 3 1456 588 3 1457 569 2 1458 624 2 1459 568 2 1460 656 3 1461 677 3 1462 657 3 1463 660 4 1464 665 4 1465 664 4 1466 684 8 1467 681 8 1468 680 8 1469 134 3 1470 657 3 1471 133 3 1472 112 0 1473 654 0 1474 111 0 1475 177 1 1476 660 1 1477 178 1 1478 250 3 1479 666 3 1480 207 3 1481 111 1 1482 652 1 1483 109 1 1484 190 3 1485 665 3 1486 189 3 1487 251 2 1488 667 2 1489 250 2 1490 110 3 1491 655 3 1492 112 3 1493 189 0 1494 661 0 1495 177 0 1496 185 1 1497 662 1 1498 186 1 1499 178 2 1500 664 2 1501 190 2 1502 225 1 1503 670 1 1504 226 1 1505 186 2 1506 658 2 1507 176 2 1508 109 2 1509 653 2 1510 110 2 1511 176 3 1512 659 3 1513 175 3 1514 691 1 1515 710 1 1516 690 1 1517 675 0 1518 694 0 1519 674 0 1520 682 2 1521 698 2 1522 678 2 1523 686 0 1524 709 0 1525 689 0 1526 672 2 1527 693 2 1528 673 2 1529 658 3 1530 679 3 1531 659 3 1532 661 1 1533 680 1 1534 660 1 1535 668 2 1536 687 2 1537 667 2 1538 663 1 1539 682 1 1540 662 1 1541 652 2 1542 673 2 1543 653 2 1544 666 0 1545 689 0 1546 669 0 1547 655 0 1548 674 0 1549 654 0 1550 671 1 1551 690 1 1552 670 1 1553 658 8 1554 663 8 1555 662 8 1556 664 3 1557 685 3 1558 665 3 1559 692 4 1560 695 4 1561 693 4 1562 698 4 1563 703 4 1564 699 4 1565 701 4 1566 704 4 1567 700 4 1568 706 4 1569 708 4 1570 709 4 1571 696 4 1572 711 4 1573 697 4 1574 679 0 1575 703 0 1576 683 0 1577 674 1 1578 692 1 1579 672 1 1580 690 2 1581 696 2 1582 676 2 1583 684 3 1584 705 3 1585 685 3 1586 673 3 1587 695 3 1588 675 3 1589 677 0 1590 711 0 1591 691 0 1592 685 0 1593 701 0 1594 681 0 1595 676 3 1596 697 3 1597 677 3 1598 689 1 1599 708 1 1600 688 1 1601 680 2 1602 704 2 1603 684 2 1604 678 3 1605 699 3 1606 679 3 1607 687 3 1608 706 3 1609 686 3 1610 681 1 1611 700 1 1612 680 1 1613 688 2 1614 707 2 1615 687 2 1616 683 1 1617 702 1 1618 682 1 1619 506 4 1620 509 4 1621 508 4 1622 678 8 1623 683 8 1624 682 8 1625 652 8 1626 655 8 1627 654 8 1628 672 8 1629 675 8 1630 674 8 1631 520 8 1632 519 8 1633 518 8 1634 522 8 1635 525 8 1636 524 8 1637 476 9 1638 479 9 1639 478 9 1640 484 8 1641 511 8 1642 510 8 1643 491 8 1644 515 8 1645 514 8 1646 493 8 1647 516 8 1648 517 8 1649 666 4 1650 668 4 1651 669 4 1652 689 8 1653 687 8 1654 686 8 1655 486 8 1656 488 8 1657 495 8 1658 536 8 1659 534 8 1660 535 8 1661 670 4 1662 657 4 1663 656 4 1664 676 8 1665 691 8 1666 690 8 1667 498 8 1668 539 8 1669 538 8 1670 528 8 1671 501 8 1672 500 8 1673 504 8 1674 531 8 1675 530 8 1676 502 8 1677 533 8 1678 532 8 1679 496 8 1680 527 8 1681 526 8 1682 214 0 1683 455 0 1684 454 0 1685 65 1 1686 316 1 1687 300 1 1688 138 2 1689 391 2 1690 392 2 1691 66 0 1692 317 0 1693 316 0 1694 48 1 1695 301 1 1696 315 1 1697 64 3 1698 314 3 1699 307 3 1700 136 1 1701 389 1 1702 390 1 1703 109 1 1704 364 1 1705 452 1 1706 63 2 1707 315 2 1708 314 2 1709 135 0 1710 388 0 1711 389 0 1712 210 3 1713 453 3 1714 365 3 1715 58 3 1716 308 3 1717 313 3 1718 97 0 1719 353 0 1720 387 0 1721 209 2 1722 452 2 1723 453 2 1724 61 1 1725 312 1 1726 302 1 1727 134 2 1728 386 2 1729 352 2 1730 208 2 1731 450 2 1732 451 2 1733 62 0 1734 313 0 1735 312 0 1736 133 1 1737 387 1 1738 386 1 1739 206 2 1740 448 2 1741 447 2 1742 50 1 1743 303 1 1744 311 1 1745 127 2 1746 381 2 1747 385 2 1748 60 3 1749 310 3 1750 309 3 1751 132 0 1752 384 0 1753 383 0 1754 204 0 1755 446 0 1756 449 0 1757 59 2 1758 311 2 1759 310 2 1760 131 3 1761 385 3 1762 384 3 1763 203 1 1764 449 1 1765 448 1 1766 130 1 1767 382 1 1768 380 1 1769 57 3 1770 309 3 1771 308 3 1772 129 0 1773 383 0 1774 382 0 1775 124 3 1776 377 3 1777 381 3 1778 108 2 1779 496 2 1780 497 2 1781 205 3 1782 447 3 1783 446 3 1784 69 4 1785 71 4 1786 72 4 1787 128 1 1788 380 1 1789 379 1 1790 55 3 1791 307 3 1792 306 3 1793 29 3 1794 280 3 1795 305 3 1796 125 2 1797 378 2 1798 376 2 1799 52 1 1800 304 1 1801 276 1 1802 126 1 1803 379 1 1804 378 1 1805 53 0 1806 305 0 1807 304 0 1808 122 0 1809 375 0 1810 377 0 1811 35 2 1812 287 2 1813 303 2 1814 123 2 1815 376 2 1816 374 2 1817 51 0 1818 302 0 1819 289 0 1820 121 3 1821 374 3 1822 375 3 1823 39 2 1824 291 2 1825 301 2 1826 100 0 1827 355 0 1828 373 0 1829 49 0 1830 300 0 1831 293 0 1832 119 2 1833 372 2 1834 354 2 1835 120 1 1836 373 1 1837 372 1 1838 43 2 1839 295 2 1840 299 2 1841 113 2 1842 351 2 1843 371 2 1844 208 1 1845 669 1 1846 668 1 1847 47 0 1848 298 0 1849 297 0 1850 117 0 1851 370 0 1852 350 0 1853 46 3 1854 299 3 1855 298 3 1856 118 3 1857 371 3 1858 370 3 1859 96 0 1860 349 0 1861 369 0 1862 190 2 1863 442 2 1864 444 2 1865 44 1 1866 296 1 1867 294 1 1868 115 2 1869 368 2 1870 346 2 1871 191 0 1872 445 0 1873 443 0 1874 45 0 1875 297 0 1876 296 0 1877 116 1 1878 369 1 1879 368 1 1880 192 3 1881 444 3 1882 445 3 1883 41 3 1884 293 3 1885 295 3 1886 92 3 1887 345 3 1888 351 3 1889 42 1 1890 294 1 1891 292 1 1892 189 1 1893 443 1 1894 442 1 1895 111 2 1896 366 2 1897 367 2 1898 185 0 1899 439 0 1900 441 0 1901 40 1 1902 292 1 1903 290 1 1904 188 2 1905 440 2 1906 438 2 1907 114 1 1908 352 1 1909 355 1 1910 187 1 1911 441 1 1912 440 1 1913 37 3 1914 289 3 1915 291 3 1916 110 0 1917 365 0 1918 364 0 1919 38 1 1920 290 1 1921 288 1 1922 86 3 1923 339 3 1924 363 3 1925 108 1 1926 362 1 1927 357 1 1928 186 3 1929 438 3 1930 439 3 1931 107 0 1932 363 0 1933 362 0 1934 179 0 1935 435 0 1936 437 0 1937 133 0 1938 657 0 1939 671 0 1940 36 1 1941 288 1 1942 286 1 1943 207 0 1944 666 0 1945 669 0 1946 99 1 1947 354 1 1948 361 1 1949 510 1 1950 566 1 1951 542 1 1952 219 3 1953 528 3 1954 529 3 1955 175 0 1956 659 0 1957 663 0 1958 184 2 1959 436 2 1960 434 2 1961 201 2 1962 515 2 1963 514 2 1964 105 3 1965 360 3 1966 344 3 1967 183 1 1968 437 1 1969 436 1 1970 217 0 1971 527 0 1972 526 0 1973 199 2 1974 513 2 1975 512 2 1976 226 2 1977 670 2 1978 656 2 1979 33 3 1980 285 3 1981 287 3 1982 54 3 1983 488 3 1984 495 3 1985 106 2 1986 361 2 1987 360 2 1988 157 1 1989 411 1 1990 433 1 1991 34 1 1992 286 1 1993 284 1 1994 101 1 1995 356 1 1996 359 1 1997 177 0 1998 431 0 1999 435 0 2000 103 3 2001 358 3 2002 338 3 2003 180 2 2004 434 2 2005 430 2 2006 23 3 2007 275 3 2008 285 3 2009 254 4 2010 255 4 2011 252 4 2012 254 4 2013 256 4 2014 257 4 2015 257 4 2016 258 4 2017 259 4 2018 258 4 2019 260 4 2020 261 4 2021 261 4 2022 262 4 2023 263 4 2024 252 4 2025 264 4 2026 265 4 2027 252 4 2028 266 4 2029 267 4 2030 266 4 2031 268 4 2032 269 4 2033 266 4 2034 270 4 2035 271 4 2036 256 4 2037 272 4 2038 273 4 2039 272 4 2040 274 4 2041 275 4 2042 275 4 2043 276 4 2044 277 4 2045 258 4 2046 278 4 2047 279 4 2048 276 4 2049 280 4 2050 281 4 2051 281 4 2052 282 4 2053 283 4 2054 274 4 2055 284 4 2056 285 4 2057 284 4 2058 286 4 2059 287 4 2060 286 4 2061 288 4 2062 289 4 2063 288 4 2064 290 4 2065 291 4 2066 290 4 2067 292 4 2068 293 4 2069 292 4 2070 294 4 2071 295 4 2072 294 4 2073 296 4 2074 297 4 2075 297 4 2076 298 4 2077 299 4 2078 293 4 2079 300 4 2080 301 4 2081 289 4 2082 302 4 2083 303 4 2084 276 4 2085 304 4 2086 305 4 2087 300 4 2088 306 4 2089 307 4 2090 302 4 2091 308 4 2092 309 4 2093 309 4 2094 310 4 2095 311 4 2096 302 4 2097 312 4 2098 313 4 2099 307 4 2100 314 4 2101 315 4 2102 300 4 2103 316 4 2104 317 4 2105 268 4 2106 322 4 2107 323 4 2108 324 4 2109 326 4 2110 327 4 2111 324 4 2112 328 4 2113 329 4 2114 326 4 2115 330 4 2116 331 4 2117 330 4 2118 332 4 2119 333 4 2120 330 4 2121 334 4 2122 335 4 2123 334 4 2124 336 4 2125 337 4 2126 334 4 2127 338 4 2128 339 4 2129 336 4 2130 340 4 2131 341 4 2132 340 4 2133 342 4 2134 343 4 2135 340 4 2136 344 4 2137 345 4 2138 342 4 2139 346 4 2140 347 4 2141 346 4 2142 349 4 2143 348 4 2144 352 4 2145 353 4 2146 350 4 2147 344 4 2148 354 4 2149 355 4 2150 338 4 2151 356 4 2152 357 4 2153 338 4 2154 358 4 2155 359 4 2156 344 4 2157 360 4 2158 361 4 2159 357 4 2160 362 4 2161 363 4 2162 355 4 2163 352 4 2164 351 4 2165 346 4 2166 368 4 2167 369 4 2168 350 4 2169 370 4 2170 371 4 2171 354 4 2172 372 4 2173 373 4 2174 374 4 2175 376 4 2176 377 4 2177 376 4 2178 378 4 2179 379 4 2180 379 4 2181 380 4 2182 381 4 2183 380 4 2184 382 4 2185 383 4 2186 383 4 2187 384 4 2188 385 4 2189 352 4 2190 386 4 2191 387 4 2192 388 4 2193 391 4 2194 390 4 2195 388 4 2196 393 4 2197 392 4 2198 394 4 2199 395 4 2200 396 4 2201 397 4 2202 400 4 2203 399 4 2204 400 4 2205 401 4 2206 402 4 2207 401 4 2208 403 4 2209 404 4 2210 395 4 2211 406 4 2212 407 4 2213 391 4 2214 408 4 2215 409 4 2216 408 4 2217 410 4 2218 411 4 2219 408 4 2220 412 4 2221 413 4 2222 402 4 2223 414 4 2224 415 4 2225 414 4 2226 416 4 2227 417 4 2228 414 4 2229 418 4 2230 419 4 2231 407 4 2232 420 4 2233 421 4 2234 420 4 2235 422 4 2236 423 4 2237 422 4 2238 424 4 2239 425 4 2240 424 4 2241 426 4 2242 427 4 2243 427 4 2244 428 4 2245 429 4 2246 410 4 2247 432 4 2248 433 4 2249 430 4 2250 434 4 2251 435 4 2252 434 4 2253 436 4 2254 437 4 2255 438 4 2256 440 4 2257 441 4 2258 443 4 2259 445 4 2260 444 4 2261 448 4 2262 449 4 2263 446 4 2264 365 4 2265 453 4 2266 452 4 2267 366 4 2268 454 4 2269 455 4 2270 456 4 2271 458 4 2272 459 4 2273 349 4 2274 460 4 2275 461 4 2276 460 4 2277 462 4 2278 463 4 2279 460 4 2280 464 4 2281 465 4 2282 464 4 2283 466 4 2284 467 4 2285 464 4 2286 468 4 2287 469 4 2288 320 4 2289 470 4 2290 471 4 2291 319 4 2292 473 4 2293 472 4 2294 450 4 2295 474 4 2296 475 4 2297 140 0 2298 393 0 2299 388 0 2300 56 3 2301 306 3 2302 317 3 2303 213 1 2304 454 1 2305 366 1 2306 139 3 2307 392 3 2308 393 3 2309 67 2 2310 319 2 2311 318 2 2312 112 3 2313 367 3 2314 455 3 2315 152 0 2316 395 0 2317 394 0 2318 243 1 2319 320 1 2320 321 1 2321 141 1 2322 397 1 2323 398 1 2324 70 3 2325 323 3 2326 322 3 2327 142 2 2328 398 2 2329 399 2 2330 69 0 2331 322 0 2332 268 0 2333 144 0 2334 400 0 2335 397 0 2336 17 2 2337 269 2 2338 323 2 2339 71 1 2340 324 1 2341 325 1 2342 1 1 2343 254 1 2344 253 1 2345 146 0 2346 401 0 2347 400 0 2348 2 3 2349 252 3 2350 255 3 2351 147 3 2352 404 3 2353 403 3 2354 148 0 2355 403 0 2356 401 0 2357 72 2 2358 325 2 2359 327 2 2360 4 1 2361 256 1 2362 254 1 2363 145 2 2364 402 2 2365 404 2 2366 76 0 2367 329 0 2368 328 0 2369 150 1 2370 394 1 2371 405 1 2372 75 1 2373 328 1 2374 324 1 2375 154 0 2376 406 0 2377 395 0 2378 73 3 2379 326 3 2380 329 3 2381 7 0 2382 258 0 2383 257 0 2384 153 3 2385 407 3 2386 406 3 2387 3 2 2388 255 2 2389 259 2 2390 149 2 2391 405 2 2392 396 2 2393 77 0 2394 330 0 2395 326 0 2396 8 3 2397 261 3 2398 260 3 2399 226 3 2400 456 3 2401 457 3 2402 74 2 2403 327 2 2404 331 2 2405 80 3 2406 333 3 2407 332 3 2408 156 3 2409 408 3 2410 391 3 2411 10 2 2412 263 2 2413 262 2 2414 227 1 2415 459 1 2416 458 1 2417 137 1 2418 390 1 2419 409 1 2420 78 2 2421 331 2 2422 333 2 2423 11 3 2424 262 3 2425 261 3 2426 228 2 2427 458 2 2428 456 2 2429 6 1 2430 259 1 2431 263 1 2432 225 0 2433 457 0 2434 459 0 2435 81 1 2436 334 1 2437 330 1 2438 12 2 2439 265 2 2440 264 2 2441 155 1 2442 409 1 2443 411 1 2444 79 3 2445 332 3 2446 335 3 2447 160 3 2448 413 3 2449 412 3 2450 0 1 2451 253 1 2452 265 1 2453 159 0 2454 412 0 2455 408 0 2456 158 2 2457 410 2 2458 413 2 2459 82 3 2460 335 3 2461 337 3 2462 14 0 2463 266 0 2464 252 0 2465 13 2 2466 264 2 2467 267 2 2468 162 3 2469 414 3 2470 402 3 2471 85 2 2472 338 2 2473 334 2 2474 143 1 2475 399 1 2476 415 1 2477 83 0 2478 336 0 2479 339 0 2480 234 1 2481 460 1 2482 349 1 2483 163 2 2484 417 2 2485 416 2 2486 15 2 2487 267 2 2488 269 2 2489 95 3 2490 348 3 2491 461 3 2492 87 1 2493 340 1 2494 336 1 2495 19 0 2496 271 0 2497 270 0 2498 235 0 2499 463 0 2500 462 0 2501 161 1 2502 415 1 2503 417 1 2504 84 3 2505 337 3 2506 341 3 2507 18 1 2508 270 1 2509 266 1 2510 166 3 2511 419 3 2512 418 3 2513 16 3 2514 268 3 2515 271 3 2516 233 3 2517 461 3 2518 463 3 2519 165 0 2520 418 0 2521 414 0 2522 164 2 2523 416 2 2524 419 2 2525 88 3 2526 341 3 2527 343 3 2528 20 1 2529 272 1 2530 256 1 2531 237 2 2532 464 2 2533 460 2 2534 5 3 2535 257 3 2536 273 3 2537 236 0 2538 462 0 2539 465 0 2540 168 3 2541 420 3 2542 407 3 2543 91 2 2544 344 2 2545 340 2 2546 240 1 2547 467 1 2548 466 1 2549 151 1 2550 396 1 2551 421 1 2552 89 0 2553 342 0 2554 345 0 2555 22 1 2556 274 1 2557 272 1 2558 238 0 2559 465 0 2560 467 0 2561 170 3 2562 422 3 2563 420 3 2564 93 1 2565 346 1 2566 342 1 2567 242 2 2568 469 2 2569 468 2 2570 167 1 2571 421 1 2572 423 1 2573 90 3 2574 343 3 2575 347 3 2576 25 0 2577 276 0 2578 275 0 2579 241 3 2580 468 3 2581 464 3 2582 94 3 2583 347 3 2584 348 3 2585 21 2 2586 273 2 2587 277 2 2588 239 1 2589 466 1 2590 469 1 2591 172 3 2592 424 3 2593 422 3 2594 27 0 2595 279 0 2596 278 0 2597 244 3 2598 471 3 2599 470 3 2600 169 1 2601 423 1 2602 425 1 2603 26 1 2604 278 1 2605 258 1 2606 245 0 2607 470 0 2608 320 0 2609 173 2 2610 427 2 2611 426 2 2612 9 3 2613 260 3 2614 279 3 2615 54 2 2616 321 2 2617 471 2 2618 174 3 2619 426 3 2620 424 3 2621 28 3 2622 281 3 2623 280 3 2624 247 0 2625 472 0 2626 473 0 2627 98 0 2628 350 0 2629 353 0 2630 246 1 2631 473 1 2632 319 1 2633 175 1 2634 429 1 2635 428 1 2636 68 3 2637 318 3 2638 472 3 2639 176 2 2640 428 2 2641 427 2 2642 30 2 2643 283 2 2644 282 2 2645 248 0 2646 475 0 2647 474 0 2648 171 0 2649 425 0 2650 429 0 2651 31 3 2652 282 3 2653 281 3 2654 249 1 2655 474 1 2656 450 1 2657 178 3 2658 430 3 2659 431 3 2660 102 1 2661 357 1 2662 356 1 2663 24 1 2664 277 1 2665 283 1 2666 207 3 2667 451 3 2668 475 3 2669 182 3 2670 432 3 2671 410 3 2672 181 2 2673 433 2 2674 432 2 2675 32 1 2676 284 1 2677 274 1 2678 104 2 2679 359 2 2680 358 2 2681 477 1 2682 481 1 2683 483 1 2684 11 10 2685 476 10 2686 477 10 2687 530 0 2688 586 0 2689 560 0 2690 196 2 2691 195 2 2692 479 2 2693 480 11 2694 482 11 2695 483 11 2696 478 2 2697 479 2 2698 483 2 2699 478 3 2700 482 3 2701 480 3 2702 476 12 2703 480 12 2704 481 12 2705 511 0 2706 567 0 2707 566 0 2708 531 3 2709 587 3 2710 586 3 2711 506 2 2712 562 2 2713 564 2 2714 500 2 2715 556 2 2716 584 2 2717 509 0 2718 565 0 2719 563 0 2720 529 0 2721 585 0 2722 557 0 2723 508 3 2724 564 3 2725 565 3 2726 528 3 2727 584 3 2728 585 3 2729 507 1 2730 563 1 2731 562 1 2732 497 3 2733 553 3 2734 583 3 2735 504 1 2736 560 1 2737 561 1 2738 526 1 2739 582 1 2740 552 1 2741 148 1 2742 504 1 2743 505 1 2744 221 3 2745 531 3 2746 530 3 2747 223 3 2748 533 3 2749 532 3 2750 60 0 2751 489 0 2752 490 0 2753 205 0 2754 516 0 2755 517 0 2756 191 1 2757 507 1 2758 506 1 2759 26 2 2760 484 2 2761 485 2 2762 115 3 2763 498 3 2764 499 3 2765 210 0 2766 519 0 2767 518 0 2768 228 3 2769 534 3 2770 535 3 2771 194 3 2772 508 3 2773 509 3 2774 64 0 2775 491 0 2776 492 0 2777 211 2 2778 520 2 2779 521 2 2780 47 1 2781 486 1 2782 487 1 2783 229 1 2784 537 1 2785 536 1 2786 65 2 2787 493 2 2788 494 2 2789 213 2 2790 522 2 2791 523 2 2792 232 1 2793 539 1 2794 538 1 2795 140 1 2796 502 1 2797 503 1 2798 198 0 2799 511 0 2800 510 0 2801 216 0 2802 525 0 2803 524 0 2804 122 1 2805 501 1 2806 500 1 2807 595 1 2808 651 1 2809 650 1 2810 540 1 2811 596 1 2812 597 1 2813 550 3 2814 606 3 2815 628 3 2816 591 0 2817 647 0 2818 649 0 2819 548 1 2820 604 1 2821 627 1 2822 592 2 2823 648 2 2824 646 2 2825 570 3 2826 626 3 2827 603 3 2828 593 1 2829 649 1 2830 648 1 2831 571 2 2832 627 2 2833 626 2 2834 590 3 2835 646 3 2836 647 3 2837 546 1 2838 602 1 2839 625 1 2840 559 2 2841 615 2 2842 645 2 2843 568 3 2844 624 3 2845 601 3 2846 588 0 2847 644 0 2848 614 0 2849 505 2 2850 561 2 2851 587 2 2852 485 3 2853 543 3 2854 567 3 2855 533 3 2856 589 3 2857 588 3 2858 513 2 2859 569 2 2860 568 2 2861 532 0 2862 588 0 2863 558 0 2864 512 3 2865 568 3 2866 545 3 2867 503 2 2868 559 2 2869 589 2 2870 490 1 2871 546 1 2872 569 1 2873 534 3 2874 590 3 2875 591 3 2876 515 2 2877 571 2 2878 570 2 2879 537 1 2880 593 1 2881 592 1 2882 514 3 2883 570 3 2884 547 3 2885 536 2 2886 592 2 2887 590 2 2888 492 1 2889 548 1 2890 571 1 2891 535 0 2892 591 0 2893 593 0 2894 494 3 2895 550 3 2896 572 3 2897 539 1 2898 595 1 2899 594 1 2900 517 1 2901 573 1 2902 549 1 2903 538 2 2904 594 2 2905 554 2 2906 516 0 2907 572 0 2908 573 0 2909 487 2 2910 541 2 2911 544 2 2912 499 0 2913 555 0 2914 595 0 2915 519 0 2916 575 0 2917 574 0 2918 489 0 2919 545 0 2920 546 0 2921 520 2 2922 576 2 2923 577 2 2924 491 0 2925 547 0 2926 548 0 2927 521 3 2928 577 3 2929 575 3 2930 493 2 2931 549 2 2932 550 2 2933 518 1 2934 574 1 2935 576 1 2936 495 0 2937 551 0 2938 540 0 2939 522 2 2940 578 2 2941 579 2 2942 488 3 2943 544 3 2944 551 3 2945 486 1 2946 540 1 2947 541 1 2948 525 0 2949 581 0 2950 580 0 2951 496 2 2952 552 2 2953 553 2 2954 484 2 2955 542 2 2956 543 2 2957 524 1 2958 580 1 2959 578 1 2960 498 3 2961 554 3 2962 555 3 2963 523 3 2964 579 3 2965 581 3 2966 501 1 2967 557 1 2968 556 1 2969 527 0 2970 583 0 2971 582 0 2972 502 1 2973 558 1 2974 559 1 2975 619 4 2976 621 4 2977 620 4 2978 596 4 2979 607 4 2980 600 4 2981 598 4 2982 622 4 2983 623 4 2984 601 4 2985 624 4 2986 625 4 2987 603 4 2988 626 4 2989 627 4 2990 605 4 2991 629 4 2992 628 4 2993 631 4 2994 633 4 2995 632 4 2996 634 4 2997 636 4 2998 637 4 2999 608 4 3000 638 4 3001 639 4 3002 613 4 3003 641 4 3004 640 4 3005 616 4 3006 642 4 3007 643 4 3008 614 4 3009 644 4 3010 645 4 3011 646 4 3012 648 4 3013 649 4 3014 610 4 3015 650 4 3016 651 4 3017 573 1 3018 629 1 3019 605 1 3020 542 2 3021 598 2 3022 599 2 3023 594 2 3024 650 2 3025 610 2 3026 572 0 3027 628 0 3028 629 0 3029 541 2 3030 597 2 3031 600 2 3032 555 0 3033 611 0 3034 651 0 3035 575 0 3036 631 0 3037 630 0 3038 545 0 3039 601 0 3040 602 0 3041 576 2 3042 632 2 3043 633 2 3044 547 0 3045 603 0 3046 604 0 3047 577 3 3048 633 3 3049 631 3 3050 549 2 3051 605 2 3052 606 2 3053 574 1 3054 630 1 3055 632 1 3056 551 0 3057 607 0 3058 596 0 3059 578 2 3060 634 2 3061 635 2 3062 544 3 3063 600 3 3064 607 3 3065 581 0 3066 637 0 3067 636 0 3068 552 2 3069 608 2 3070 609 2 3071 580 1 3072 636 1 3073 634 1 3074 554 3 3075 610 3 3076 611 3 3077 579 3 3078 635 3 3079 637 3 3080 557 1 3081 613 1 3082 612 1 3083 583 0 3084 639 0 3085 638 0 3086 558 1 3087 614 1 3088 615 1 3089 582 1 3090 638 1 3091 608 1 3092 560 1 3093 616 1 3094 617 1 3095 553 3 3096 609 3 3097 639 3 3098 563 1 3099 619 1 3100 618 1 3101 584 3 3102 640 3 3103 641 3 3104 564 3 3105 620 3 3106 621 3 3107 585 0 3108 641 0 3109 613 0 3110 565 0 3111 621 0 3112 619 0 3113 556 2 3114 612 2 3115 640 2 3116 562 2 3117 618 2 3118 620 2 3119 587 3 3120 643 3 3121 642 3 3122 567 0 3123 623 0 3124 622 0 3125 586 0 3126 642 0 3127 616 0 3128 566 1 3129 622 1 3130 598 1 3131 561 2 3132 617 2 3133 643 2 3134 543 3 3135 599 3 3136 623 3 3137 589 3 3138 645 3 3139 644 3 3140 569 2 3141 625 2 3142 624 2 3143 656 3 3144 676 3 3145 677 3 3146 660 4 3147 661 4 3148 665 4 3149 684 8 3150 685 8 3151 681 8 3152 134 3 3153 656 3 3154 657 3 3155 112 0 3156 655 0 3157 654 0 3158 177 1 3159 661 1 3160 660 1 3161 250 3 3162 667 3 3163 666 3 3164 111 1 3165 654 1 3166 652 1 3167 190 3 3168 664 3 3169 665 3 3170 251 2 3171 668 2 3172 667 2 3173 110 3 3174 653 3 3175 655 3 3176 189 0 3177 665 0 3178 661 0 3179 185 1 3180 663 1 3181 662 1 3182 178 2 3183 660 2 3184 664 2 3185 225 1 3186 671 1 3187 670 1 3188 186 2 3189 662 2 3190 658 2 3191 109 2 3192 652 2 3193 653 2 3194 176 3 3195 658 3 3196 659 3 3197 691 1 3198 711 1 3199 710 1 3200 675 0 3201 695 0 3202 694 0 3203 682 2 3204 702 2 3205 698 2 3206 686 0 3207 706 0 3208 709 0 3209 672 2 3210 692 2 3211 693 2 3212 658 3 3213 678 3 3214 679 3 3215 661 1 3216 681 1 3217 680 1 3218 668 2 3219 688 2 3220 687 2 3221 663 1 3222 683 1 3223 682 1 3224 652 2 3225 672 2 3226 673 2 3227 666 0 3228 686 0 3229 689 0 3230 655 0 3231 675 0 3232 674 0 3233 671 1 3234 691 1 3235 690 1 3236 658 8 3237 659 8 3238 663 8 3239 664 3 3240 684 3 3241 685 3 3242 692 4 3243 694 4 3244 695 4 3245 698 4 3246 702 4 3247 703 4 3248 701 4 3249 705 4 3250 704 4 3251 706 4 3252 707 4 3253 708 4 3254 696 4 3255 710 4 3256 711 4 3257 679 0 3258 699 0 3259 703 0 3260 674 1 3261 694 1 3262 692 1 3263 690 2 3264 710 2 3265 696 2 3266 684 3 3267 704 3 3268 705 3 3269 673 3 3270 693 3 3271 695 3 3272 677 0 3273 697 0 3274 711 0 3275 685 0 3276 705 0 3277 701 0 3278 676 3 3279 696 3 3280 697 3 3281 689 1 3282 709 1 3283 708 1 3284 680 2 3285 700 2 3286 704 2 3287 678 3 3288 698 3 3289 699 3 3290 687 3 3291 707 3 3292 706 3 3293 681 1 3294 701 1 3295 700 1 3296 688 2 3297 708 2 3298 707 2 3299 683 1 3300 703 1 3301 702 1 3302 506 4 3303 507 4 3304 509 4 3305 678 8 3306 679 8 3307 683 8 3308 652 8 3309 653 8 3310 655 8 3311 672 8 3312 673 8 3313 675 8 3314 520 8 3315 521 8 3316 519 8 3317 522 8 3318 523 8 3319 525 8 3320 476 13 3321 477 13 3322 479 13 3323 566 1 3324 542 1 3325 484 1 3326 484 8 3327 485 8 3328 511 8 3329 510 1 3330 566 1 3331 484 1 3332 513 8 3333 512 8 3334 489 8 3335 490 8 3336 513 8 3337 489 8 3338 491 8 3339 492 8 3340 515 8 3341 493 8 3342 494 8 3343 516 8 3344 666 4 3345 667 4 3346 668 4 3347 689 8 3348 688 8 3349 687 8 3350 486 8 3351 487 8 3352 488 8 3353 535 8 3354 537 8 3355 536 8 3356 537 14 3357 487 14 3358 488 14 3359 488 8 3360 536 8 3361 537 8 3362 670 4 3363 671 4 3364 657 4 3365 676 8 3366 677 8 3367 691 8 3368 498 8 3369 499 8 3370 539 8 3371 528 8 3372 529 8 3373 501 8 3374 504 8 3375 505 8 3376 531 8 3377 502 8 3378 503 8 3379 533 8 3380 496 8 3381 497 8 3382 527 8 3383</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Door_Group_014" name="Door_Group.014" type="NODE">
+        <matrix sid="transform">-4.37114e-8 -1 0 1.982878 1 -4.37114e-8 0 -2.502656 0 0 1 -0.1477604 0 0 0 1</matrix>
+        <node id="DoorFrame_014" name="DoorFrame.014" type="NODE">
+          <matrix sid="transform">1 0 0 -4.76837e-7 0 1 0 1.19209e-7 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_018-mesh" name="DoorFrame.014">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="Door_Group_013" name="Door_Group.013" type="NODE">
+        <matrix sid="transform">-4.37114e-8 -1 0 1.974285 1 -4.37114e-8 0 2.49723 0 0 1 -0.1048477 0 0 0 1</matrix>
+        <node id="DoorFrame_013" name="DoorFrame.013" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 -1.19209e-7 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_017-mesh" name="DoorFrame.013">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="Door_Group_012" name="Door_Group.012" type="NODE">
+        <matrix sid="transform">-4.37114e-8 -1 0 4.768704 1 -4.37114e-8 0 5.502278 0 0 1 -0.1513035 0 0 0 1</matrix>
+        <node id="DoorFrame_012" name="DoorFrame.012" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_016-mesh" name="DoorFrame.012">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="Door_Group_011" name="Door_Group.011" type="NODE">
+        <matrix sid="transform">-4.37114e-8 -1 0 13.7286 1 -4.37114e-8 0 -9.500947 0 0 1 -0.03922069 0 0 0 1</matrix>
+        <node id="DoorFrame_011" name="DoorFrame.011" type="NODE">
+          <matrix sid="transform">1 0 0 -9.53674e-7 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_015-mesh" name="DoorFrame.011">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="Door_Group" name="Door_Group" type="NODE">
+        <matrix sid="transform">1 0 0 7.498617 0 1 0 -6.424467 0 0 1 -0.1263242 0 0 0 1</matrix>
+        <node id="DoorFrame_010" name="DoorFrame.010" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_014-mesh" name="DoorFrame.010">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="Door_Group_009" name="Door_Group.009" type="NODE">
+        <matrix sid="transform">1 0 0 3.292963 0 1 0 -6.424467 0 0 1 -0.1263242 0 0 0 1</matrix>
+        <node id="DoorFrame_009" name="DoorFrame.009" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_013-mesh" name="DoorFrame.009">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="Door_Group_008" name="Door_Group.008" type="NODE">
+        <matrix sid="transform">-4.37114e-8 -1 0 13.71179 1 -4.37114e-8 0 10.00028 0 0 1 -0.01620007 0 0 0 1</matrix>
+        <node id="DoorFrame_008" name="DoorFrame.008" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_012-mesh" name="DoorFrame.008">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="Door_Group_007" name="Door_Group.007" type="NODE">
+        <matrix sid="transform">-4.37114e-8 -1 0 13.71179 1 -4.37114e-8 0 -0.9999294 0 0 1 -0.01620007 0 0 0 1</matrix>
+        <node id="DoorFrame_007" name="DoorFrame.007" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_011-mesh" name="DoorFrame.007">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="Door_Group_006" name="Door_Group.006" type="NODE">
+        <matrix sid="transform">1 0 0 -0.001502991 0 1 0 6.524481 0 0 1 0.03181982 0 0 0 1</matrix>
+        <node id="DoorFrame_006" name="DoorFrame.006" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 -4.76837e-7 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_010-mesh" name="DoorFrame.006">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="Door_Group_005" name="Door_Group.005" type="NODE">
+        <matrix sid="transform">-4.37114e-8 -1 0 -3.820113 1 -4.37114e-8 0 -5.06401e-4 0 0 1 -0.1636245 0 0 0 1</matrix>
+        <node id="DoorFrame_005" name="DoorFrame.005" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 4.76837e-7 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_009-mesh" name="DoorFrame.005">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="Door_Group_004" name="Door_Group.004" type="NODE">
+        <matrix sid="transform">1 0 0 -14.99902 0 1 0 6.524481 0 0 1 0.03181982 0 0 0 1</matrix>
+        <node id="DoorFrame_004" name="DoorFrame.004" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 -4.76837e-7 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_008-mesh" name="DoorFrame.004">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="Door_Group_003" name="Door_Group.003" type="NODE">
+        <matrix sid="transform">1 0 0 -6.000518 0 1 0 6.524481 0 0 1 0.03181982 0 0 0 1</matrix>
+        <node id="DoorFrame_003" name="DoorFrame.003" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 -4.76837e-7 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_007-mesh" name="DoorFrame.003">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="Door_Group_002" name="Door_Group.002" type="NODE">
+        <matrix sid="transform">1 0 0 -2.999217 0 1 0 -6.426768 0 0 1 0.02064943 0 0 0 1</matrix>
+        <node id="DoorFrame_001" name="DoorFrame.001" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_004-mesh" name="DoorFrame.001">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="Door_Group_001" name="Door_Group.001" type="NODE">
+        <matrix sid="transform">1 0 0 -9.997766 0 1 0 -6.426768 0 0 1 0.02064943 0 0 0 1</matrix>
+        <node id="DoorFrame_002" name="DoorFrame.002" type="NODE">
+          <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+          <instance_geometry url="#DoorFrane_006-mesh" name="DoorFrame.002">
+            <bind_material>
+              <technique_common>
+                <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+              </technique_common>
+            </bind_material>
+          </instance_geometry>
+        </node>
+      </node>
+      <node id="DoorFrame" name="DoorFrame" type="NODE">
+        <matrix sid="transform">1 0 0 -15.73732 0 1 0 -6.424467 0 0 1 -0.1263242 0 0 0 1</matrix>
+        <instance_geometry url="#DoorFrane_003-mesh" name="DoorFrame">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Door_material-material" target="#Door_material-material"/>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+      <node id="Plane_001" name="Plane.001" type="NODE">
+        <matrix sid="transform">0.1 0 0 -17.39958 0 0.1 0 -12.39912 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#Plane_001-mesh" name="Plane.001"/>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

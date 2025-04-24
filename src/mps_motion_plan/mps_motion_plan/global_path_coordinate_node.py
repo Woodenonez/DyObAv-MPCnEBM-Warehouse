@@ -22,7 +22,9 @@ from .basic_components.geometry_plain import PlainPolygon
 from .map_tf import ScaleOffsetReverseTransform
 
 
-INFLATION_MARGIN = 0.2
+# INFLATION_MARGIN = 0.2 # warehouse
+INFLATION_MARGIN = 0.3 # zospital
+
 
 
 class GlobalPathCoordinateNode(Node):

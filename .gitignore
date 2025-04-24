@@ -1,0 +1,10 @@
+.vscode/
+build/
+install/
+log/
+src/aws-robomaker-hospital-world/
+mpc_solver/
+gazebo_map_creator/
+
+__pycache__/
+.mypy_cache/

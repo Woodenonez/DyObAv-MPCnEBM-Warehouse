@@ -1,0 +1,20 @@
+### Map info
+scene:   zospital
+map_dir: zospital_sim_original
+map_file: map.pgm
+graph_file: graph.json
+
+### Map settings
+sim_width:  321
+sim_height: 321
+
+scale2nn:   1   # rescale to the neural network coords
+scale2real: 0.05 # rescale to the real-world coords
+
+image_axis: False # use image axis or Cartesian axis
+corner_coords: # offset in real world, if the corner is not (0,0)
+  - -18
+  - -8
+
+
+

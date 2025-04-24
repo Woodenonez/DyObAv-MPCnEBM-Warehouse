@@ -12,6 +12,12 @@ cfg_fname = "mpc_fast.yaml" # or other MPC configurations
 robot_spec = "robot_spec_mir.yaml" # or other robot specs
 ```
 
+### ROS2 Build
+To build the ROS2 workspace, run the following command:
+```
+colcon build --symlink-install --merge-install --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+```
+
 ### Pseudo Pure pursuit controller (Rviz - Single robot)
 Launch everything in the simulation environment.
 

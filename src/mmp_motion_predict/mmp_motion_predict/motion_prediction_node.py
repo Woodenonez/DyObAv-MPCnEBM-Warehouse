@@ -34,11 +34,13 @@ class MotionPredictionNode(Node):
         self.declare_parameter('timer_period', 0.2)
         self.timer_period = self.get_parameter('timer_period').value
 
-        self.declare_parameter('config_file_name', 'wsd_1t20_poselu_enll_train.yaml')
+        # self.declare_parameter('config_file_name', 'wsd_1t20_poselu_enll_train.yaml')
+        self.declare_parameter('config_file_name', 'zpd_1t20_poselu_enll_train.yaml')
         self.config_file_name = self.get_parameter('config_file_name').value
         self.config_file_path = os.path.join(pkg_root_dir, 'config', self.config_file_name)
 
-        self.ref_img_path = os.path.join(pkg_root_dir, 'data', 'warehouse_sim_original', 'background.png')
+        # self.ref_img_path = os.path.join(pkg_root_dir, 'data', 'warehouse_sim_original', 'background.png') # NOTE
+        self.ref_img_path = os.path.join(pkg_root_dir, 'data', 'zospital_sim_original', 'background.png') # NOTE
 
         # Timer for publishing cmd_vel
         self.timer = self.create_timer(self.timer_period, self.timer_callback)
@@ -71,12 +73,18 @@ class MotionPredictionNode(Node):
         self.last_num_markers = 0
 
         self.motion_predictor = MotionPredictor(config_file_path=self.config_file_path, model_suffix='1', ref_image_path=self.ref_img_path)
+        # self.tf_img2real = ScaleOffsetReverseTransform(
+        #     scale=0.1, 
+        #     offsetx_after=-15.0, 
+        #     offsety_after=-15.0, 
+        #     y_reverse=(not False), 
+        #     y_max_before=293) # NOTE global_setting_warehouse.yaml
         self.tf_img2real = ScaleOffsetReverseTransform(
-            scale=0.1, 
-            offsetx_after=-15.0, 
-            offsety_after=-15.0, 
+            scale=0.05, 
+            offsetx_after=-18.0, 
+            offsety_after=-8.0, 
             y_reverse=(not False), 
-            y_max_before=293) # global_setting_warehouse.yaml
+            y_max_before=321) # NOTE global_setting_zospital.yaml
         self.traj_received = False
 
         self.get_logger().info(f"{self.__class__.__name__} init done.")
@@ -139,6 +147,10 @@ class MotionPredictionNode(Node):
             conf_list_msg.human_trajectories.append(HumanTrajectory(traj_points=[Point(x=float(pt), y=float(pt)) for pt in conf_list]))
             conf_list_list_msg.append(conf_list_msg)
         self.motion_prediction_msg.conf_list_list = conf_list_list_msg
+
+        # self.get_logger().info(f"past_traj_NN: {[(round(x[0], 2), round(x[1], 2)) for x in trajs_nn[0]][-5:]}")
+        # self.get_logger().info(f"mu_list: {[(round(x[0], 2), round(x[1], 2)) for x in mu_list_list[-1]]}")
+        # self.get_logger().info(f"{[np.array(x, dtype=np.float64) for x in mu_list_list]}")
 
         self.motion_prediction_publisher.publish(self.motion_prediction_msg)
         self.motion_prediction_viz_publisher.publish(self.motion_prediction_to_vis_msg(mu_list_list, std_list_list, conf_list_list))
