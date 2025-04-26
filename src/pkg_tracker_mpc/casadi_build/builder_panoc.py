@@ -200,8 +200,8 @@ class PanocBuilder:
             As        = dynamic_obstacles[4::self._cfg.ndynobs*(self.N_hor+1)]
             alpha_dyn = dynamic_obstacles[5::self._cfg.ndynobs*(self.N_hor+1)]
             ellipse_param = [x_dyn, y_dyn, 
-                             rx_dyn+self._spec.vehicle_width/2+self._spec.vehicle_margin+self._spec.social_margin, 
-                             ry_dyn+self._spec.vehicle_width/2+self._spec.vehicle_margin+self._spec.social_margin, 
+                             rx_dyn+self._spec.vehicle_width/2+self._spec.vehicle_margin, 
+                             ry_dyn+self._spec.vehicle_width/2+self._spec.vehicle_margin, 
                              As, alpha_dyn]
             cts.cost_dynobs += mc.cost_inside_ellipses(state.T, ellipse_param, weight=self._large_weight)
 

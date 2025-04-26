@@ -106,6 +106,27 @@ class WarehouseSimConfiguration(_Configuration):
         self.image_axis = config.image_axis
         self.corner_coords = config.corner_coords
 
+class HospitalSimConfiguration(_Configuration):
+    """Configuration for hospital simulation."""
+    def __init__(self, config: Configurator) -> None:
+        super().__init__(config)
+
+    def _load_config(self):
+        config = self._config
+        self.scene = config.scene
+        self.map_dir = config.map_dir
+        self.map_file = config.map_file
+        self.graph_file = config.graph_file
+
+        self.sim_width = config.sim_width
+        self.sim_height = config.sim_height
+
+        self.scale2nn = config.scale2nn
+        self.scale2real = config.scale2real
+
+        self.image_axis = config.image_axis
+        self.corner_coords = config.corner_coords
+
 ### Agent Specifications
 class CircularRobotSpecification(_Configuration):
     """Specification class for circular robots."""

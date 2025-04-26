@@ -1,0 +1,18 @@
+---
+device: multi
+input_channel: 6
+obsv_len: 5
+out_layer: poselu
+pred_len: 20
+---
+batch_size: 20
+checkpoint_dir: model/zospital_none_kld
+early_stopping: 0
+epoch: 20
+learning_rate: 0.001
+weight_regularization: 0.0001
+---
+dataset_label_path: data/zospital_sim_dataset/train/all_data.csv
+dataset_name: zospital_sim_dataset
+dataset_path: data/zospital_sim_dataset/train
+model_path: model/zospital_none_kld

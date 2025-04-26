@@ -460,7 +460,7 @@ class TrajectoryTracker:
         self.state = taken_states[-1]
         self.cost_timelist.append(cost)
         self.solver_time_timelist.append(solver_time)
-        self._init_guess = [x*0.1 for x in u] # use the last u as initial guess for next step
+        self._init_guess = [x for x in u] # use the last u as initial guess for next step
 
         return actions, pred_states, ref_states, cost, monitored_costs
 

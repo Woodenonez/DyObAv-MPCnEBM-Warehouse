@@ -1,15 +1,15 @@
 import math
-from typing import Optional, Union
+from typing import Optional, Union, cast, TypedDict
 
-import cv2
+import cv2 # type: ignore
 import numpy as np
 
 # Vis import
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-from matplotlib.lines import Line2D
-from matplotlib.gridspec import GridSpec
-from matplotlib.axes import Axes
+import matplotlib.pyplot as plt # type: ignore
+import matplotlib.patches as patches # type: ignore
+from matplotlib.lines import Line2D # type: ignore
+from matplotlib.gridspec import GridSpec # type: ignore
+from matplotlib.axes import Axes # type: ignore
 
 from configs import CircularRobotSpecification
 from basic_map.map_geometric import GeometricMap
@@ -17,10 +17,19 @@ from basic_map.map_occupancy import OccupancyMap
 from basic_map.graph import NetGraph
 
 
+class SaveParams(TypedDict):
+    fps: int
+    dpi: int
+    codec: str
+    frame_size: tuple[int, int]
+    skip_frame: int
+
+
 def figure_formatter(
         window_title: str, 
         num_axes_per_column:Optional[list]=None, 
         num_axes_per_row:Optional[list]=None, 
+        dpi:Optional[int]=None,
         figure_size:Optional[tuple[float, float]]=None):
     """ Generate a figure with a given format.
 
@@ -54,9 +63,9 @@ def figure_formatter(
         col_res = [int(n_col//x) for x in num_axes_per_row]
 
     if figure_size is None:
-        fig = plt.figure(constrained_layout=True)
+        fig = plt.figure(constrained_layout=True, dpi=dpi)
     else:
-        fig = plt.figure(figsize=figure_size)
+        fig = plt.figure(figsize=figure_size, dpi=dpi)
         fig.tight_layout()
     assert fig.canvas.manager is not None
     fig.canvas.manager.set_window_title(window_title)
@@ -80,25 +89,55 @@ def figure_formatter(
     return fig, gs, axis_format
 
 class MpcPlotInLoop:
-    def __init__(self, config: CircularRobotSpecification) -> None:
+    def __init__(self, config: CircularRobotSpecification, map_only=False, save_to_path:Optional[str]=None, save_params:Optional[Union[SaveParams, dict]]=None) -> None:
         """
+        Args:
+            config: The configuration of the robot.
+            map_only: If True, only the map will be plotted.
+            save_to_path: If not None, the plot will be saved to the path as a video.
+            save_params: The parameters for saving the plot as a video, such as `fps`, `dpi`, `codec`, `frame_size`, `skip_frame`.
+
+
         Attributes:
             plot_dict_pre   : A dictionary of all plot objects which need to be manually flushed.
             plot_dict_temp  : A dictionary of all plot objects which only exist for one time step.
             plot_dict_inloop: A dictionary of all plot objects which update (append) every time step.
+        
+        Note:
+            Figure layout:
+            ```
+                |================|================|
+                |     Speed      |                |
+                |================|                |
+                |  Angular speed |       Map      |
+                |================|                |
+                |  Extra (Cost)  |                |
+                |================|================|
+            ```
 
         TODO:
             - Methods to flush part of the plot and to destroy an object in case it is not active.
         """
         self.ts    = config.ts
         self.width = config.vehicle_width
+        self.map_only = map_only
+        self.init_video_writer(save_to_path, save_params)
 
-        self.fig, self.gs, axis_format = figure_formatter('PlotInLoop', [3,1], figure_size=(16, 8))
+        if save_to_path is None:
+            dpi = None
+        else:
+            dpi = self.save_params['dpi']
 
-        self.vel_ax  :Axes = axis_format[0][0]
-        self.omega_ax:Axes = axis_format[0][1]
-        self.cost_ax :Axes = axis_format[0][2]
-        self.map_ax :Axes = axis_format[1][0]
+        if map_only:
+            self.fig, self.map_ax = plt.subplots(figsize=(10, 8), dpi=dpi)
+        else:
+            self.fig, self.gs, axis_format = figure_formatter('PlotInLoop', [3,1], figure_size=(16, 8), dpi=dpi)
+
+            self.vel_ax:Axes = axis_format[0][0]
+            self.omega_ax:Axes = axis_format[0][1]
+            self.cost_ax:Axes = axis_format[0][2]
+            self.map_ax = axis_format[1][0]
+            self.map_ax = cast(Axes, self.map_ax)
 
         self.remove_later:list = []     # patches need to be flushed
         self.plot_dict_pre:dict = {}    # flush for every life cycle
@@ -106,13 +145,51 @@ class MpcPlotInLoop:
         self.plot_dict_inloop:dict = {} # update every time step, flush for every life cycle
 
     def show(self):
-        self.fig.show()
+        if self.save_to_path is None:
+            self.fig.show()
 
     def close(self):
+        if self.save_to_path is not None:
+            self.video_writer.release()
         plt.close(self.fig)
 
     def save(self, path):
         self.fig.savefig(path)
+
+    def init_video_writer(self, save_to_path: Optional[str], save_params: Optional[Union[SaveParams, dict]]):
+        """Initialize the video writer if the path is not None.
+
+        Attributes:
+            save_params: The parameters for saving the plot as a video, such as `fps`, `dpi`, `codec`, `frame_size`, `skip_frame`.
+            video_writer: The video writer object.
+        """
+        default_frame_size = (1280, 960)
+        default_fps = 5
+        default_dpi = 300
+        default_codec = 'MJPG'
+        default_skip_frame = 0 # skip every n frames, 0 means no skip
+        self.save_to_path = save_to_path
+        self.skip_counter = 0
+        if save_to_path is not None:
+            if save_params is None:
+                self.save_params = SaveParams(
+                    fps=default_fps,
+                    dpi=default_dpi,
+                    codec=default_codec,
+                    frame_size=default_frame_size,
+                    skip_frame=default_skip_frame
+                )
+            else:
+                self.save_params = SaveParams(
+                    fps=save_params.get('fps', default_fps),
+                    dpi=save_params.get('dpi', default_dpi),
+                    codec=save_params.get('codec', default_codec),
+                    frame_size=save_params.get('frame_size', default_frame_size),
+                    skip_frame=save_params.get('skip_frame', default_skip_frame)
+                )
+            fourcc = cv2.VideoWriter_fourcc(*self.save_params['codec'])
+            self.video_writer = cv2.VideoWriter(save_to_path, fourcc, self.save_params['fps'], self.save_params['frame_size'])
+
 
     def plot_in_loop_pre(self, original_map: Optional[Union[GeometricMap, OccupancyMap]], 
                          inflated_map:Optional[GeometricMap]=None, 
@@ -131,11 +208,12 @@ class MpcPlotInLoop:
         Note:
             If original_map is None, an external map should be provided.
         """
-        [ax.grid(visible=True) for ax in [self.vel_ax, self.omega_ax, self.cost_ax]] # type: ignore
-        [ax.set_xlabel('Time [s]') for ax in [self.vel_ax, self.omega_ax, self.cost_ax]]
-        self.vel_ax.set_ylabel('Velocity [m/s]')
-        self.omega_ax.set_ylabel('Angular velocity [rad/s]')
-        self.cost_ax.set_ylabel('Cost')
+        if not self.map_only:
+            [ax.grid(visible=True) for ax in [self.vel_ax, self.omega_ax, self.cost_ax]] # type: ignore
+            [ax.set_xlabel('Time [s]') for ax in [self.vel_ax, self.omega_ax, self.cost_ax]]
+            self.vel_ax.set_ylabel('Velocity [m/s]')
+            self.omega_ax.set_ylabel('Angular velocity [rad/s]')
+            self.cost_ax.set_ylabel('Cost')
 
         if inflated_map is not None:
             inflated_map.plot(self.map_ax, {'c': 'r', 'linestyle':'--'}, obstacle_filled=False, plot_boundary=False)
@@ -179,11 +257,14 @@ class MpcPlotInLoop:
             end_pt,    = self.map_ax.plot(end[0],   end[1],   marker='X', color=color, markersize=15, alpha=0.2,  label='End')
         self.plot_dict_pre[object_id] = [ref_line, start_pt, end_pt]
 
-        vel_line,   = self.vel_ax.plot([], [],   marker='o', color=color)
-        omega_line, = self.omega_ax.plot([], [], marker='o', color=color)
-        cost_line,  = self.cost_ax.plot([], [],  marker='o', color=color)
         past_line,  = self.map_ax.plot([], [],  marker='.', linestyle='None', color=color)
-        self.plot_dict_inloop[object_id] = [vel_line, omega_line, cost_line, past_line]
+        if not self.map_only:
+            vel_line,   = self.vel_ax.plot([], [],   marker='o', color=color)
+            omega_line, = self.omega_ax.plot([], [], marker='o', color=color)
+            cost_line,  = self.cost_ax.plot([], [],  marker='o', color=color)
+            self.plot_dict_inloop[object_id] = [vel_line, omega_line, cost_line, past_line]
+        else:
+            self.plot_dict_inloop[object_id] = [past_line]
 
         ref_line_now,  = self.map_ax.plot([], [], marker='x', linestyle='None', color=color)
         pred_line,     = self.map_ax.plot([], [], marker='+', linestyle='None', color=color)
@@ -199,7 +280,10 @@ class MpcPlotInLoop:
         if object_id not in list(self.plot_dict_pre):
             raise ValueError(f'Object ID {object_id} does not exist!')
 
-        update_list = [action[0], action[1], cost, state]
+        if self.map_only:
+            update_list = [state]
+        else:
+            update_list = [action[0], action[1], cost, state]
         for new_data, line in zip(update_list, self.plot_dict_inloop[object_id]):
             assert isinstance(line, Line2D)
             if isinstance(new_data, (int, float)):
@@ -229,10 +313,6 @@ class MpcPlotInLoop:
         if time is not None:
             self.map_ax.set_title(f'Time: {time:.2f}s / {time/self.ts:.2f}')
 
-        if zoom_in is not None:
-            self.map_ax.set_xlim(zoom_in[0:2])
-            self.map_ax.set_ylim(zoom_in[2:4])
-
         if temp_objects is not None:
             for obj in temp_objects:
                 obj: list[tuple]
@@ -240,7 +320,7 @@ class MpcPlotInLoop:
                 self.map_ax.add_patch(this_poly)
                 self.remove_later.append(this_poly)
         if temp_plots is not None:
-            self.remove_later.extend(temp_plots)
+            self.remove_later.extend([x for x in temp_plots if x is not None])
 
         if dyn_obstacle_list is not None:
             for obstacle_list in dyn_obstacle_list: # each "obstacle_list" has N_hor predictions
@@ -258,31 +338,45 @@ class MpcPlotInLoop:
                         self.remove_later.append(this_ellipse)
                     current_one = False
 
-        ### Autoscale
-        for ax in [self.vel_ax, self.omega_ax, self.cost_ax]:
-            x_min = min(ax.get_lines()[0].get_xdata())
-            x_max = max(ax.get_lines()[0].get_xdata())
-            y_min = min(ax.get_lines()[0].get_ydata())
-            y_max = max(ax.get_lines()[0].get_ydata())
-            for line in ax.get_lines():
-                if x_min  > min(line.get_xdata()):
-                    x_min = min(line.get_xdata())
-                if x_max  < max(line.get_xdata()):
-                    x_max = max(line.get_xdata())
-                if y_min  > min(line.get_ydata()):
-                    y_min = min(line.get_ydata())
-                if y_max  < max(line.get_ydata()):
-                    y_max = max(line.get_ydata())
-            ax.set_xlim([x_min, x_max+1e-3])
-            ax.set_ylim([y_min, y_max+1e-3])
+        ### Autoscale (If ValueError: Axis limits cannot be NaN or Inf, check if cost is Inf)
+        if not self.map_only:
+            for ax in [self.vel_ax, self.omega_ax, self.cost_ax]:
+                x_min = min(ax.get_lines()[0].get_xdata())
+                x_max = max(ax.get_lines()[0].get_xdata())
+                y_min = min(ax.get_lines()[0].get_ydata())
+                y_max = max(ax.get_lines()[0].get_ydata())
+                for line in ax.get_lines():
+                    if x_min  > min(line.get_xdata()):
+                        x_min = min(line.get_xdata())
+                    if x_max  < max(line.get_xdata()):
+                        x_max = max(line.get_xdata())
+                    if y_min  > min(line.get_ydata()):
+                        y_min = min(line.get_ydata())
+                    if y_max  < max(line.get_ydata()):
+                        y_max = max(line.get_ydata())
+                ax.set_xlim([x_min, x_max+1e-3])
+                ax.set_ylim([y_min, y_max+1e-3])
 
-        if save_path is None:
-            plt.draw()
+        if zoom_in is not None:
+            self.map_ax.set_xlim(zoom_in[0:2])
+            self.map_ax.set_ylim(zoom_in[2:4])
+
+        self.fig.canvas.draw()
+        if save_path is None and self.save_to_path is None:
             plt.pause(0.01)
             if not autorun:
                 while not plt.waitforbuttonpress():
                     pass
-        else:
+        elif self.save_to_path is not None:
+            if self.skip_counter >= self.save_params['skip_frame']:
+                self.skip_counter = 0
+                save_img = np.frombuffer(self.fig.canvas.tostring_rgb(), dtype=np.uint8)
+                save_img = save_img.reshape(self.fig.canvas.get_width_height()[::-1] + (3,))
+                save_img_bgr = cv2.cvtColor(save_img, cv2.COLOR_RGB2BGR)
+                self.video_writer.write(cv2.resize(save_img_bgr, self.save_params['frame_size']))
+            else:
+                self.skip_counter += 1
+        elif save_path is not None:
             self.save(save_path)
 
         for j in range(len(self.remove_later)): # robot and dynamic obstacles (predictions)

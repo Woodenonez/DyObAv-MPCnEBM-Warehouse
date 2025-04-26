@@ -101,7 +101,7 @@ class NetworkManager:
         start_time = timer()
         with torch.inference_mode():
             output = self.model(data.float().to(device))
-        print(f'Inference time: {timer()-start_time}')
+        # print(f'Inference time: {timer()-start_time}')
         return output
 
     def validate(self, data, labels, loss_function=None) -> torch.Tensor:

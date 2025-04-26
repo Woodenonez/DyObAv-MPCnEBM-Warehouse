@@ -54,8 +54,14 @@ class NetGraph(nx.Graph):
         return x, y
 
     def return_given_path(self, graph_node_ids: list) -> list[tuple]:
-        return [self.get_node_coord(id) for id in graph_node_ids]
-
+        path_coords = []
+        for id_ in graph_node_ids:
+            if isinstance(id_, (int, str)):
+                path_coords.append(self.get_node_coord(id_))
+            else:
+                path_coords.append(id_)
+        return path_coords
+        
     def return_random_path(self, start_node_id, num_traversed_nodes:int) -> list[tuple]:
         """Return random GeometricGraphNode without repeat nodes
         """

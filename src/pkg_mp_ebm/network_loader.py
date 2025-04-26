@@ -330,6 +330,10 @@ class NetworkLoader:
         if normalize:
             ref_image = ref_image/255.0
 
+        ### XXX For zospital
+        ref_image[ref_image>0.5] = 0.68
+        ref_image[ref_image<=0.5] = 0.2
+
         obsv_len = self.param['obsv_len']
         if len(input_traj)<obsv_len:
             input_traj = input_traj + [input_traj[-1]]*(obsv_len-len(input_traj))
@@ -389,8 +393,8 @@ class NetworkLoader:
     
     @staticmethod
     def get_patches(canvas: torch.Tensor, traj, size: Tuple):
-        x = np.array(traj)[:,0].astype('int')
-        y = np.array(traj)[:,1].astype('int')
+        x = np.clip(np.array(traj)[:,0].astype('int'), a_min=0, a_max=canvas.shape[1]-1)
+        y = np.clip(np.array(traj)[:,1].astype('int'), a_min=0, a_max=canvas.shape[0]-1)
         h, w = size
 
         start_y = h - y

@@ -206,7 +206,11 @@ class LocalTrajPlanner:
         else:
             ref_states = np.array(self._base_traj[self._base_traj_docking_idx:self._base_traj_docking_idx+self.N_hor])
 
-        self._current_target_node_idx = self._ref_path.index(self._base_traj_target_node[self._base_traj_docking_idx])
+        idx_candidates = [i for i, x in enumerate(self._ref_path) if x == self._base_traj_target_node[self._base_traj_docking_idx]]
+        for cand in idx_candidates:
+            if cand >= self._current_target_node_idx:
+                self._current_target_node_idx = cand
+                break
         self._current_target_node = self._ref_path[self._current_target_node_idx]
         if self._current_target_node_idx == len(self._ref_path)-1:
             done = True
