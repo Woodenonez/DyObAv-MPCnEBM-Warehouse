@@ -5,8 +5,8 @@ To explore safer interactions between mobile robots and dynamic obstacles, this 
 ROS2 Code is available: [ROS2 Gazebo Simulation](https://github.com/Woodenonez/DyObAv-MPCnEBM-Warehouse-ROS2)
 
 ## Publication
-The paper is under review ...
-Bibtex citation:
+The paper is accepted by IEEE RA-L,
+Bibtex citation (ongoing):
 ```
 NOT YET
 ```
