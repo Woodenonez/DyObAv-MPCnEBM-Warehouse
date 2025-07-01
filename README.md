@@ -8,7 +8,17 @@ ROS2 Code is available: [ROS2 Gazebo Simulation](https://github.com/Woodenonez/D
 The paper is accepted by IEEE RA-L,
 Bibtex citation (ongoing):
 ```
-NOT YET
+@ARTICLE{ze_2025_ebmmpc,
+  author={Zhang, Ze and Hess, Georg and Hu, Junjie and Dean, Emmanuel and Svensson, Lennart and Åkesson, Knut},
+  journal={IEEE Robotics and Automation Letters}, 
+  title={Future-Oriented Navigation: Dynamic Obstacle Avoidance With One-Shot Energy-Based Multimodal Motion Prediction}, 
+  year={2025},
+  volume={10},
+  number={8},
+  pages={8043-8050},
+  doi={10.1109/LRA.2025.3575969}
+}
+
 ```
 
 ![Example](doc/cover.png "Example")
