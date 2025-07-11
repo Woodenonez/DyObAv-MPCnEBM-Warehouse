@@ -6,7 +6,7 @@ ROS2 Code is available: [ROS2 Gazebo Simulation](https://github.com/Woodenonez/D
 
 ## Publication
 The [paper](https://ieeexplore.ieee.org/document/11021381) is published on RA-L.
-Bibtex citation (ongoing):
+Bibtex citation:
 ```
 @ARTICLE{ze_2025_ebmmpc,
   author={Zhang, Ze and Hess, Georg and Hu, Junjie and Dean, Emmanuel and Svensson, Lennart and Åkesson, Knut},
