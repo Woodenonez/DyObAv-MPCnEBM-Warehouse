@@ -2,6 +2,8 @@
 This repository contains the ROS 2 code for the corresponding [Python counterpart](https://github.com/Woodenonez/DyObAv-MPCnEBM-Warehouse).
 Please find more descriptions and related publications there.
 
+The map generation can be found [here](https://github.com/arshadlab/gazebo_map_creator).
+
 Before start:
 - This code is tested under [ROS 2 Humble](https://docs.ros.org/en/humble/index.html).
 - The warehouse Gazebo world is based on [AWS Small Warehouse](https://github.com/aws-robotics/aws-robomaker-small-warehouse-world).
