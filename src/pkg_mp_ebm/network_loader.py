@@ -240,13 +240,14 @@ class NetworkLoader:
             ref = img[-1,:,:]
         return img, label, traj, index, time, pred.cpu(), ref
     
-    def inference(self, input_traj: List[Tuple[float, float]], ref_image: torch.Tensor, rescale:float=1.0, device:str='cuda') -> torch.Tensor:
+    def inference(self, input_traj: List[Tuple[float, float]], ref_image: torch.Tensor, rescale:float=1.0, device:str='cuda', extra_key: Optional[str]=None) -> torch.Tensor:
         """Inference the network.
 
         Args:
             input_traj: The input trajectory.
             ref_image: The background image representing the map/surroundings.
             rescale: Rescale the input trajectory to match the image frame. Defaults to 1.0.
+            extra_key: An optional key for additional processing. Defaults to None.
 
         Returns:
             The raw output of the network with size (C*H*W).
@@ -255,7 +256,7 @@ class NetworkLoader:
             device = 'cpu'
             print(f'[{self.__class__.__name__}] CUDA not working. Switch to CPU.')
         input_traj_rescale = [(x[0]*rescale, x[1]*rescale) for x in input_traj] # from the world coordinate to the image coordinate
-        input_img = self.traj_to_input(input_traj_rescale, ref_image) # C*H*W
+        input_img = self.traj_to_input(input_traj_rescale, ref_image, extra_key=extra_key) # C*H*W
         output = self.net_manager.inference(input_img.unsqueeze(0).to(device), device=device)
         return output[0].cpu()
     
@@ -324,15 +325,15 @@ class NetworkLoader:
         return clusters_list, mu_list_list, std_list_list, conf_list_list
     
 
-    def traj_to_input(self, input_traj: List[Tuple[float, float]], ref_image: torch.Tensor, normalize=True):
+    def traj_to_input(self, input_traj: List[Tuple[float, float]], ref_image: torch.Tensor, normalize=True, extra_key: Optional[str]=None):
         """From the trajectory to the network input image."""
         assert self._canvas is not None
         if normalize:
             ref_image = ref_image/255.0
 
-        ### XXX For zospital
-        ref_image[ref_image>0.5] = 0.68
-        ref_image[ref_image<=0.5] = 0.2
+        if extra_key == 'zospital':
+            ref_image[ref_image>0.5] = 0.68
+            ref_image[ref_image<=0.5] = 0.2
 
         obsv_len = self.param['obsv_len']
         if len(input_traj)<obsv_len:

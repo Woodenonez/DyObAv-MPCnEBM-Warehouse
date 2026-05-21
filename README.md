@@ -1,12 +1,12 @@
 # Dynamic Obstacle Avoidance: One-shot Prediction (EBM) and Control (MPC)
-To explore safer interactions between mobile robots and dynamic obstacles, this work presents a comprehensive approach to collision-free navigation in indoor environments. The proposed approach is an integration of multimodal motion predictions of dynamic obstacles and predictive control for obstacle avoidance. Motion prediction is achieved by an *energy-based* deep learning method that predicts plausible future positions. Model Predictive Control (MPC) solvers later generate collision-free trajectories for mobile robots.
+To explore safer interactions between mobile robots and dynamic obstacles, this project presents a comprehensive approach to collision-free indoor navigation. The method integrates multimodal motion prediction for dynamic obstacles with predictive control for obstacle avoidance. Motion prediction is achieved with an *energy-based* deep learning method that estimates plausible future positions, and Model Predictive Control (MPC) then generates collision-free robot trajectories.
 
-**NOTE**: 
-ROS2 Code is available: [ROS2 Gazebo Simulation](https://github.com/Woodenonez/DyObAv-MPCnEBM-Warehouse-ROS2)
+**NOTE**:
+ROS 2 code is available here: [ROS2 Gazebo Simulation](https://github.com/Woodenonez/DyObAv-MPCnEBM-Warehouse-ROS2)
 
 ## Publication
-The [paper](https://ieeexplore.ieee.org/document/11021381) is published on RA-L.
-Bibtex citation:
+The [paper](https://ieeexplore.ieee.org/document/11021381) is published in RA-L.
+BibTeX citation:
 ```
 @ARTICLE{ze_2025_ebmmpc,
   author={Zhang, Ze and Hess, Georg and Hu, Junjie and Dean, Emmanuel and Svensson, Lennart and Åkesson, Knut},
@@ -26,27 +26,41 @@ Bibtex citation:
 ## Quick Start
 
 ### OpEn
-The NMPC formulation is solved using open source implementation of PANOC, namely [OpEn](https://alphaville.github.io/optimization-engine/). Follow the [installation instructions](https://alphaville.github.io/optimization-engine/docs/installation) before proceeding. 
+The NMPC formulation is solved using the open-source PANOC implementation, [OpEn](https://alphaville.github.io/optimization-engine/). Follow the [installation instructions](https://alphaville.github.io/optimization-engine/docs/installation) before proceeding.
 
 ### Install dependencies
+There are two ways to install dependencies.
+
+Recommended (modern setup with `uv`):
+```
+uv venv
+uv pip install -e .
+```
+
+Legacy setup (older pinned environment):
 ```
 pip install -r requirements.txt
 ```
 
 ### Generate MPC solver
-Go to "build_solver.py", use the proper configuration name **cfg_fname** and run
+Edit `cfg_fname` in `src/build_solver.py` if needed, then run from the repository root:
 ```
-python solver_build.py
+python src/build_solver.py
 ```
-After this, a new directory *mpc_solver* will appear and contain the solver. Then, you are good to go :)
+This generates/updates the solver artifacts under `mpc_solver/`.
 
 ## Use Case
-Run *main_base.py* for the warehouse simulation (different scenarios and methods) in Python. The evaluation is activated by setting the *evaluation* variable to **True**.
+Run `src/main_base.py` for the warehouse simulation (different scenarios and methods):
+```
+python src/main_base.py
+```
+Enable evaluation by setting `evaluation = True` near the entry point in `src/main_base.py`.
 
 To watch the demo videos:
 - ROS 2 and Gazebo simulation: [Link](https://youtu.be/j4n2mt0KdMY)
 - Python long-term simulation: [Link](https://youtu.be/nNLAS4Hfgtk)
-More videos from other projects are available on my [personal page](https://woodenonez.github.io/).
+
+More videos from other projects are available on my [personal page](https://github.com/Woodenonez).
 
 ## ROS 2 Simulation
 The ROS 2 (Humble) simulation is available in the following repository: [ROS2 Gazebo Simulation](https://github.com/Woodenonez/DyObAv-MPCnEBM-Warehouse-ROS2).

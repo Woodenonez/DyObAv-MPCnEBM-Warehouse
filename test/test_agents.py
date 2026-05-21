@@ -1,11 +1,11 @@
+from typing import cast
 import math
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
 
-from pkg_moving_object.moving_object import MovingObject, HumanObject, RobotObject
+from pkg_moving_object import HumanObject, RobotObject
 
-from typing import cast, Union
 
 scale = 0.2
 
@@ -33,7 +33,7 @@ ax.axis('equal')
 while 1:
     ax.clear()
     for human in humans:
-        social_force, rep_forces = human.get_social_repulsion(agents)
+        social_force, rep_forces, *_ = human.get_social_repulsion(agents)
         action = human.run_step(vmax=0.5, social_force=social_force)
         ax.plot(np.array(human.path)[:, 0], np.array(human.path)[:, 1], 'kx--')
         ax.plot(np.array(human.past_traj)[:, 0], np.array(human.past_traj)[:, 1], 'b.')

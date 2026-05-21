@@ -2,7 +2,7 @@ from typing import Callable, TypedDict, Union, cast
 from copy import deepcopy
 
 import casadi as ca # type: ignore
-from opengen import opengen as og # type: ignore # or "import opengen as og"
+import opengen as og # type: ignore
 
 from . import mpc_helper as mh
 from . import mpc_cost as mc

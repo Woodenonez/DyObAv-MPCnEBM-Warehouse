@@ -36,10 +36,12 @@ from visualizer.object import CircularObjectVisualizer
 from visualizer.mpc_plot import MpcPlotInLoop # type: ignore
 
 from evaluation import Evaluator
-# from draft import threat_assessment
 
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
+
+
+EXTRA_KEY = 'zospital'
 
 
 def scenario(index):
@@ -382,19 +384,19 @@ class MainBase:
         if self.motion_predictor_type in ['nll', 'enll', 'bce', 'kld']:
             assert isinstance(self.motion_predictor, MotionPredictorEBM)
             past_traj_NN = [self.tf_img2real(x, False) for x in self.humans[0].past_traj]
-            pred_samples_all = self.motion_predictor.get_motion_prediction_samples(past_traj_NN, rescale=self.config_tf.scale2nn)
+            pred_samples_all = self.motion_predictor.get_motion_prediction_samples(past_traj_NN, rescale=self.config_tf.scale2nn, extra_key=EXTRA_KEY)
             if debug:
-                _, _, _, _, logits, prob_maps = self.motion_predictor.get_motion_prediction(past_traj_NN, rescale=self.config_tf.scale2nn, debug=True)
+                _, _, _, _, logits, prob_maps = self.motion_predictor.get_motion_prediction(past_traj_NN, rescale=self.config_tf.scale2nn, debug=True, extra_key=EXTRA_KEY)
                 logits_for_all = [logits]
                 prob_maps_for_all = [prob_maps]
 
             for human in self.humans[1:]:
                 past_traj_NN = [self.tf_img2real(x, False) for x in human.past_traj] # convert the real world coordinates to the image coordinates
                 if debug:
-                    _, _, _, _, logits, prob_maps = self.motion_predictor.get_motion_prediction(past_traj_NN, rescale=self.config_tf.scale2nn, debug=True)
+                    _, _, _, _, logits, prob_maps = self.motion_predictor.get_motion_prediction(past_traj_NN, rescale=self.config_tf.scale2nn, debug=True, extra_key=EXTRA_KEY)
                     logits_for_all.append(logits)
                     prob_maps_for_all.append(prob_maps)
-                pred_samples = self.motion_predictor.get_motion_prediction_samples(past_traj_NN, rescale=self.config_tf.scale2nn)
+                pred_samples = self.motion_predictor.get_motion_prediction_samples(past_traj_NN, rescale=self.config_tf.scale2nn, extra_key=EXTRA_KEY)
                 pred_samples_all = [np.concatenate((x,y), axis=0) for x,y in zip(pred_samples_all, pred_samples)]
             pred_samples_all = [self.tf_img2real.cvt_coords(x[:,0], x[:,1]) for x in pred_samples_all] # each element is [total_num_samples, 2]
 
@@ -456,10 +458,10 @@ class MainBase:
         if self.motion_predictor_type == 'enll':
             assert isinstance(self.motion_predictor, MotionPredictorEBM)
             past_traj_NN = [self.tf_img2real(x, False) for x in self.humans[0].past_traj]
-            pred_samples_one = self.motion_predictor.get_motion_prediction_samples(past_traj_NN, rescale=self.config_tf.scale2nn)
+            pred_samples_one = self.motion_predictor.get_motion_prediction_samples(past_traj_NN, rescale=self.config_tf.scale2nn, extra_key=EXTRA_KEY)
             pred_samples_one = [self.tf_img2real.cvt_coords(x[:,0], x[:,1]) for x in pred_samples_one]
             if debug:
-                _, _, _, _, logits, prob_maps = self.motion_predictor.get_motion_prediction(past_traj_NN, rescale=self.config_tf.scale2nn, debug=True)
+                _, _, _, _, logits, prob_maps = self.motion_predictor.get_motion_prediction(past_traj_NN, rescale=self.config_tf.scale2nn, debug=True, extra_key=EXTRA_KEY)
                 logits_for_all = [logits]
                 prob_maps_for_all = [prob_maps]
 
@@ -468,10 +470,10 @@ class MainBase:
             for human in self.humans[1:]:
                 past_traj_NN = [self.tf_img2real(x, False) for x in human.past_traj] # convert the real world coordinates to the image coordinates
                 if debug:
-                    _, _, _, _, logits, prob_maps = self.motion_predictor.get_motion_prediction(past_traj_NN, rescale=self.config_tf.scale2nn, debug=True)
+                    _, _, _, _, logits, prob_maps = self.motion_predictor.get_motion_prediction(past_traj_NN, rescale=self.config_tf.scale2nn, debug=True, extra_key=EXTRA_KEY)
                     logits_for_all.append(logits)
                     prob_maps_for_all.append(prob_maps)
-                pred_samples = self.motion_predictor.get_motion_prediction_samples(past_traj_NN, rescale=self.config_tf.scale2nn)
+                pred_samples = self.motion_predictor.get_motion_prediction_samples(past_traj_NN, rescale=self.config_tf.scale2nn, extra_key=EXTRA_KEY)
                 pred_samples = [self.tf_img2real.cvt_coords(x[:,0], x[:,1]) for x in pred_samples]
                 curr_clusters_list, curr_mu_list_list, curr_std_list_list, curr_conf_list_list = self.motion_predictor.clustering_and_fitting_from_samples(np.array(pred_samples), eps=eps, min_sample=min_sample, enlarge=enlarge, extra_margin=extra_margin)
 

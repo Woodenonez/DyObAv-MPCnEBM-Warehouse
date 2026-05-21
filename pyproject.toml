@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dyobav-mpcnebm-warehouse"
+version = "0.1.0"
+description = "Dynamic obstacle avoidance with MPC and EBM for warehouse robotics"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+dependencies = [
+    "casadi>=3.7.2",
+    "matplotlib>=3.10.9",
+    "networkx>=3.6.1",
+    "opencv-python>=4.13.0.92",
+    "opengen>=0.11.0",
+    "pandas>=3.0.3",
+    "pyyaml>=6.0.3",
+    "scikit-image>=0.26.0",
+    "scikit-learn>=1.8.0",
+    "scipy>=1.17.1",
+    "shapely>=2.1.2",
+    "torch>=2.12.0",
+    "torchvision>=0.27.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]

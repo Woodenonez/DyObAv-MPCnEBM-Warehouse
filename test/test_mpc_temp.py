@@ -27,7 +27,7 @@ TIMEOUT = 1000
 robot_ids = None # if none, read from schedule
 
 ### Configurations
-config_mpc_path = os.path.join(CNFG_DIR, "mpc_default.yaml")
+config_mpc_path = os.path.join(CNFG_DIR, "mpc_fast.yaml")
 config_robot_path = os.path.join(CNFG_DIR, "spec_robot.yaml")
 
 config_mpc = MpcConfiguration.from_yaml(config_mpc_path)

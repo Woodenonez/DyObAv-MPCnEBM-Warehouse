@@ -4,7 +4,7 @@ import pathlib
 import matplotlib.pyplot as plt # type: ignore
 from matplotlib.axes import Axes # type: ignore
 
-from pkg_mp_sgan.motion_predict import MotionPredictor
+from pkg_mp_sgan import MotionPredictor
 
 # Resolution = 1/40 m/pixel
 input_traj = [(201.0, 309.0), (200.0, 302.0), (200.0, 294.0), (200.0, 286.0), (201.0, 277.0)]

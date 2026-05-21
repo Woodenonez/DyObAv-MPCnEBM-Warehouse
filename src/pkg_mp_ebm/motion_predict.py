@@ -31,33 +31,34 @@ class MotionPredictor:
             self.load_ref_image(ref_img_path=ref_image_path)
             self.network_loader.create_ref_canvas(self.ref_image)
 
-    def _inference(self, input_traj: list[PathNode], rescale:Optional[float]=1.0):
+    def _inference(self, input_traj: list[PathNode], rescale:Optional[float]=1.0, extra_key: Optional[str]=None):
         if rescale is not None:
             input_traj = [(x[0]*rescale, x[1]*rescale) for x in input_traj]
-        pred = self.network_loader.inference(input_traj=input_traj, ref_image=self.ref_image)
+        pred = self.network_loader.inference(input_traj=input_traj, ref_image=self.ref_image, extra_key=extra_key)
         return pred
 
     def load_ref_image(self, ref_img_path: str) -> None:
         self.ref_image = torch.tensor(np.array(Image.open(ref_img_path).convert('L')))
 
-    def get_network_output(self, input_traj: list[PathNode], rescale:Optional[float]=1.0):
+    def get_network_output(self, input_traj: list[PathNode], rescale:Optional[float]=1.0, extra_key: Optional[str]=None):
         """Get network output
 
         Args:
             input_traj: Input trajectory.
             rescale: Scale from real world to image world. Defaults to 1.0.
+            extra_key: An optional key for additional processing. Defaults to None.
 
         Returns:
             pred: The logits prediction, [CxHxW].
             e_grid: The energy grid, [CxHxW].
             prob_map: The probability map, [CxHxW]
         """
-        pred = self._inference(input_traj=input_traj, rescale=rescale)
+        pred = self._inference(input_traj=input_traj, rescale=rescale, extra_key=extra_key)
         e_grid = self.network_loader.net_manager.to_energy_grid(pred.unsqueeze(0))[0, :]
         prob_map = self.network_loader.net_manager.to_prob_map(pred.unsqueeze(0))[0, :]
         return pred, e_grid, prob_map
 
-    def get_motion_prediction(self, input_traj: list[PathNode], rescale:Optional[float]=1.0, debug:bool=False):
+    def get_motion_prediction(self, input_traj: list[PathNode], rescale:Optional[float]=1.0, debug:bool=False, extra_key: Optional[str]=None):
         """Get motion prediction (final clustering and fitting results)
 
         Args:
@@ -72,14 +73,14 @@ class MotionPredictor:
             pred (if debug): The logits prediction, [CxHxW].
             prob_map (if debug): The probability map, [CxHxW]
         """
-        pred = self._inference(input_traj=input_traj, rescale=rescale)
+        pred = self._inference(input_traj=input_traj, rescale=rescale, extra_key=extra_key)
         prob_map = self.network_loader.net_manager.to_prob_map(pred.unsqueeze(0))[0, :]
         clusters_list, mu_list_list, std_list_list, conf_list_list = self.network_loader.clustering_and_fitting(prob_map)
         if debug:
             return clusters_list, mu_list_list, std_list_list, conf_list_list, pred, prob_map
         return clusters_list, mu_list_list, std_list_list, conf_list_list
-    
-    def get_motion_prediction_samples(self, input_traj: list[PathNode], rescale:Optional[float]=1.0, num_samples:int=100, replacement=True):
+
+    def get_motion_prediction_samples(self, input_traj: list[PathNode], rescale:Optional[float]=1.0, num_samples:int=100, replacement=True, extra_key: Optional[str]=None):
         """Get motion prediction (samples from probability map)
 
         Args:
@@ -91,7 +92,7 @@ class MotionPredictor:
         Returns:
             prediction_samples: numpy array [T*num_samples*2]
         """
-        pred = self._inference(input_traj=input_traj, rescale=rescale)
+        pred = self._inference(input_traj=input_traj, rescale=rescale, extra_key=extra_key)
         prob_map = self.network_loader.net_manager.to_prob_map(pred.unsqueeze(0))
         prediction_samples = self.network_loader.net_manager.gen_samples(prob_map, num_samples=num_samples, replacement=replacement)[0, :].numpy()
         return prediction_samples

@@ -1,11 +1,12 @@
 # System import
+from typing import Callable, Optional, TypedDict
 import os
 import sys
 import math
+from urllib import response
 import warnings
 import itertools
 from timeit import default_timer as timer
-from typing import Callable, Optional, TypedDict
 # External import
 import numpy as np
 from scipy.spatial import ConvexHull # type: ignore
@@ -19,7 +20,7 @@ PathNode = tuple[float, float]
 
 class Solver(): # this is not found in the .so file (in ternimal: nm -D  navi_test.so)
     import opengen as og # type: ignore
-    def run(self, p: list, initial_guess=None, initial_lagrange_multipliers=None, initial_penalty=None) -> og.opengen.tcp.solver_status.SolverStatus: pass
+    def run(self, p: list, initial_guess=None, initial_lagrange_multipliers=None, initial_penalty=None) -> og.tcp.solver_status.SolverStatus: pass
 
 
 class DebugInfo(TypedDict):
@@ -491,9 +492,11 @@ class TrajectoryTracker:
             if self.use_tcp:
                 return self.run_solver_tcp(parameters, state, take_steps)
 
-            import opengen as og
-            solution:og.opengen.tcp.solver_status.SolverStatus = self.solver.run(parameters, initial_guess)
-            
+            response = self.solver.run(parameters, initial_guess)
+            if not response.is_ok():
+                raise RuntimeError(response.get().message)
+            solution = response.get()
+
             u:list[float]       = solution.solution
             cost:float          = solution.cost
             exit_status:str     = solution.exit_status

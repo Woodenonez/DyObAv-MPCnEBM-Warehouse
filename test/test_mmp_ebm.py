@@ -4,7 +4,7 @@ import pathlib
 import matplotlib.pyplot as plt # type: ignore
 from matplotlib.axes import Axes # type: ignore
 
-from pkg_mp_ebm.motion_predict import MotionPredictor
+from pkg_mp_ebm import MotionPredictor
 
 # Resolution = 1/40 m/pixel
 input_traj = [[201, 309], [200, 302], [200, 294], [200, 286], [201, 277]]

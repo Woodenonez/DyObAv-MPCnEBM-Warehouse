@@ -36,7 +36,6 @@ from visualizer.object import CircularObjectVisualizer
 from visualizer.mpc_plot import MpcPlotInLoop # type: ignore
 
 from evaluation import Evaluator
-# from draft import threat_assessment
 
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
@@ -845,7 +844,7 @@ class MainBase:
 if __name__ == '__main__':
     import os
 
-    predictor_type = 'kld' # None, 'nll/enll/kld/bce', 'cvm', or 'sgan'
+    predictor_type = 'enll' # None, 'nll/enll/kld/bce', 'cvm', or 'sgan'
     tracker_type = 'mpc' # 'mpc', 'rpp'
     planner_type = None # None, 'teb'
     scenario_index = 1 # 1-4, 20
@@ -902,8 +901,9 @@ if __name__ == '__main__':
                pedestrian_model=pedestrian_model)
 
     # fig_debug, axes_debug = plt.subplots(1, 2) 
+    axes_debug = None 
 
-    mb.run_once(repeat=repeat, time_step_out=time_step, extra_debug_panel=None, auto_run=auto_run)
+    mb.run_once(repeat=repeat, time_step_out=time_step, extra_debug_panel=axes_debug, auto_run=auto_run)
     if evaluation:
         mb.report(save_dir='./')
 
