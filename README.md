@@ -2,7 +2,7 @@
 To explore safer interactions between mobile robots and dynamic obstacles, this project presents a comprehensive approach to collision-free indoor navigation. The method integrates multimodal motion prediction for dynamic obstacles with predictive control for obstacle avoidance. Motion prediction is achieved with an *energy-based* deep learning method that estimates plausible future positions, and Model Predictive Control (MPC) then generates collision-free robot trajectories.
 
 **NOTE**:
-ROS 2 code is available here: [ROS2 Gazebo Simulation](https://github.com/Woodenonez/DyObAv-MPCnEBM-Warehouse-ROS2)
+ROS 2 code is available in another branch [ROS2 Gazebo Simulation](https://github.com/Woodenonez/DyObAv-MPCnEBM-Warehouse/tree/ros2-version)
 
 ## Publication
 The [paper](https://ieeexplore.ieee.org/document/11021381) is published in RA-L.
