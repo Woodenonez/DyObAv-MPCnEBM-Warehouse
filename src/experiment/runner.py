@@ -7,10 +7,12 @@ effective human radius conventions. This adapter does not alter those inputs.
 
 from __future__ import annotations
 
+from pathlib import Path
 import random
 from typing import TYPE_CHECKING
 
 from .config import ResolvedExperiment, validate_launch
+from .records import EpisodeTrajectories, capture_trajectories, prepare_run_dir, write_metadata, write_trajectories
 
 if TYPE_CHECKING:
     from main_base import MainBase as WarehouseMainBase
@@ -20,6 +22,8 @@ if TYPE_CHECKING:
 def create_simulation(config: ResolvedExperiment) -> WarehouseMainBase | HospitalMainBase:
     """Construct, load, and prepare the selected original scene."""
     validate_launch(config)
+    if config.output_dir is not None and config.output_dir.exists():
+        raise FileExistsError(config.output_dir)
 
     if config.seed is not None:
         import numpy as np
@@ -37,8 +41,6 @@ def create_simulation(config: ResolvedExperiment) -> WarehouseMainBase | Hospita
         if config.device == "cuda" and not torch.cuda.is_available():
             raise ValueError("CUDA was requested for learned inference but is unavailable")
 
-    if config.output_dir is not None:
-        config.output_dir.mkdir(parents=True, exist_ok=False)
     if config.save_video is not None:
         if config.save_video.exists():
             raise FileExistsError(config.save_video)
@@ -71,8 +73,6 @@ def create_simulation(config: ResolvedExperiment) -> WarehouseMainBase | Hospita
         str(config.human_config), str(config.transform_config),
     )
     if config.tracker == "mpc":
-        from pathlib import Path
-
         build_directory: Path = Path(simulation.config_tracker.build_directory)
         simulation.config_tracker.build_directory = str(
             build_directory if build_directory.is_absolute() else config.project_root / build_directory
@@ -85,15 +85,29 @@ def create_simulation(config: ResolvedExperiment) -> WarehouseMainBase | Hospita
         pedestrian_model="None" if config.scene == "warehouse" and config.pedestrian == "none" else config.pedestrian,
         device=config.device,
     )
+    prepare_run_dir(config)
     return simulation
 
 
 def run_experiment(config: ResolvedExperiment) -> None:
     """Run the original scene loop and optional evaluation report."""
     simulation: WarehouseMainBase | HospitalMainBase = create_simulation(config)
-    simulation.run_once(repeat=config.repeat, time_step_out=config.duration, extra_debug_panel=None, auto_run=config.auto_run)
+    run_dir: Path | None = config.output_dir
+    episodes: list[EpisodeTrajectories] = []
+    if run_dir is not None:
+        write_metadata(config, simulation, run_dir)
+
+    def capture_episode(scene: WarehouseMainBase | HospitalMainBase, repeat_index: int) -> None:
+        episodes.append(capture_trajectories(scene, repeat_index))
+
+    simulation.run_once(
+        repeat=config.repeat, time_step_out=config.duration, extra_debug_panel=None,
+        auto_run=config.auto_run, on_episode_end=capture_episode if run_dir is not None else None,
+    )
+    if run_dir is not None:
+        write_trajectories(episodes, run_dir)
     if config.evaluation:
-        simulation.report(save_dir=str(config.output_dir) if config.output_dir is not None else "./")
+        simulation.report(save_dir=str(run_dir) if run_dir is not None else "./")
     planner: str | None = None if config.planner == "none" else config.planner
     predictor: str | None = None if config.predictor == "none" else config.predictor
     pedestrian: str = "None" if config.scene == "warehouse" and config.pedestrian == "none" else config.pedestrian

@@ -2,7 +2,12 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import tempfile
 import unittest
+from types import SimpleNamespace
+from unittest.mock import patch
+
+import numpy as np
 
 from experiment.config import ExperimentArgs, resolve_experiment
 
@@ -27,6 +32,58 @@ class ExperimentInterfaceTests(unittest.TestCase):
                 self.assertEqual(config.device, "auto")
 
     def test_explicit_overrides(self) -> None:
+        from experiment.records import capture_trajectories, prepare_run_dir, write_trajectories
+        from experiment.runner import create_simulation
+
+        with tempfile.TemporaryDirectory() as tmp:
+            run_path = Path(tmp) / "recorded"
+            selected = resolve_experiment(ExperimentArgs(output_dir=run_path))
+            self.assertEqual(prepare_run_dir(selected), run_path)
+            with self.assertRaises(FileExistsError):
+                prepare_run_dir(selected)
+            with self.assertRaises(FileExistsError):
+                create_simulation(selected)
+            self.assertIsNone(prepare_run_dir(resolve_experiment(ExperimentArgs())))
+
+            class FailingScene:
+                def __init__(self, **kwargs):
+                    pass
+
+                def load(self, *args):
+                    pass
+
+                def prepare(self, *args, **kwargs):
+                    raise RuntimeError("missing artifact")
+
+            fresh_path = Path(tmp) / "failed"
+            failed_config = resolve_experiment(ExperimentArgs(
+                predictor="none", tracker="rpp", output_dir=fresh_path,
+            ))
+            with patch.dict(sys.modules, {"main_base": SimpleNamespace(MainBase=FailingScene)}):
+                with self.assertRaisesRegex(RuntimeError, "missing artifact"):
+                    create_simulation(failed_config)
+            self.assertFalse(fresh_path.exists())
+
+            robot_history = [(1.0, 2.0), (3.0, 4.0)]
+            action_history = [np.array([0.5, 0.2])]
+            human_history = [(5.0, 6.0)]
+            manager = SimpleNamespace(
+                get_robot=lambda rid: SimpleNamespace(past_traj=robot_history),
+                get_controller=lambda rid: SimpleNamespace(past_actions=action_history),
+            )
+            simulation = SimpleNamespace(robot_ids=[0], robot_manager=manager,
+                                         humans=[SimpleNamespace(past_traj=human_history)])
+            first = capture_trajectories(simulation, 0)
+            robot_history.append((7.0, 8.0))
+            action_history[0][0] = 9.0
+            second = capture_trajectories(simulation, 1)
+            write_trajectories([first, second], run_path)
+            with np.load(run_path / "trajectories.npz") as histories:
+                np.testing.assert_array_equal(histories["repeat_000_robot_0_states"], [[1, 2], [3, 4]])
+                np.testing.assert_array_equal(histories["repeat_000_robot_0_actions"], [[0.5, 0.2]])
+                np.testing.assert_array_equal(histories["repeat_000_human_0_states"], [[5, 6]])
+                self.assertEqual(len(histories["repeat_001_robot_0_states"]), 3)
+
         for scene in ("warehouse", "hospital"):
             with self.subTest(scene=scene):
                 config = resolve_experiment(ExperimentArgs(

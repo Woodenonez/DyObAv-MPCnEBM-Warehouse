@@ -9,7 +9,7 @@ import time
 import pathlib
 import warnings
 import timeit
-from typing import Literal, Optional
+from typing import Callable, Literal, Optional
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -745,11 +745,13 @@ class MainBase:
 
         return clusters_list, mu_list_list, std_list_list, conf_list_list
 
-    def run_once(self, repeat:int=1, time_step_out:Optional[float]=None, extra_debug_panel:Optional[list[Axes]]=None, auto_run:bool=True):
+    def run_once(self, repeat:int=1, time_step_out:Optional[float]=None, extra_debug_panel:Optional[list[Axes]]=None, auto_run:bool=True,
+                 *, on_episode_end:Optional[Callable[["MainBase", int], None]]=None) -> None:
         """Run the simulation once for a given number of repeats.
 
         Args:
             repeat: The number of repeats. Defaults to 1.
+            on_episode_end: Optional callback receiving this scene and the repeat index before reset.
             time_step_out: The time to stop the simulation if not None. Defaults to None.
             extra_debug_panel: List of Axes for extra debug panel if not None. Defaults to None.
             auto_run: If True, the plot will be updated automatically (without plt.waitforbuttonpress). Defaults to True.
@@ -801,6 +803,9 @@ class MainBase:
                 if any_collision:
                     input(f"[{self.__class__.__name__}] Collision detected. Press Enter to continue...")
                 # self.main_plotter.show()
+
+            if on_episode_end is not None:
+                on_episode_end(self, i)
 
             if i < repeat-1:
 
