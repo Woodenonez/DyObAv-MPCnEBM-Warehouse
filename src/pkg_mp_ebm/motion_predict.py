@@ -1,6 +1,6 @@
 import os
 import pathlib
-from typing import Optional
+from typing import Literal, Optional
 
 import numpy as np
 from PIL import Image # type: ignore
@@ -18,15 +18,18 @@ root_dir = pathlib.Path(__file__).resolve().parents[2]
 # ref_image_path = os.path.join(root_dir, 'data', 'inference_demo_scud', 'background.png')
 
 class MotionPredictor:
-    def __init__(self, config_file_path: str, model_suffix: str, ref_image_path:Optional[str]=None) -> None:
+    def __init__(self, config_file_path: str, model_suffix: str, ref_image_path:Optional[str]=None,
+                 *, device: Literal['auto', 'cpu', 'cuda']='auto') -> None:
         """
         Args:
             config_file_path: The path to the configuration file.
             model_suffix: The suffix of the model to load, used to distinguish different models.
             ref_image_path: The path to the reference image. Defaults to None.
         """
-        self.network_loader = NetworkLoader.from_config(config_file_path=config_file_path, project_dir=str(root_dir), verbose=True)
+        self.network_loader = NetworkLoader.from_config(config_file_path=config_file_path, project_dir=str(root_dir), verbose=True, device=device)
         self.network_loader.quick_setup_inference(model_suffix=model_suffix)
+        self.requested_device: Literal['auto', 'cpu', 'cuda'] = self.network_loader.requested_device
+        self.actual_device: Literal['cpu', 'cuda'] = self.network_loader.actual_device
         if ref_image_path is not None:
             self.load_ref_image(ref_img_path=ref_image_path)
             self.network_loader.create_ref_canvas(self.ref_image)
@@ -116,4 +119,3 @@ class MotionPredictor:
         """
         clusters_list, mu_list_list, std_list_list, conf_list_list = self.network_loader.clustering_and_fitting_from_samples(traj_samples, eps=eps, min_sample=min_sample, enlarge=enlarge, extra_margin=extra_margin)
         return clusters_list, mu_list_list, std_list_list, conf_list_list
-

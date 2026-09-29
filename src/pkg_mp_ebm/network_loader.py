@@ -1,14 +1,14 @@
 import os
-import sys
 import time
 import math
 import pickle
 from datetime import datetime
-from typing import Tuple, Optional, List
+from typing import Tuple, Optional, List, Literal
 
 import torch
 import numpy as np
 import matplotlib.pyplot as plt # type: ignore
+from torch.nn.modules.utils import consume_prefix_in_state_dict_if_present
 
 from .net_module.net import UNetExtra
 from .network_manager import NetworkManager
@@ -19,7 +19,8 @@ from .util.utils_yaml import QuickYaml
 
 
 class NetworkLoader:
-    def __init__(self, dataset_name_abbr: str, pred_range: Tuple[int, int], mode: str, out_layer: Optional[str], loss_type: str, project_dir: str, config_dir: str, verbose=False) -> None:
+    def __init__(self, dataset_name_abbr: str, pred_range: Tuple[int, int], mode: str, out_layer: Optional[str], loss_type: str, project_dir: str, config_dir: str, verbose=False,
+                 *, device: Literal['auto', 'cpu', 'cuda']='auto') -> None:
         """
         Args:
             dataset_name: Name of the dataset, such as 'sdd'.
@@ -30,7 +31,12 @@ class NetworkLoader:
             config_dir: The directory containing the config file.
             verbose: Whether to print out more information. Defaults to False.
         """
-        self.check_device()
+        if device not in ('auto', 'cpu', 'cuda'):
+            raise ValueError(f'Invalid inference device: {device!r}. Expected auto, cpu, or cuda.')
+        self.requested_device: Literal['auto', 'cpu', 'cuda'] = device
+        if device == 'cuda' and not torch.cuda.is_available():
+            raise RuntimeError('CUDA was requested for EBM inference but is unavailable.')
+        self.actual_device: Literal['cpu', 'cuda'] = 'cuda' if device == 'cuda' or (device == 'auto' and torch.cuda.is_available()) else 'cpu'
 
         self.root_dir = project_dir
         self.config_dir = config_dir
@@ -56,7 +62,8 @@ class NetworkLoader:
         return self.net_manager.model
 
     @classmethod
-    def from_config(cls, config_file_path: str, project_dir: str, verbose=False):
+    def from_config(cls, config_file_path: str, project_dir: str, verbose=False,
+                    *, device: Literal['auto', 'cpu', 'cuda']='auto'):
         """Initialize from a config file.
 
         Args:
@@ -70,7 +77,7 @@ class NetworkLoader:
         loss_type = config_fname.split('_')[3]
         mode = config_fname.split('_')[4].split('.')[0]
         config_dir = os.path.dirname(config_file_path)
-        return cls(dataset_name_abbr, pred_range, mode, out_layer, loss_type, project_dir, config_dir, verbose)
+        return cls(dataset_name_abbr, pred_range, mode, out_layer, loss_type, project_dir, config_dir, verbose, device=device)
 
     def check_device(self):
         """Check if GPUs are available. Record the current time.
@@ -79,8 +86,7 @@ class NetworkLoader:
             print('GPU count:', torch.cuda.device_count(),
                   'First GPU:', torch.cuda.current_device(), torch.cuda.get_device_name(0))
         else:
-            print(f'CUDA not working! Pytorch: {torch.__version__}.')
-            sys.exit(0)
+            raise RuntimeError(f'CUDA is required for EBM training (PyTorch {torch.__version__}).')
         torch.cuda.empty_cache()
         print(f'[{self.__class__.__name__}] Pre-check at {datetime.now().strftime("%H:%M:%S, %D")}')
 
@@ -100,6 +106,7 @@ class NetworkLoader:
             Load parameters, relevant paths, dataset, data handler, and network manager.
             The loss argument can be None if the mode is 'test'.
         """
+        self.check_device()
         self.load_param()
         self.load_path(model_suffix=model_suffix)
         self.load_data(transform, num_workers, ref_image_name, image_ext)
@@ -109,10 +116,16 @@ class NetworkLoader:
     def quick_setup_inference(self, model_suffix: str):
         self.load_param()
         self.load_path(model_suffix=model_suffix)
-        self.load_manager(loss=None)
+        self.load_manager(loss=None, inference=True)
         assert self.save_path is not None
-        self.model.load_state_dict(torch.load(self.save_path, weights_only=True))
+        if self.actual_device == 'cpu':
+            state_dict = torch.load(self.save_path, weights_only=True, map_location='cpu')
+            consume_prefix_in_state_dict_if_present(state_dict, 'module.')
+        else:
+            state_dict = torch.load(self.save_path, weights_only=True)
+        self.model.load_state_dict(state_dict, strict=True)
         self.model.eval()
+        print(f'[{self.__class__.__name__}] Inference device: {self.actual_device}')
 
 
     def load_param(self, param_in_list=True) -> dict:
@@ -169,9 +182,12 @@ class NetworkLoader:
         print(f'[{self.__class__.__name__}] Sample (shape): image:', self.dataset[0]['input'].shape,', label:', self.dataset[0]['target'].shape)
         return self.dataset, self.data_handler
 
-    def load_manager(self, loss: Optional[dict]):
+    def load_manager(self, loss: Optional[dict], *, inference: bool=False):
         self.net = UNetExtra(self.param['input_channel'], num_classes=self.param['pred_len'], out_layer=self.out_layer)
-        self.net_manager = NetworkManager(self.net, loss, loss_type=self.loss_type, training_parameter=self.param, device=self.param['device'], verbose=self.vb)
+        manager_device = self.param['device']
+        if inference:
+            manager_device = 'multi' if self.actual_device == 'cuda' and manager_device == 'multi' else self.actual_device
+        self.net_manager = NetworkManager(self.net, loss, loss_type=self.loss_type, training_parameter=self.param, device=manager_device, verbose=self.vb)
         self.net_manager.build_Network()
         return self.net_manager
 
@@ -240,7 +256,7 @@ class NetworkLoader:
             ref = img[-1,:,:]
         return img, label, traj, index, time, pred.cpu(), ref
     
-    def inference(self, input_traj: List[Tuple[float, float]], ref_image: torch.Tensor, rescale:float=1.0, device:str='cuda', extra_key: Optional[str]=None) -> torch.Tensor:
+    def inference(self, input_traj: List[Tuple[float, float]], ref_image: torch.Tensor, rescale:float=1.0, device:Optional[str]=None, extra_key: Optional[str]=None) -> torch.Tensor:
         """Inference the network.
 
         Args:
@@ -252,9 +268,7 @@ class NetworkLoader:
         Returns:
             The raw output of the network with size (C*H*W).
         """
-        if (device != 'cpu') and (not torch.cuda.is_available()):
-            device = 'cpu'
-            print(f'[{self.__class__.__name__}] CUDA not working. Switch to CPU.')
+        device = self.actual_device
         input_traj_rescale = [(x[0]*rescale, x[1]*rescale) for x in input_traj] # from the world coordinate to the image coordinate
         input_img = self.traj_to_input(input_traj_rescale, ref_image, extra_key=extra_key) # C*H*W
         output = self.net_manager.inference(input_img.unsqueeze(0).to(device), device=device)

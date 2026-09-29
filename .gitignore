@@ -1,4 +1,5 @@
 mpc_solver
+runs/
 
 .vscode
 .venv

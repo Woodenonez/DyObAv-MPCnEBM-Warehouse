@@ -3,7 +3,7 @@ import time
 import pathlib
 import warnings
 import timeit
-from typing import Optional
+from typing import Literal, Optional
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -230,13 +230,13 @@ class MainBase:
             visualizer = CircularObjectVisualizer(self.config_robot.vehicle_width/2, indicate_angle=True)
             self.robot_manager.add_robot(robot, controller, planner, visualizer)
     
-    def _prepare_motion_predictor(self, type, config_file_path, ref_image_path, model_suffix='0'):
+    def _prepare_motion_predictor(self, type, config_file_path, ref_image_path, model_suffix='0', *, device: Literal['auto', 'cpu', 'cuda']='auto'):
         if self.vb:
             print(f'[{self.__class__.__name__}] Preparing neural networks...')
         if type is None:
             self.motion_predictor = None
         elif type in ['nll', 'enll', 'bce', 'kld']:
-            self.motion_predictor = MotionPredictorEBM(config_file_path, model_suffix, ref_image_path)
+            self.motion_predictor = MotionPredictorEBM(config_file_path, model_suffix, ref_image_path, device=device)
         elif type == 'cvm' or type == 'cv':
             self.motion_predictor = MotionPredictorCVM(math.radians(10), ref_image_path)
         elif type == 'sgan':
@@ -298,7 +298,7 @@ class MainBase:
     def prepare(self, graph_path: str, map_path: str,
                 motion_predictor_type: Optional[str], motion_predictor_config_path: str, 
                 ref_image_path: str, model_suffix: str,
-                pedestrian_model:Optional[str]=None):
+                pedestrian_model:Optional[str]=None, *, device: Literal['auto', 'cpu', 'cuda']='auto'):
         """Prepare the simulation (coordinator, robots, motion predictor, pedestrians)
 
         Args:
@@ -325,7 +325,7 @@ class MainBase:
         prt_process += f' {round(timeit.default_timer()-process_timer, 3)}s | Predictor'
         process_timer = timeit.default_timer()
         print(f'\r[{self.__class__.__name__}] {prt_process}', end=' ')
-        self._prepare_motion_predictor(motion_predictor_type, motion_predictor_config_path, ref_image_path, model_suffix)
+        self._prepare_motion_predictor(motion_predictor_type, motion_predictor_config_path, ref_image_path, model_suffix, device=device)
 
         self.gpc.load_img_map(ref_image_path)
         for rid, rstart in zip(self.robot_ids, self.robot_starts):
@@ -911,7 +911,6 @@ if __name__ == '__main__':
 
 
     
-
 
 
 
