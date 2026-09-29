@@ -47,6 +47,8 @@ class Evaluator:
         deviation_results = [x for x in self.eval_results[robot_id]["deviation_results"] if x[0] != math.inf]
         solve_mmp_time_list = self.solve_mmp_time_list
         solve_mpc_time_list = self.eval_results[robot_id]["solve_mpc_time_list"]
+        mmp_timing_samples: list[float] = solve_mmp_time_list[5:]
+        mpc_timing_samples: list[float] = solve_mpc_time_list[5:]
 
         if save_path is not None: # save to json
             total_results = {
@@ -64,12 +66,18 @@ class Evaluator:
 
 
         print('='*10, f'Robot {robot_id}', '='*10)
-        print('MMP solve time mean/max:',
-              round(np.mean(np.array(solve_mmp_time_list[5:])), 3), '/', # warm up
-              round(np.amax(np.array(solve_mmp_time_list[5:])), 3))
-        print('MPC solve time mean/max:', 
-              round(np.mean(np.array(solve_mpc_time_list[5:])), 3), '/',
-              round(np.amax(np.array(solve_mpc_time_list[5:])), 3))
+        if mmp_timing_samples:
+            mmp_timing_mean: float | str = round(np.mean(np.array(mmp_timing_samples)), 3)
+            mmp_timing_max: float | str = round(np.amax(np.array(mmp_timing_samples)), 3)
+        else:
+            mmp_timing_mean = mmp_timing_max = 'N/A'
+        if mpc_timing_samples:
+            mpc_timing_mean: float | str = round(np.mean(np.array(mpc_timing_samples)), 3)
+            mpc_timing_max: float | str = round(np.amax(np.array(mpc_timing_samples)), 3)
+        else:
+            mpc_timing_mean = mpc_timing_max = 'N/A'
+        print('MMP solve time mean/max:', mmp_timing_mean, '/', mmp_timing_max) # warm up
+        print('MPC solve time mean/max:', mpc_timing_mean, '/', mpc_timing_max)
         print('-'*30)
         # print('Collision results:', collision_results)
         print('Success rate:', sum(complete_results)/len(complete_results))

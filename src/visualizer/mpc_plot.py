@@ -370,9 +370,8 @@ class MpcPlotInLoop:
         elif self.save_to_path is not None:
             if self.skip_counter >= self.save_params['skip_frame']:
                 self.skip_counter = 0
-                save_img = np.frombuffer(self.fig.canvas.tostring_rgb(), dtype=np.uint8)
-                save_img = save_img.reshape(self.fig.canvas.get_width_height()[::-1] + (3,))
-                save_img_bgr = cv2.cvtColor(save_img, cv2.COLOR_RGB2BGR)
+                save_img_rgba: np.ndarray = np.asarray(self.fig.canvas.buffer_rgba())
+                save_img_bgr: np.ndarray = cv2.cvtColor(save_img_rgba, cv2.COLOR_RGBA2BGR)
                 self.video_writer.write(cv2.resize(save_img_bgr, self.save_params['frame_size']))
             else:
                 self.skip_counter += 1
