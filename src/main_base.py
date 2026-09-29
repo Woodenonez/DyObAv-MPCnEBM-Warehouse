@@ -1,3 +1,9 @@
+if __name__ == "__main__":
+    from run_simulation import main
+
+    main(default_scene="warehouse")
+    raise SystemExit
+
 import math
 import time
 import pathlib
@@ -144,7 +150,8 @@ class MainBase:
                   '#54b345', '#32b897', '#05b9e2', '#8983bf', '#c76da2',
                   '#f8ac8c', '#c82423', '#bb9727', '#54b345', '#32b897',]
     
-    def __init__(self, scenario_index: int, evaluation=False, visualization=True, verbose=True):
+    def __init__(self, scenario_index: int, evaluation=False, visualization=True, verbose=True,
+                 *, map_only: bool = False, save_video_name: str | None = None):
         self._human_starts_img, self.human_paths, self._robot_starts_img, self.robot_paths = scenario(scenario_index)
 
         self.eval = False
@@ -153,6 +160,8 @@ class MainBase:
 
         self.viz = visualization
         self.vb = verbose
+        self.map_only = map_only
+        self.save_video_name = save_video_name
 
     def _load_config(self, config_planner_path, config_tracker_path, config_robot_path, config_human_path):
         if self.vb:
@@ -341,7 +350,10 @@ class MainBase:
         process_timer = timeit.default_timer()
         print(f'\r[{self.__class__.__name__}] {prt_process}', end=' ')
         if self.viz:
-            self.main_plotter = MpcPlotInLoop(self.config_robot)
+            if self.save_video_name is not None:
+                self.main_plotter = MpcPlotInLoop(self.config_robot, map_only=self.map_only, save_to_path=self.save_video_name, save_params={'skip_frame': 0})
+            else:
+                self.main_plotter = MpcPlotInLoop(self.config_robot, map_only=self.map_only)
             # graph_manager = self.gpc.current_graph
             graph_manager = None
             self.main_plotter.plot_in_loop_pre(self.gpc.img_map, self.gpc.inflated_map, graph_manager, map_extend=self.map_extent)
@@ -378,7 +390,10 @@ class MainBase:
         self._prepare_pedestrians(pedestrian_model=self.pedestrian_model)
 
         if self.viz:
-            self.main_plotter = MpcPlotInLoop(self.config_robot)
+            if self.save_video_name is not None:
+                self.main_plotter = MpcPlotInLoop(self.config_robot, map_only=self.map_only, save_to_path=self.save_video_name, save_params={'skip_frame': 0})
+            else:
+                self.main_plotter = MpcPlotInLoop(self.config_robot, map_only=self.map_only)
             # graph_manager = self.gpc.current_graph
             graph_manager = None
             self.main_plotter.plot_in_loop_pre(self.gpc.img_map, self.gpc.inflated_map, graph_manager, map_extend=self.map_extent)
@@ -839,78 +854,5 @@ class MainBase:
             if save_dir is not None:
                 save_path = f'{save_dir}/robot_{rid}_results.json'
             self.evaluator.report(rid, full_report=self.eval, save_path=save_path)
-
-
-if __name__ == '__main__':
-    import os
-
-    predictor_type = 'enll' # None, 'nll/enll/kld/bce', 'cvm', or 'sgan'
-    tracker_type = 'mpc' # 'mpc', 'rpp'
-    planner_type = None # None, 'teb'
-    scenario_index = 1 # 1-4, 20
-    pedestrian_model = 'None' # None, 'sf', 'minisf'
-    auto_run = True 
-    evaluation = False
-    repeat = 1
-    time_step = 30.0 # seconds. 200 for long-term, 30 for short-term
-
-    project_dir = pathlib.Path(__file__).resolve().parents[1]
-
-    ### Check planner type
-    if planner_type is None:
-        cfg_planner_path = 'none'
-    elif planner_type == 'teb':
-        cfg_planner_path = os.path.join(project_dir, 'config', 'teb.yaml')
-    else:
-        raise ValueError(f'Invalid planner type: {planner_type}')
-
-    ### Check tracker type
-    if tracker_type == 'mpc':
-        cfg_tracker_path = os.path.join(project_dir, 'config', 'mpc_fast.yaml')
-    elif tracker_type == 'rpp':
-        cfg_tracker_path = os.path.join(project_dir, 'config', 'rpp.yaml')
-    else:
-        raise ValueError(f'Invalid tracker type: {tracker_type}')
-    
-    ### Check predictor type
-    if predictor_type is None:
-        motion_predictor_config_path = 'none'
-    elif predictor_type == 'enll':
-        motion_predictor_config_path = os.path.join(project_dir, 'config', 'wsd_1t20_poselu_enll_train.yaml')
-    elif predictor_type in ['bce', 'kld', 'nll']:
-        motion_predictor_config_path = os.path.join(project_dir, 'config', 'wsd_1t20_none_'+predictor_type+'_train.yaml')
-    elif predictor_type == 'cvm':
-        motion_predictor_config_path = 'none' # no need for config file
-    elif predictor_type == 'sgan':
-        motion_predictor_config_path = os.path.join(project_dir, 'model', 'sgan_eth12')
-    else:
-        raise ValueError(f'Invalid predictor type: {predictor_type}')
-
-    ### Other paths
-    cfg_robot_path = os.path.join(project_dir, 'config', 'spec_robot.yaml')
-    cfg_human_path = os.path.join(project_dir, 'config', 'spec_human.yaml')
-    cfg_tf_path = os.path.join(project_dir, 'config', 'global_setting_warehouse.yaml')
-
-    graph_path = os.path.join(project_dir, 'data', 'warehouse_sim_original', 'graph.json')
-    map_path = os.path.join(project_dir, 'data', 'warehouse_sim_original', 'map.json')
-    ref_image_path = os.path.join(project_dir, 'data', 'warehouse_sim_original', 'background.png')
-
-    mb = MainBase(scenario_index=scenario_index, evaluation=evaluation, visualization=(not evaluation), verbose=False)
-    mb.load(planner_type, cfg_planner_path, tracker_type, cfg_tracker_path, cfg_robot_path, cfg_human_path, cfg_tf_path)
-    mb.prepare(graph_path, map_path, predictor_type, motion_predictor_config_path, ref_image_path=ref_image_path, model_suffix='0',
-               pedestrian_model=pedestrian_model)
-
-    # fig_debug, axes_debug = plt.subplots(1, 2) 
-    axes_debug = None 
-
-    mb.run_once(repeat=repeat, time_step_out=time_step, extra_debug_panel=axes_debug, auto_run=auto_run)
-    if evaluation:
-        mb.report(save_dir='./')
-
-    print(f'Finish with predictor: {predictor_type}, tracker: {tracker_type}, planner: {planner_type}, scenario: {scenario_index}, human model: {pedestrian_model}.')
-
-
-    
-
 
 
