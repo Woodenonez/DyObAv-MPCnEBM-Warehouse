@@ -122,7 +122,8 @@ class MpcPlotInLoop:
         self.ts    = config.ts
         self.width = config.vehicle_width
         self.map_only = map_only
-        self.init_video_writer(save_to_path, save_params)
+        figure_size: tuple[float, float] = (10, 8) if map_only else (16, 8)
+        self.init_video_writer(save_to_path, save_params, figure_size)
 
         if save_to_path is None:
             dpi = None
@@ -130,9 +131,9 @@ class MpcPlotInLoop:
             dpi = self.save_params['dpi']
 
         if map_only:
-            self.fig, self.map_ax = plt.subplots(figsize=(10, 8), dpi=dpi)
+            self.fig, self.map_ax = plt.subplots(figsize=figure_size, dpi=dpi)
         else:
-            self.fig, self.gs, axis_format = figure_formatter('PlotInLoop', [3,1], figure_size=(16, 8), dpi=dpi)
+            self.fig, self.gs, axis_format = figure_formatter('PlotInLoop', [3,1], figure_size=figure_size, dpi=dpi)
 
             self.vel_ax:Axes = axis_format[0][0]
             self.omega_ax:Axes = axis_format[0][1]
@@ -161,14 +162,17 @@ class MpcPlotInLoop:
     def save(self, path):
         self.fig.savefig(path)
 
-    def init_video_writer(self, save_to_path: Optional[str], save_params: Optional[Union[SaveParams, dict]]):
+    def init_video_writer(self, save_to_path: Optional[str], save_params: Optional[Union[SaveParams, dict]], figure_size: tuple[float, float]):
         """Initialize the video writer if the path is not None.
 
         Attributes:
             save_params: The parameters for saving the plot as a video, such as `fps`, `dpi`, `codec`, `frame_size`, `skip_frame`.
             video_writer: The video writer object.
         """
-        default_frame_size = (1280, 960)
+        default_frame_height: int = 960
+        default_frame_size: tuple[int, int] = (
+            round(default_frame_height * figure_size[0] / figure_size[1]), default_frame_height
+        )
         default_fps = 5
         default_dpi = 300
         default_skip_frame = 0 # skip every n frames, 0 means no skip
@@ -393,7 +397,20 @@ class MpcPlotInLoop:
                 self.skip_counter = 0
                 save_img_rgba: np.ndarray = np.asarray(self.fig.canvas.buffer_rgba())
                 save_img_bgr: np.ndarray = cv2.cvtColor(save_img_rgba, cv2.COLOR_RGBA2BGR)
-                frame: np.ndarray = cv2.resize(save_img_bgr, self.save_params['frame_size'])
+                frame_width: int = self.save_params['frame_size'][0]
+                frame_height: int = self.save_params['frame_size'][1]
+                source_height: int = save_img_bgr.shape[0]
+                source_width: int = save_img_bgr.shape[1]
+                scale: float = min(frame_width / source_width, frame_height / source_height)
+                resized_size: tuple[int, int] = (
+                    min(frame_width, max(1, round(source_width * scale))),
+                    min(frame_height, max(1, round(source_height * scale))),
+                )
+                resized: np.ndarray = cv2.resize(save_img_bgr, resized_size)
+                frame: np.ndarray = np.full((frame_height, frame_width, 3), 255, dtype=np.uint8)
+                left: int = (frame_width - resized_size[0]) // 2
+                top: int = (frame_height - resized_size[1]) // 2
+                frame[top:top + resized_size[1], left:left + resized_size[0]] = resized
                 if self.mp4_writer is not None:
                     self.mp4_writer.send(frame)
                 elif self.video_writer is not None:
