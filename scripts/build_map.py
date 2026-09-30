@@ -1,7 +1,11 @@
 import os
 import json
 import pathlib
+import sys
 from io import BufferedReader
+
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -52,26 +56,30 @@ def read_pgm_and_process(pgmf: BufferedReader, inversed_pixel:bool, bit_depth:in
     return the_map
 
 
-project_root = pathlib.Path(__file__).resolve().parents[1]
-map_png_path = os.path.join(project_root, 'data', 'warehouse_sim_original', 'background.png')
-map_pgm_path = os.path.join(project_root, 'data', 'warehouse_sim_original', 'map.pgm')
+def main() -> None:
+    project_root = pathlib.Path(__file__).resolve().parents[1]
+    map_png_path = os.path.join(project_root, 'data', 'warehouse_sim_original', 'background.png')
+    map_pgm_path = os.path.join(project_root, 'data', 'warehouse_sim_original', 'map.pgm')
 
-# occ_map = OccupancyMap.from_image(map_png_path)
-with open(map_pgm_path, 'rb') as f:
-    occ_map = OccupancyMap(map_image=read_pgm_and_process(f, inversed_pixel=True))
-boundary_coords, obstacle_list = occ_map.get_geometric_map()
-geo_map = GeometricMap.from_raw(boundary_coords, obstacle_list)
+    # occ_map = OccupancyMap.from_image(map_png_path)
+    with open(map_pgm_path, 'rb') as f:
+        occ_map = OccupancyMap(map_image=read_pgm_and_process(f, inversed_pixel=True))
+    boundary_coords, obstacle_list = occ_map.get_geometric_map()
+    geo_map = GeometricMap.from_raw(boundary_coords, obstacle_list)
 
-json_dict = {'boundary_coords': boundary_coords, 'obstacle_list': obstacle_list}
-json_path = os.path.join(project_root, 'data', 'warehouse_sim_original', 'map_gen.json')
-# with open(json_path, 'w') as jf:
-#     json.dump(json_dict, jf)
+    json_dict = {'boundary_coords': boundary_coords, 'obstacle_list': obstacle_list}
+    json_path = os.path.join(project_root, 'data', 'warehouse_sim_original', 'map_gen.json')
+    # with open(json_path, 'w') as jf:
+    #     json.dump(json_dict, jf)
 
-fig, ax = plt.subplots()
+    fig, ax = plt.subplots()
 
-occ_map.plot(ax, cmap='gray')
-geo_map.plot(ax, original_plot_args={'color': 'r'}, obstacle_filled=False)
+    occ_map.plot(ax, cmap='gray')
+    geo_map.plot(ax, original_plot_args={'color': 'r'}, obstacle_filled=False)
 
 
-plt.show()
+    plt.show()
 
+
+if __name__ == "__main__":
+    main()

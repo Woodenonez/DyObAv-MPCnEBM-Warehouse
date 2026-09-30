@@ -20,10 +20,10 @@ The recommended setup uses the committed `uv.lock` with Python 3.11. Install [uv
 
 ```bash
 uv sync --locked
-uv run --locked python src/build_solver.py
+uv run --locked python scripts/build_solver.py
 ```
 
-The first command installs the locked Python environment. The second builds the native MPC solver used by the scenes. Solver artifacts are generated locally and are not rebuilt automatically when a simulation starts. Rebuild after changing solver dimensions, prediction horizon, structural constraints, or statically compiled cost terms. Runtime-passed weights and reference states do not by themselves require a rebuild. `src/build_solver.py` uses the active `builder_panoc`; the older PANOC builder variants remain in the source tree.
+The first command installs the locked Python environment. The second builds the native MPC solver used by the scenes. Solver artifacts are generated locally and are not rebuilt automatically when a simulation starts. Rebuild after changing solver dimensions, prediction horizon, structural constraints, or statically compiled cost terms. Runtime-passed weights and reference states do not by themselves require a rebuild. `scripts/build_solver.py` uses the active `builder_panoc`; the older PANOC builder variants remain in the source tree.
 
 Conda is an alternative Python environment route. It has not been runtime-verified here; the commands below describe the supported installation path, not a passing environment check. Install the same OpEn/PANOC prerequisites first.
 
@@ -32,7 +32,7 @@ conda env create -f environment.yml
 conda activate dyobav
 python -m pip install -r requirements-conda.txt
 python -m pip install --no-deps -e .
-python src/build_solver.py
+python scripts/build_solver.py
 ```
 
 `requirements-conda.txt` is exported with pins and hashes from `uv.lock`. Regenerate it from the repository root after a deliberate lockfile change with:
@@ -48,8 +48,8 @@ The old `requirements.txt` is a historical environment file and is not the setup
 Run these commands from the repository root after building the solver:
 
 ```bash
-uv run --locked python src/run_simulation.py --scene warehouse
-uv run --locked python src/run_simulation.py --scene hospital
+uv run --locked python scripts/run_simulation.py --scene warehouse
+uv run --locked python scripts/run_simulation.py --scene hospital
 ```
 
 The command defaults to warehouse. Hospital uses its own scene preset. Both default to ENLL prediction, MPC tracking, one repetition, and automatic device selection. `--device auto` uses CUDA when available and otherwise CPU for EBM inference; `--device cpu` explicitly selects CPU, and `--device cuda` requests CUDA and errors if unavailable. The supplied EBM checkpoints support CPU inference. SGAN remains CUDA-only. This host is CPU-only, so CUDA execution has not been tested here.
@@ -58,27 +58,38 @@ Common options include `--seed`, `--evaluation`, `--duration`, `--repeat`, `--ou
 
 ```bash
 # Reproducible evaluated run. The output directory must not already exist.
-uv run --locked python src/run_simulation.py --scene warehouse --evaluation --seed 0 --output-dir runs/warehouse-eval-001
+uv run --locked python scripts/run_simulation.py --scene warehouse --evaluation --seed 0 --output-dir runs/warehouse-eval-001
 
 # Short, headless hospital run.
-uv run --locked python src/run_simulation.py --scene hospital --duration 10 --visualization off
+uv run --locked python scripts/run_simulation.py --scene hospital --duration 10 --visualization off
 
 # Warehouse map-only view, or explicitly request a full hospital view.
-uv run --locked python src/run_simulation.py --scene warehouse --view map
-uv run --locked python src/run_simulation.py --scene hospital --view full
+uv run --locked python scripts/run_simulation.py --scene warehouse --view map
+uv run --locked python scripts/run_simulation.py --scene hospital --view full
 
 # Save one video; video recording requires visualization and --repeat 1.
 mkdir -p runs
-uv run --locked python src/run_simulation.py --scene warehouse --save-video runs/warehouse.avi
+uv run --locked python scripts/run_simulation.py --scene warehouse --save-video runs/warehouse.avi
 ```
 
 Relative configuration overrides, output directories, and video paths are resolved from the current checkout root. A requested `--output-dir` is created as a new directory and must not exist already. A video target must also be new, and its parent directory must already exist, even when `--output-dir` is requested; create the parent first with `mkdir -p`. Without `--output-dir`, no run-record files are added. With it, the run writes `metadata.json` and compressed `trajectories.npz`, including all repetitions, physical agent state histories, controller action histories as recorded, and selected configuration/artifact metadata. Controller action counts may not align with physical state counts when `action_steps > 1`.
 
-Existing entry filenames remain available: `python src/main_base.py` launches the warehouse preset and `python src/main_base_zos.py` launches the hospital preset. The typed solver builder also supports options; see `uv run --locked python src/build_solver.py --help`.
+`src/main_base.py` and `src/main_base_zos.py` now provide reusable scene classes; launch either scene through `scripts/run_simulation.py --scene warehouse` or `--scene hospital`. The typed solver builder also supports options; see `uv run --locked python scripts/build_solver.py --help`.
+
+## Utilities and demos
+
+`scripts/build_map.py` previews map extraction, `scripts/plot_successrate.py` plots the stored example success-rate values, and `scripts/view_graph.py` opens the graph viewer. The viewer shows the graph by default; add `--background` to overlay node coordinates on the original image. For example:
+
+```bash
+uv run --locked python scripts/view_graph.py
+uv run --locked python scripts/view_graph.py --background
+```
+
+Interactive demos live in `tests/demos/` and are not picked up by automated test discovery. For example, launch the agent demo with `uv run --locked python tests/demos/demo_agents.py`; it opens an interactive visualization and requires a graphical session.
 
 ## Code map and checks
 
-`src/run_simulation.py` and `src/experiment/` provide the thin typed experiment interface. The existing `src/main_base.py` and `src/main_base_zos.py` scene classes and numerical prediction/control packages remain in place. `src/build_solver.py` wraps the existing native builder. `tests/test_experiment.py` contains the three lightweight interface tests; `scripts/smoke.py` exercises both real scenes. Files under `test/` are interactive demos, not an automated discovery suite.
+`scripts/run_simulation.py` and `src/experiment/` provide the thin typed experiment interface. `src/main_base.py` and `src/main_base_zos.py` hold reusable scene classes, with numerical prediction/control packages in `src/`. `scripts/build_solver.py` wraps the existing native builder. `tests/test_experiment.py` contains the three lightweight interface tests; `scripts/smoke.py` exercises both real scenes. Interactive demos are in `tests/demos/` and are not an automated discovery suite.
 
 ```bash
 PYTHONPATH=src uv run --locked python -m unittest discover -s tests -p 'test_experiment.py' -v

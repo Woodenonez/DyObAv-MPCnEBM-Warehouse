@@ -1,9 +1,3 @@
-if __name__ == "__main__":
-    from run_simulation import main
-
-    main(default_scene="hospital")
-    raise SystemExit
-
 import math
 import time
 import pathlib

@@ -4,13 +4,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+import sys
 from typing import TYPE_CHECKING
+
+ROOT: Path = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 
 if TYPE_CHECKING:
     from configs import CircularRobotSpecification, MpcConfiguration
-
-
-ROOT: Path = Path(__file__).resolve().parents[1]
 
 
 @dataclass

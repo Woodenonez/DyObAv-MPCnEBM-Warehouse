@@ -1,6 +1,11 @@
 """Typed command-line entry point for the existing scene simulations."""
 
 from collections.abc import Sequence
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 
 from experiment.config import ExperimentArgs, Scene, resolve_experiment
 

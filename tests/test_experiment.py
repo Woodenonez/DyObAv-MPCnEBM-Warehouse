@@ -119,17 +119,31 @@ class ExperimentInterfaceTests(unittest.TestCase):
 
     def test_help_is_lightweight(self) -> None:
         env = os.environ.copy()
-        env["PYTHONPATH"] = str(ROOT / "src")
-        for filename in ("run_simulation.py", "main_base.py", "main_base_zos.py", "build_solver.py"):
-            with self.subTest(filename=filename):
-                result = subprocess.run(
-                    [sys.executable, str(ROOT / "src" / filename), "--help"],
-                    cwd=ROOT, env=env, capture_output=True, text=True, timeout=20,
-                )
-                self.assertEqual(result.returncode, 0, result.stderr)
-                self.assertIn("--help", result.stdout)
-                self.assertNotIn("Preparing:", result.stdout)
-                self.assertNotIn("Loading complete!", result.stdout)
+        env.pop("PYTHONPATH", None)
+        with tempfile.TemporaryDirectory() as outside_repo:
+            for filename in ("run_simulation.py", "build_solver.py", "view_graph.py"):
+                with self.subTest(filename=filename):
+                    result = subprocess.run(
+                        [sys.executable, str(ROOT / "scripts" / filename), "--help"],
+                        cwd=outside_repo, env=env, capture_output=True, text=True, timeout=20,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    self.assertIn("--help", result.stdout)
+                    self.assertNotIn("Preparing:", result.stdout)
+                    self.assertNotIn("Loading complete!", result.stdout)
+
+            demos = sorted((ROOT / "tests" / "demos").glob("demo_*.py"))
+            self.assertEqual(len(demos), 6)
+            for demo in demos:
+                with self.subTest(demo=demo.name):
+                    result = subprocess.run(
+                        [sys.executable, "-c",
+                         "import runpy, sys; runpy.run_path(sys.argv[1]); "
+                         "assert not {'torch', 'matplotlib.pyplot', 'casadi'} & set(sys.modules)",
+                         str(demo)],
+                        cwd=outside_repo, env=env, capture_output=True, text=True, timeout=20,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stderr)
 
 
 if __name__ == "__main__":
