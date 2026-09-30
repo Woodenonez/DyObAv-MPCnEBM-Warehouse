@@ -12,6 +12,7 @@ license = { text = "MIT" }
 
 dependencies = [
     "casadi>=3.7.2",
+    "imageio-ffmpeg>=0.6,<1",
     "matplotlib>=3.10.9",
     "networkx>=3.6.1",
     "opencv-python>=4.13.0.92",

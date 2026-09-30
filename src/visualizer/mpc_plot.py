@@ -1,7 +1,8 @@
 import math
-from typing import Optional, Union, cast, TypedDict
+from typing import Generator, Optional, Union, cast, TypedDict
 
 import cv2 # type: ignore
+import imageio_ffmpeg
 import numpy as np
 
 # Vis import
@@ -149,9 +150,13 @@ class MpcPlotInLoop:
             self.fig.show()
 
     def close(self):
-        if self.save_to_path is not None:
-            self.video_writer.release()
-        plt.close(self.fig)
+        try:
+            if self.mp4_writer is not None:
+                self.mp4_writer.close()
+            if self.video_writer is not None:
+                self.video_writer.release()
+        finally:
+            plt.close(self.fig)
 
     def save(self, path):
         self.fig.savefig(path)
@@ -166,11 +171,14 @@ class MpcPlotInLoop:
         default_frame_size = (1280, 960)
         default_fps = 5
         default_dpi = 300
-        default_codec = 'MJPG'
         default_skip_frame = 0 # skip every n frames, 0 means no skip
         self.save_to_path = save_to_path
         self.skip_counter = 0
+        self.mp4_writer: Optional[Generator[None, Optional[np.ndarray], None]] = None
+        self.video_writer: Optional[cv2.VideoWriter] = None
         if save_to_path is not None:
+            is_mp4: bool = save_to_path.lower().endswith('.mp4')
+            default_codec: str = 'libx264' if is_mp4 else 'MJPG'
             if save_params is None:
                 self.save_params = SaveParams(
                     fps=default_fps,
@@ -187,8 +195,21 @@ class MpcPlotInLoop:
                     frame_size=save_params.get('frame_size', default_frame_size),
                     skip_frame=save_params.get('skip_frame', default_skip_frame)
                 )
-            fourcc = cv2.VideoWriter_fourcc(*self.save_params['codec'])
-            self.video_writer = cv2.VideoWriter(save_to_path, fourcc, self.save_params['fps'], self.save_params['frame_size'])
+            if is_mp4:
+                if self.save_params['codec'].lower() not in ('libx264', 'h264', 'avc1'):
+                    raise ValueError('MP4 recording requires the H.264 codec (libx264, h264, or avc1).')
+                if any(dimension % 2 for dimension in self.save_params['frame_size']):
+                    raise ValueError('H.264 MP4 frame_size dimensions must be even for yuv420p.')
+                self.mp4_writer = imageio_ffmpeg.write_frames(
+                    save_to_path, self.save_params['frame_size'], fps=self.save_params['fps'],
+                    codec='libx264', pix_fmt_in='bgr24', pix_fmt_out='yuv420p',
+                    quality=None, macro_block_size=1,
+                    output_params=['-crf', '18', '-movflags', '+faststart'],
+                )
+                self.mp4_writer.send(None)
+            else:
+                fourcc = cv2.VideoWriter_fourcc(*self.save_params['codec'])
+                self.video_writer = cv2.VideoWriter(save_to_path, fourcc, self.save_params['fps'], self.save_params['frame_size'])
 
 
     def plot_in_loop_pre(self, original_map: Optional[Union[GeometricMap, OccupancyMap]], 
@@ -372,7 +393,11 @@ class MpcPlotInLoop:
                 self.skip_counter = 0
                 save_img_rgba: np.ndarray = np.asarray(self.fig.canvas.buffer_rgba())
                 save_img_bgr: np.ndarray = cv2.cvtColor(save_img_rgba, cv2.COLOR_RGBA2BGR)
-                self.video_writer.write(cv2.resize(save_img_bgr, self.save_params['frame_size']))
+                frame: np.ndarray = cv2.resize(save_img_bgr, self.save_params['frame_size'])
+                if self.mp4_writer is not None:
+                    self.mp4_writer.send(frame)
+                elif self.video_writer is not None:
+                    self.video_writer.write(frame)
             else:
                 self.skip_counter += 1
         elif save_path is not None:
