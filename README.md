@@ -4,6 +4,20 @@ Warehouse and hospital navigation with EBM prediction and MPC. [RA-L paper](http
 
 ![Simulation example](doc/cover.png "Example")
 
+<details>
+<summary>Citation</summary>
+
+```bibtex
+@ARTICLE{ze_2025_ebmmpc,
+  author={Zhang, Ze and Hess, Georg and Hu, Junjie and Dean, Emmanuel and Svensson, Lennart and Åkesson, Knut},
+  journal={IEEE Robotics and Automation Letters},
+  title={Future-Oriented Navigation: Dynamic Obstacle Avoidance With One-Shot Energy-Based Multimodal Motion Prediction},
+  year={2025}, volume={10}, number={8}, pages={8043-8050}, doi={10.1109/LRA.2025.3575969}
+}
+```
+
+</details>
+
 ## Setup
 
 Requires Python 3.11 and the [OpEn/PANOC prerequisites](https://alphaville.github.io/optimization-engine/docs/installation). Install [uv](https://docs.astral.sh/uv/), then run from the repository root:
@@ -68,16 +82,4 @@ Utilities: `scripts/build_map.py`, `scripts/plot_successrate.py`, and `scripts/v
 
 ROS 2/Gazebo is maintained on the [ROS 2 branch](https://github.com/Woodenonez/DyObAv-MPCnEBM-Warehouse/tree/ros2-version) and in the [ROS 2 repository](https://github.com/Woodenonez/DyObAv-MPCnEBM-Warehouse-ROS2). Videos: [ROS 2/Gazebo](https://youtu.be/j4n2mt0KdMY) · [Python simulation](https://youtu.be/nNLAS4Hfgtk).
 
-<details>
-<summary>Citation</summary>
 
-```bibtex
-@ARTICLE{ze_2025_ebmmpc,
-  author={Zhang, Ze and Hess, Georg and Hu, Junjie and Dean, Emmanuel and Svensson, Lennart and Åkesson, Knut},
-  journal={IEEE Robotics and Automation Letters},
-  title={Future-Oriented Navigation: Dynamic Obstacle Avoidance With One-Shot Energy-Based Multimodal Motion Prediction},
-  year={2025}, volume={10}, number={8}, pages={8043-8050}, doi={10.1109/LRA.2025.3575969}
-}
-```
-
-</details>
